@@ -8,6 +8,18 @@ void print_debug_example()
 {
 	// Se inicializan los tornillos
     printf("Inicializando structs\n");
+	grains_t* created_grains = tsel_grains_init(
+		4,
+		0.01f,
+		0.0304f,
+		0.1f,
+		0.001f
+	);
+	fuel_t* created_fuel = tsel_fuel_init(
+		0.005f,
+		0.688f,
+		1859
+	);
 	screws_t* created_screw = tsel_screws_init(
 		"Acero",
 		6,
@@ -29,11 +41,8 @@ void print_debug_example()
 	engine_t* testing_engine = tsel_engine_init(
         800,
         1710,
-        4,
-        0.01f,
-        0.0304f,
-        0.1f,
-        0.001f,
+		created_grains,
+		created_fuel,
         created_tube,
         created_screw
     );
@@ -47,10 +56,10 @@ void print_debug_example()
 	printf("\nLa velocidad de escape modificada con tsel_set_escape_vel() es %f\n", tsel_get_escape_vel(testing_engine));
 
 	// Usando una funcion de rendimientos.c
-	printf("\nEl valor de combuistion es %f\n", br_combustion());
+	printf("\nEl valor de combuistion es %f\n", br_combustion(testing_engine));
 
 	// Usando una funcion de val_termod.c
-	printf("\nLa temperatura en garganta es de %f\n", tsel_temper_garganta());
+	printf("\nLa temperatura en garganta es de %f\n", tsel_temper_garganta(testing_engine));
 
 }
 

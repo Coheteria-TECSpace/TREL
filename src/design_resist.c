@@ -11,14 +11,14 @@ Inicio de traduccion a C por lross2k
 //float temp_E15 = 0.0314f;
 
 // Resistencia de materiales E115
-void tsel_mean_tubing_diameter(engine_t *engine, float temp_E13, float temp_E14)
+void tsel_mean_tubing_diameter(engine_t *engine)
 {
-    engine->used_tube->mean_tubing_diameter = temp_E13-temp_E14;
+    engine->tube->mean_tubing_diameter = engine->tube->diameter_ext-engine->tube->wall_thickness;
 }
 // condición de espesor del tubo E116
-void tsel_width_condition(engine_t *engine, float temp_E14)
+void tsel_width_condition(engine_t *engine)
 {
-    engine->width_condition = engine->used_tube->mean_tubing_diameter/temp_E14;
+    engine->width_condition = engine->tube->mean_tubing_diameter/engine->tube->wall_thickness;
 }
 // Presión maxima E118
 void tsel_engine_max_pressure(engine_t *engine)
@@ -31,37 +31,37 @@ void tsel_engine_max_pressure(engine_t *engine)
 
 /* Esfuerzo por presión */
 // Esfuezo Tangencial E121
-void tsel_tangencial_stress(engine_t *engine, float temp_E13, float temp_E14)
+void tsel_tangencial_stress(engine_t *engine)
 {
     // TODO: implement into engine
     // could be done branchless
-    if (engine->width_condition> 20)
+    if (engine->width_condition> 20.0f)
     {
-        engine->tangencial_stress = engine->max_pressure*engine->used_tube->internal_radius/temp_E14;
+        engine->tangencial_stress = engine->max_pressure*engine->tube->internal_radius/engine->tube->wall_thickness;
     }
     else
     {
-        engine->tangencial_stress = engine->max_pressure*(powf((temp_E13/2),2)+powf(engine->used_tube->internal_radius,2))/(powf(temp_E13/2,2)-powf(engine->used_tube->internal_radius,2));
+        engine->tangencial_stress = engine->max_pressure*(powf((engine->tube->diameter_ext/2.0f),2.0f)+powf(engine->tube->internal_radius,2.0f))/(powf(engine->tube->diameter_ext/2.0f,2.0f)-powf(engine->tube->internal_radius,2.0f));
     }
 }
 // Esfuerzo Longitudinal E122
-void tsel_logitudinal_stress(engine_t *engine, float temp_E13, float temp_E14)
+void tsel_logitudinal_stress(engine_t *engine)
 {
-    if (engine->width_condition > 20)
+    if (engine->width_condition > 20.0f)
     {
-        engine->longitudinal_stress = engine->max_pressure*engine->used_tube->internal_radius/2*temp_E14;
+        engine->longitudinal_stress = engine->max_pressure*engine->tube->internal_radius/2.0f*engine->tube->wall_thickness;
     }
     else
     {
-        engine->longitudinal_stress = engine->max_pressure*powf(engine->used_tube->internal_radius,2)/(powf(temp_E13,2)-powf(engine->used_tube->internal_radius,2));
+        engine->longitudinal_stress = engine->max_pressure*powf(engine->tube->internal_radius,2.0f)/(powf(engine->tube->diameter_ext,2.0f)-powf(engine->tube->internal_radius,2.0f));
     }
 }
 // Esfuerzo Radial E123
 void tsel_radial_stress(engine_t *engine)
 {
-    if (engine->width_condition > 20)
+    if (engine->width_condition > 20.0f)
     {
-        engine->radial_stress = 0;
+        engine->radial_stress = 0.0f;
     }
     else
     {            
@@ -81,46 +81,46 @@ void tsel_max_stress(engine_t *engine)
     }
 }
 // Margen de Seguridad E127
-void tsel_margin_of_safety(engine_t *engine, float temp_E20)
+void tsel_margin_of_safety(engine_t *engine)
 {
-    engine->margin_of_safety = temp_E20/engine->max_stress;
+    engine->margin_of_safety = engine->tube->shear_stress_tension/engine->max_stress;
 }
 
 /* Determinación de Areas afectadas por tornillos */
 
-// engine_t has screws_t *used_screws to initialize at allocation
-//engine->used_screws->n_screws = 6;
-//engine->used_screws->diameter = 0.009f;
-//engine->used_screws->dist_center_wall = 0.01f;
+// engine_t has screws_t *screws to initialize at allocation
+//engine->screws->n_screws = 6;
+//engine->screws->diameter = 0.009f;
+//engine->screws->dist_center_wall = 0.01f;
 
 // Area_Transversal_tubo E133
-// engine_t has tubing_t *used_tube
-void tsel_transversal_area_tube(engine_t *engine, float temp_E13)
+// engine_t has tubing_t *tube
+void tsel_transversal_area_tube(engine_t *engine)
 {
-    engine->used_tube->transversal_area = (float)PI*(powf(temp_E13/2,2)-powf(engine->used_tube->internal_radius,2));
+    engine->tube->transversal_area = (float)TSEL_PI*(powf(engine->tube->diameter_ext/2.0f,2.0f)-powf(engine->tube->internal_radius,2.0f));
 }
 // Angulo de sector circular E134
 void tsel_ang_circular_sector(engine_t *engine)
 {
-    engine->used_tube->sector_angle = (180/PI)*asinf((engine->used_screws->diameter/2)/engine->used_tube->internal_radius);
+    engine->tube->sector_angle = (180.0f/TSEL_PI)*asinf((engine->screws->diameter/2)/engine->tube->internal_radius);
 }
 // Area transversal de 1 tornillo E135
-void tsel_area_per_screw(engine_t *engine, float temp_E13, float temp_E14)
+void tsel_area_per_screw(engine_t *engine)
 {
-    engine->used_screws->area_per_screw = (float)(engine->used_tube->sector_angle/2)*(powf(temp_E13/2,2)-powf(engine->used_tube->internal_radius,2)-powf(temp_E14,2));
+    engine->screws->area_per_screw = (float)(engine->tube->sector_angle/2.0f)*(powf(engine->tube->diameter_ext/2.0f,2.0f)-powf(engine->tube->internal_radius,2.0f)-powf(engine->tube->wall_thickness,2.0f));
 }
 // Area transversal ocupada por los tornillos E136
 void tsel_screw_occupied_area(engine_t *engine)
 {
-    engine->used_screws->screw_occupied_area = engine->used_screws->area_per_screw*engine->used_screws->amount;
+    engine->screws->screw_occupied_area = engine->screws->area_per_screw*engine->screws->amount;
 }
 // Area de material E137
 void tsel_tube_mateial_area(engine_t *engine)
 {
-    engine->used_tube->material_area = engine->used_tube->transversal_area-engine->used_screws->screw_occupied_area;
+    engine->tube->material_area = engine->tube->transversal_area-engine->screws->screw_occupied_area;
 }
 // Espesor del segmento cortante E138
 void tsel_width_cutting_segment(engine_t *engine)
 {
-    engine->used_screws->width_cutting_segment = engine->used_screws->dist_center_wall-(engine->used_screws->diameter/2);
+    engine->screws->width_cutting_segment = engine->screws->dist_center_wall-(engine->screws->diameter/2.0f);
 }
