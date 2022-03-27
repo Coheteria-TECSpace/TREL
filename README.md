@@ -20,7 +20,7 @@ cmake ..
 make
 ```
 
-### WIth MSVC in Visual Studio
+### With MSVC in Visual Studio
 Open the directory in VS, let CMake generate the project, then select on *Build project* at the top of VS and then the final build will be created, currently only Debug x64 exists
 
 *CMake adds `/W3` by deffault so some warning for overriding with `/W4` will appear, currently looking for a solution*
@@ -46,3 +46,20 @@ rm *.o
 gcc -o app ../main.c -Wall -Wextra -pedantic -Werror -I../include/ -L. -lapplib -lm
 export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH
 ```
+
+## Using only GCC and make (MINGW)
+In case you can't use (or don't want to use) WSL, this is the less Unix-y way of doing it in Windows
+
+### Compiling the shared object from a subdirectory build
+```
+md build && cd build
+gcc -c -Wall -Wextra -pedantic -Werror -fpic ../src/*.c -I../include/
+gcc -shared -o libapplib.dll ./*.o
+del *.o
+```
+### Building main.c and linking to the lib from the build subdirectory
+```
+gcc -o app ../main.c -Wall -Wextra -pedantic -Werror -I../include/ -L. -lapplib -lm
+```
+
+

@@ -6,53 +6,35 @@
 
 #include "DLLDefines.h"
 #include "design_func.h"
+#include "design_resist.h"
+#include "structs.h"
 
 // TODO: free library structs function
 
-// Estructura para tuberia
-typedef struct tubing
-{
-   char *material;
-   float diameter_ext, wall_thickness, internal_radius;
-   float young_module, sector_angle, mean_tubing_diameter;
-   float shear_stress_tension, shear_stress_pressure;
-   float ult_stress_tension, ult_stress_pressure;
-   float transversal_area, material_area;
-} APPLIB_EXPORT tubing_t;
 
-// Estructura para tornillos
-typedef struct screws
-{
-	float diameter, dist_center_wall;
-	unsigned int amount;
-    float area_per_screw, screw_occupied_area;
-	char  *material;
-    float width_cutting_segment;
-} APPLIB_EXPORT screws_t;
-
-// Estructura del engine
-typedef struct engine
-{
-	float pressure;         // chamber pressure in psi
-	float escape_vel, temperature;
-    float width_condition, margin_of_safety, max_stress, radial_stress, tangencial_stress, longitudinal_stress, max_pressure;
-    // grains data
-    int n_grains;
-    float internal_radius, external_radius, longitude, separation;
-    tubing_t *used_tube;    // ptr to intialized struct
-	screws_t *used_screws;  // ptr to initialized struct
-} APPLIB_EXPORT engine_t;
 
 // Function prototypes
+grains_t APPLIB_EXPORT *tsel_grains_init(
+    unsigned int amount,    /* E29 */
+    float internal_radius,  /* E30 */
+    float external_radius,  /* E31 */
+    float longitude,        /* E32 */
+    float grain_separation  /* E33 */
+);
+fuel_t APPLIB_EXPORT *tsel_fuel_init(
+    float const_burn_rate,  /* E41 */
+    float pressure_exponent,/* E42 */
+    float density           /* E44 */
+);
 tubing_t APPLIB_EXPORT *tsel_tubing_init(
-    char *material,
-    float diameter,
-    float thickness,
-    float young_module,
-    float shear_tension,
-    float shear_pressure,
-    float ult_tension,
-    float ult_pressure
+    char *material,         /* E16 & E17 */
+    float diameter,         /* E13 */
+    float thickness,        /* E14 */
+    float young_module,     /* E18 */
+    float shear_tension,    /* E20 */
+    float shear_pressure,   /* E19 */
+    float ult_tension,      /* E22 */
+    float ult_pressure      /* E21 */
 );
 screws_t APPLIB_EXPORT* tsel_screws_init(
     char* material,
@@ -61,15 +43,12 @@ screws_t APPLIB_EXPORT* tsel_screws_init(
     float dist_center_wall
 );
 engine_t APPLIB_EXPORT* tsel_engine_init(
-    float pressure,
-    float temperature,
-    int n_grains,
-    float internal_radius,
-    float external_radius,
-    float longitude,
-    float separation,
-    tubing_t* used_tube,
-    screws_t* used_screws
+    float pressure,         /* E24 */
+    float temperature,      /* E26 */
+    grains_t* grains,
+    fuel_t* fuel,
+    tubing_t* tube,
+    screws_t* screws
 );
 float APPLIB_EXPORT tsel_psi_to_pa(float psi);
 void APPLIB_EXPORT tsel_set_pressure(engine_t *engine, float pressure);

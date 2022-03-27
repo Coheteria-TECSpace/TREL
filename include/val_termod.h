@@ -5,22 +5,24 @@
 
 #include "DLLDefines.h"
 #include "design_constants.h"
+#include "design_func.h"
+#include "structs.h"
 
 // Prototipos de funciones
-float vol_esp_cam_combustion();
-float vol_esp_garganta();
-float vol_esp_escape();
-float presion_garganta();
-float presion_escape();	// TODO
-float APPLIB_EXPORT tsel_temper_garganta();
-float temper_escape();
-float velocidad_garganta();
-float vel_sonica_local_at();
-float vel_numero_mach_mt();
-float velocidad_escape();
-float vel_sonica_local_a2();
-float vel_numero_mach_m2();
-float vel_escape_caract();
+float APPLIB_EXPORT vol_esp_cam_combustion(engine_t* engine);
+float APPLIB_EXPORT vol_esp_garganta(engine_t* engine);
+float APPLIB_EXPORT vol_esp_escape(engine_t* engine);
+float APPLIB_EXPORT presion_garganta(engine_t* engine);
+//float APPLIB_EXPORT presion_escape(engine_t* engine);	// TODO
+float APPLIB_EXPORT tsel_temper_garganta(engine_t *engine);
+//float APPLIB_EXPORT temper_escape(engine_t* engine);
+float APPLIB_EXPORT velocidad_garganta(engine_t* engine);
+float APPLIB_EXPORT vel_sonica_local_at(engine_t* engine);
+float APPLIB_EXPORT vel_numero_mach_mt(engine_t* engine);
+float APPLIB_EXPORT velocidad_escape(engine_t* engine);
+float APPLIB_EXPORT vel_sonica_local_a2(engine_t* engine);
+float APPLIB_EXPORT vel_numero_mach_m2(engine_t* engine);
+float APPLIB_EXPORT vel_escape_caract(engine_t* engine);
 
 #endif // VAL_TERMOD_FUNC_H
 

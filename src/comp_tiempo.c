@@ -30,9 +30,9 @@ float impulso_tot(float list[])
 }
 
 //E26
-float impulso_esp(float list[])
+float impulso_esp(float list[], engine_t *engine)
 {
-    return impulso_tot(list) / (masa_combustible() * 9.81f);
+    return impulso_tot(list) / (masa_combustible(engine) * 9.81f);
 }
 
 //AD3511

@@ -3,90 +3,90 @@
 // Volumenes
 
 // E49 Volumen Especifico Camara de Combustible
-float vol_esp_cam_combustion()
+float vol_esp_cam_combustion(engine_t *engine)
 {
-    return (TEMPERATURA_CAMARA * CONSTANTE_GASES) / press_Pa;
+    return (engine->temperature * CONSTANTE_GASES) / tsel_get_pressure_pa(engine);
 
 }
 
 // E50 Volumen Especifico de Garganta
-float vol_esp_garganta()
+float vol_esp_garganta(engine_t *engine)
 {
-    return vol_esp_cam_combustion() * (powf((HEAT_CAPACITY_RATIO + 1),(1 / HEAT_CAPACITY_RATIO - 1)));
+    return vol_esp_cam_combustion(engine) * (powf((HEAT_CAPACITY_RATIO + 1),(1 / HEAT_CAPACITY_RATIO - 1)));
 }
 
 // E51 Volumen Especifico Escape
-float vol_esp_escape()
+float vol_esp_escape(engine_t *engine)
 {
-    return vol_esp_cam_combustion() * powf((press_Pa / PRESION_ATMOSFERICA), (1 / HEAT_CAPACITY_RATIO));
+    return vol_esp_cam_combustion(engine) * powf((tsel_get_pressure_pa(engine) / PRESION_ATMOSFERICA), (1 / HEAT_CAPACITY_RATIO));
 }
 
 // Presiones
 
 // E53 presion de garganta
-float presion_garganta()
+float presion_garganta(engine_t *engine)
 {
-    return press_Pa * powf((vol_esp_cam_combustion() / vol_esp_garganta()), (HEAT_CAPACITY_RATIO));
+    return tsel_get_pressure_pa(engine) * powf((vol_esp_cam_combustion(engine) / vol_esp_garganta(engine)), (HEAT_CAPACITY_RATIO));
 }
 
 // Temperaturas
 
 // E56 temperatura de garganta
-float tsel_temper_garganta()
+float tsel_temper_garganta(engine_t *engine)
 {
-    return TEMPERATURA_CAMARA * powf((vol_esp_cam_combustion() / vol_esp_garganta()),(HEAT_CAPACITY_RATIO - 1));
+    return engine->temperature * powf((vol_esp_cam_combustion(engine) / vol_esp_garganta(engine)),(HEAT_CAPACITY_RATIO - 1));
 }
 
 
 // E57 temperatura de escape
-float presion_escape()
+float presion_escape(engine_t *engine)
 {
-    return TEMPERATURA_CAMARA * (powf((PRESION_ATMOSFERICA / press_Pa),((HEAT_CAPACITY_RATIO - 1) / HEAT_CAPACITY_RATIO)));
+    return engine->temperature * (powf((PRESION_ATMOSFERICA / tsel_get_pressure_pa(engine)),((HEAT_CAPACITY_RATIO - 1) / HEAT_CAPACITY_RATIO)));
 }
 
 
 // Velocidades
 
 // E59 velocidad garganta
-float velocidad_garganta()
+float velocidad_garganta(engine_t *engine)
 {
-    return powf(((2.0f * HEAT_CAPACITY_RATIO) / (HEAT_CAPACITY_RATIO + 1.0f) * CONSTANTE_GASES * TEMPERATURA_CAMARA),(0.5f));
+    return powf(((2.0f * HEAT_CAPACITY_RATIO) / (HEAT_CAPACITY_RATIO + 1.0f) * CONSTANTE_GASES * engine->temperature),(0.5f));
 }
 
 // E60 Velocidad Sonica Local at
-float vel_sonica_local_at()
+float vel_sonica_local_at(engine_t *engine)
 {
-    return powf((HEAT_CAPACITY_RATIO * CONSTANTE_GASES * presion_garganta()),(0.5));
+    return powf((HEAT_CAPACITY_RATIO * CONSTANTE_GASES * presion_garganta(engine)),(0.5));
 }
 
 // E61 Numero Mach Mt
-float vel_numero_mach_mt()
+float vel_numero_mach_mt(engine_t *engine)
 {
-    return velocidad_garganta() / vel_sonica_local_at();
+    return velocidad_garganta(engine) / vel_sonica_local_at(engine);
 }
 
 // E62 Velocidad de Escape
-float velocidad_escape()
+float velocidad_escape(engine_t *engine)
 {
-    return powf(powf(((2 * HEAT_CAPACITY_RATIO) / (HEAT_CAPACITY_RATIO - 1) * CONSTANTE_GASES * TEMPERATURA_CAMARA * (1 - (PRESION_ATMOSFERICA / press_Pa))),
-    ((HEAT_CAPACITY_RATIO - 1) / HEAT_CAPACITY_RATIO)), (0.5));
+    return powf(powf(((2.0f * HEAT_CAPACITY_RATIO) / (HEAT_CAPACITY_RATIO - 1.0f) * CONSTANTE_GASES * engine->temperature* (1.0f - (PRESION_ATMOSFERICA /tsel_get_pressure_pa(engine) ))),
+    ((HEAT_CAPACITY_RATIO - 1.0f) / HEAT_CAPACITY_RATIO)), (0.5f));
 }
 
 // E63 Velocidad Sonica Local a2
-float vel_sonica_local_a2()
+float vel_sonica_local_a2(engine_t *engine)
 {
-    return powf((HEAT_CAPACITY_RATIO * CONSTANTE_GASES * presion_escape()),(0.5)); 
+    return powf((HEAT_CAPACITY_RATIO * CONSTANTE_GASES * presion_escape(engine)),(0.5)); 
 }
 
 // E64 Numero Mach M2
-float vel_numero_mach_m2()
+float vel_numero_mach_m2(engine_t *engine)
 
 {
-    return velocidad_escape() / vel_sonica_local_a2();
+    return velocidad_escape(engine) / vel_sonica_local_a2(engine);
 }
 
 // E65 Velocidad de escape caracteristica
-float vel_escape_caract()
+float vel_escape_caract(engine_t *engine)
 {
-    return powf(powf((CONSTANTE_GASES * TEMPERATURA_CAMARA) / (HEAT_CAPACITY_RATIO *(2 / (HEAT_CAPACITY_RATIO + 1))),((HEAT_CAPACITY_RATIO + 1) / (HEAT_CAPACITY_RATIO - 1))), (0.5));
+    return powf(powf((CONSTANTE_GASES * engine->temperature) / (HEAT_CAPACITY_RATIO *(2 / (HEAT_CAPACITY_RATIO + 1))),((HEAT_CAPACITY_RATIO + 1) / (HEAT_CAPACITY_RATIO - 1))), (0.5));
 }

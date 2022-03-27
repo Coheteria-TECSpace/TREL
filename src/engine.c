@@ -1,6 +1,43 @@
 #include "engine.h"
 
-// Initializes all the variables in the tube struct
+/* Initializes all variables in the grains struct */
+grains_t* tsel_grains_init(
+    unsigned int amount,
+    float internal_radius,
+    float external_radius,
+    float longitude,
+    float grain_separation)
+{
+    grains_t *grains = malloc(sizeof(*grains));
+    if (!grains) {
+        printf("Grains initialization failed\n");
+    }
+    grains->amount = amount;
+    grains->init_inter_radius = internal_radius;
+    grains->extern_radius = external_radius;
+    grains->longitude = longitude;
+    grains->grain_separation = grain_separation;
+    return(grains);
+}
+
+/* Initializes all the variables in the fuel strcut */
+fuel_t* tsel_fuel_init(
+    float const_burn_rate,
+    float pressure_exponent,
+    float density)
+{
+    fuel_t *fuel = malloc(sizeof(*fuel));
+    if (!fuel) {
+        printf("Fuel initialization failed\n");
+    }
+    fuel->const_burn_rate = const_burn_rate;
+    fuel->pressure_exponent = pressure_exponent;
+    fuel->density = density;
+    fuel->burn_rate = 0.0f;
+    return(fuel);
+}
+
+/* Initializes all the variables in the tube struct */
 tubing_t* tsel_tubing_init(
     char *material,
     float diameter,
@@ -9,8 +46,7 @@ tubing_t* tsel_tubing_init(
     float shear_tension,
     float shear_pressure,
     float ult_tension,
-    float ult_pressure
-)
+    float ult_pressure)
 {
     tubing_t *tube = malloc(sizeof(*tube));
     if (!tube) {
@@ -27,13 +63,13 @@ tubing_t* tsel_tubing_init(
     tube->ult_stress_pressure       = ult_pressure;
     tube->mean_tubing_diameter      = 0.0f;
     tube->transversal_area          = 0.0f;
-    tube->internal_radius           = (tube->diameter_ext-(2*tube->wall_thickness))/2; // temp_E15
-    tube->sector_angle              = 0.0f;    // degrees
+    tube->internal_radius           = (tube->diameter_ext-(2*tube->wall_thickness))/2; /* E15 */
+    tube->sector_angle              = 0.0f;    /* degrees */
     tube->material_area             = 0.0f;
     return(tube);
 }
 
-// Initializes all the variables in the screws struct
+/* Initializes all the variables in the screws struct */
 screws_t* tsel_screws_init(
     char *material,
     unsigned int amount,
@@ -55,18 +91,14 @@ screws_t* tsel_screws_init(
     return(screws);
 }
 
-// Initializes all the variables in the engine struct
+/* Initializes all the variables in the engine struct */
 engine_t* tsel_engine_init(
     float pressure,
     float temperature,
-    int n_grains,
-    float internal_radius,
-    float external_radius,
-    float longitude,
-    float separation,
-    tubing_t *used_tube,
-    screws_t *used_screws
-)
+    grains_t *grains,
+    fuel_t *fuel,
+    tubing_t *tube,
+    screws_t *screws)
 {
     engine_t *engine = malloc(sizeof(*engine));
     if (!engine) {
@@ -82,30 +114,33 @@ engine_t* tsel_engine_init(
     engine->max_pressure = 0.0f;
     engine->pressure = pressure;
     engine->temperature = temperature;
-    engine->n_grains = n_grains;
-    engine->internal_radius = internal_radius;
-    engine->external_radius = external_radius;
-    engine->longitude = longitude;
-    engine->separation = separation;
-    engine->used_tube = used_tube;
-    engine->used_screws = used_screws;
+    engine->grains = grains;
+    engine->fuel = fuel;
+    engine->tube = tube;
+    engine->screws = screws;
     engine->escape_vel = calc_escape_vel(engine);
+    tsel_engine_max_pressure(engine);
+    tsel_transversal_area_tube(engine);
+    tsel_tube_mateial_area(engine);
+    tsel_width_cutting_segment(engine);
+    tsel_area_per_screw(engine);
+    tsel_tangencial_stress(engine);
 	return(engine);
 }
 
-// TODO: screws init funtion
-
-// 'Diseño'!E25 Retorna presion actual del motor en pascales
+/* returns given psi value in pascals */
 float tsel_psi_to_pa(float psi)
 {
-	return 6894.757f*psi;
+	return(6894.757f*psi);
 }
 
+/* returns the chamber pressure of given engine in psi */
 float tsel_get_pressure(engine_t *engine)
 {
     return(engine->pressure);
 }
 
+/* sets the chamber pressure in psi as given to the engine */
 void tsel_set_pressure(engine_t *engine, float pressure)
 {
 	engine->pressure = pressure;

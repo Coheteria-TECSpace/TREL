@@ -3,144 +3,127 @@
 
 /*Constants*/
 // E9 PRESION_ATMOSFERICA
-// E26 TEMPERATURA_CAMARA
 // E46 'Heat Capacity ratio' HEAT_CAPACITY_RATIO
 // E47 CONSTANTE_GASES
 // E54 PRESION_ATMOSFERICA
 // E162 DIAMETRO_NUCLEO
 
 /*Functions*/
-// E25 get_pressure_pa(engine_t *engine)
-float get_pressure_pa(engine_t* engine)
+// E25 returns chamber pressure in pascals
+float tsel_get_pressure_pa(engine_t* engine)
 {
 	return(tsel_psi_to_pa(engine->pressure));
 }
 // E49 Volumen especifico camara
 float volumen_camara(engine_t *engine)
 {
-	return(TEMPERATURA_CAMARA*CONSTANTE_GASES/get_pressure_pa(engine));
+	return(engine->temperature*CONSTANTE_GASES/tsel_get_pressure_pa(engine));
 }
 // E62 Velocidad de escape
 float calc_escape_vel(engine_t* engine)
 {	
-	float calc_pow = powf((PRESION_ATMOSFERICA / get_pressure_pa(engine)), ((HEAT_CAPACITY_RATIO - 1.0f) / HEAT_CAPACITY_RATIO));
-	return(sqrtf(2.0f * HEAT_CAPACITY_RATIO /(HEAT_CAPACITY_RATIO -1.0f) * CONSTANTE_GASES * TEMPERATURA_CAMARA * (1.0f - calc_pow)));
-	//powf es para double, analizar posible cambio de type en todo
+	float calc_pow = powf((PRESION_ATMOSFERICA / tsel_get_pressure_pa(engine)), ((HEAT_CAPACITY_RATIO - 1.0f) / HEAT_CAPACITY_RATIO));
+	return(sqrtf(2.0f * HEAT_CAPACITY_RATIO /(HEAT_CAPACITY_RATIO -1.0f) * CONSTANTE_GASES * engine->temperature * (1.0f - calc_pow)));
 }
 /* Determinacion de fuerza sobre tapas*/
 // E140 Area interna
-float temp_E15 = 1;	// Dependencia E15
-float area_interna()
+float area_interna(engine_t *engine)
 {
-	return(PI*powf(temp_E15,2));	//powf es para double, analizar posible cambio de type en todo
+	return(TSEL_PI*powf(engine->tube->internal_radius,2));
 }
 // E141 Fuerza maxima
-float temp_E118 = 1;	// Dependencia E118
-float fuerza_maxima()
+float fuerza_maxima(engine_t *engine)
 {
-	return(temp_E118*area_interna()); 
+	return(engine->max_pressure*area_interna(engine)); 
 }
 // E142 Fuerza por tornillo
-float temp_E130 = 1;	// Dependencia E130
-float fuerza_tornillo()
+float fuerza_tornillo(engine_t *engine)
 {
-	return(fuerza_maxima()/temp_E130);
+	return(fuerza_maxima(engine)/engine->screws->amount);
 }
 /*Esfuerzo circunferencial*/
 // E144 Tension
-float temp_E137 = 1;	// Dependencia E137
-float tension()
+float tension(engine_t *engine)
 {
-	return(fuerza_maxima()/temp_E137);
+	return(fuerza_maxima(engine)/engine->tube->material_area);
 }
 // E145 Margen de seguridad
-float temp_E20 = 1;	// Dependencia E20
-float margen_de_seguridad()
+float margen_de_seguridad(engine_t *engine)
 {
-	return(temp_E20/tension());
+	return(engine->tube->shear_stress_tension/tension(engine));
 }
 /*Esfuerzo longitudinal*/
 // E146 Area de cortante
-float temp_E14 = 1;	// Dependencia E14
-float temp_E138 = 1;	// Dependencia E138
-float area_de_cortante()
+float area_de_cortante(engine_t *engine)
 {
-	return(temp_E138*temp_E14);
+	return(engine->screws->width_cutting_segment*engine->tube->wall_thickness);
 }
 // E147 Cortante promedio
-float cortante_promedio()
+float cortante_promedio(engine_t *engine)
 {
-	return(fuerza_tornillo()/area_de_cortante());
+	return(fuerza_tornillo(engine)/area_de_cortante(engine));
 }
 // E148 Margen de seguridad cortante
-float temp_E21 = 1;	// Dependencia E21
-float margen_de_seguridad_cortante()
+float margen_de_seguridad_cortante(engine_t *engine)
 {
-	return(temp_E21/cortante_promedio());
+	return(engine->tube->ult_stress_pressure/cortante_promedio(engine));
 }
 /*Esfuerzo de aplastamiento*/
 // E149 Aplastamiento
-float temp_E135 = 1;	// Dependencia E135
-float aplastamiento()
+float aplastamiento(engine_t *engine)
 {
-	return(fuerza_tornillo()/temp_E135);
+	return(fuerza_tornillo(engine)/engine->screws->area_per_screw);
 }
 // E150 Margen de seguridad aplaztamiento
-float margen_de_seguridad_aplaztamiento()
+float margen_de_seguridad_aplaztamiento(engine_t *engine)
 {
-	return(temp_E20/aplastamiento());
+	return(engine->tube->shear_stress_tension/aplastamiento(engine));
 }
 /*Deformacion circunferencial*/
 // E152 Deformacion unitaria
-float temp_E18 = 1;	// Dependencia E18
-float temp_E121 = 1;	// Dependencia E121
-float deformacion_unitaria()
+float deformacion_unitaria(engine_t *engine)
 {
-	return(temp_E121/temp_E18);
+	return(engine->tangencial_stress/engine->tube->young_module);
 }
 // E153 Circunferencia interna total
-//float temp_E15 = 1;	// Dependencia E15
-float circunferencia_interna_total()
+float circunferencia_interna_total(engine_t *engine)
 {
-	return(2*PI*temp_E15);
+	return(2*TSEL_PI*engine->tube->internal_radius);
 }
 // E154 Deformacion de la circunferencia interna
-float deformacion_circunferencia_interna()
+float deformacion_circunferencia_interna(engine_t *engine)
 {
-	return(deformacion_unitaria()*circunferencia_interna_total()*1000);
+	return(deformacion_unitaria(engine)*circunferencia_interna_total(engine)*1000.0f);
 }
 // E155 Circunferencia externa inicial
-float temp_E13 = 1;	// Dependencia E13
-float circunferencia_externa_inicial()
+float circunferencia_externa_inicial(engine_t *engine)
 {
-	return(PI*temp_E13);
+	return(TSEL_PI*engine->tube->diameter_ext);
 }
 // E156 Deformacion de circunferencia externa
-float deformacion_circunferencia_externa()
+float deformacion_circunferencia_externa(engine_t *engine)
 {
-	return(circunferencia_externa_inicial()*deformacion_unitaria()*1000);
+	return(circunferencia_externa_inicial(engine)*deformacion_unitaria(engine)*1000);
 }
 // E157 Radio interno final
 // radio_final(circunferencia_interna_total(),deformacion_circunferencia_interna());
 float radio_final(float circ_total,float deform_circ)
 {
-	return(circ_total*(deform_circ/1000)/(2*PI));
+	return(circ_total*(deform_circ/1000.0f)/(2.0f*TSEL_PI));
 }
 // E158 Diferencia de radio interno
-//float temp_E15 = 1;	// Dependencia E15
-float diferencia_radio_interno()
+//float engine->tube->internal_radius = 1;	// Dependencia E15
+float diferencia_radio_interno(engine_t *engine)
 {
-	return(radio_final(circunferencia_interna_total(),deformacion_circunferencia_interna())-temp_E15*1000);
+	return(radio_final(circunferencia_interna_total(engine),deformacion_circunferencia_interna(engine))-engine->tube->internal_radius*1000.0f);
 }
 // E159 es la misma ecuacion de E157
 // radio_final(circunferencia_interna_inicial(),deformacion_circunferencia_externa());
 // E160 Diferencia radio externo
-//float temp_E13 = 1;	// Dependencia E13
-float diferencia_radio_externo()
+float diferencia_radio_externo(engine_t *engine)
 {
-	return((radio_final(circunferencia_externa_inicial(),deformacion_circunferencia_externa())-(temp_E13/2))*1000);
+	return((radio_final(circunferencia_externa_inicial(engine),deformacion_circunferencia_externa(engine))-(engine->tube->diameter_ext/2.0f))*1000.0f);
 }
-
 /*Resistencia de tornillos*/
 
 /*Ecuacion de Barlow*/
