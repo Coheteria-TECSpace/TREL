@@ -3,7 +3,7 @@
 This library is still in early development, only debug compiling options for x64 have been configured and tested for Windows and Unix like systems.
 
 ## Roadmap
-Read the [TODO](https://github.com/Coheteria-TECSpace/TREL/blob/dev/README.md) and try to
+Read the [TODO](https://github.com/Coheteria-TECSpace/TREL/blob/dev/TODO.md) and try to
 understand what to do just by reading that.
 
 ## Portability
