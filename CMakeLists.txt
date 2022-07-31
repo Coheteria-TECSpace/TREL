@@ -13,8 +13,8 @@ PROJECT (structure_test VERSION 0.0.1 DESCRIPTION "Basic structure for compilati
 # Developer can choose between Dynamic and Static libraries
 OPTION (BUILD_SHARED_LIBS "Build Shared Libraries" ON)
 
-# Developer can choose to build the CLI app
-OPTION (BUILD_CLI_APP "Build app" ON)
+# Developer can choose to build the CLI testapp
+OPTION (BUILD_CLI_TESTAPP "Build testapp" ON)
 
 # Used to generate header with macros for the library
 INCLUDE (GenerateExportHeader)
@@ -26,7 +26,7 @@ IF (BUILD_SHARED_LIBS)
 ENDIF (BUILD_SHARED_LIBS)
 
 # Create a target for the library
-ADD_LIBRARY (applib ${LIB_TYPE} "src/design_func.c" 
+ADD_LIBRARY (TREL ${LIB_TYPE} "src/design_func.c" 
 								"src/engine.c" 
 								"src/rendimientos.c" 
 								"src/comp_area.c" 
@@ -40,36 +40,37 @@ INCLUDE_DIRECTORIES ("include")
 
 # Determine the need for linking the math library
 IF (NOT MSVC)
-    TARGET_LINK_LIBRARIES (applib PRIVATE m)
+    TARGET_LINK_LIBRARIES (TREL PRIVATE m)
 ENDIF (NOT MSVC)
 
 IF (MSVC)
     # warning level 4 and all warnings as errors
-    TARGET_COMPILE_OPTIONS(applib PRIVATE /W4 /WX)
+    TARGET_COMPILE_OPTIONS(TREL PRIVATE /W4 /WX)
 ELSE(MSVC)
     # most warnings all treated as errors
-    TARGET_COMPILE_OPTIONS(applib PRIVATE -Wall -Wextra -pedantic -Werror)
+    TARGET_COMPILE_OPTIONS(TREL PRIVATE -Wall -Wextra -pedantic -Werror)
 ENDIF(MSVC)
 
 # Specify arguments to be used in the export header
-GENERATE_EXPORT_HEADER (applib
-	BASE_NAME applib
-	EXPORT_MACRO_NAME applib_EXPORT
+GENERATE_EXPORT_HEADER (TREL
+	BASE_NAME TREL
+	EXPORT_MACRO_NAME TREL_EXPORT
 	EXPORT_FILE_NAME appllib_Export.h
-	STATIC_DEFINE applib_BUILT_AS_STATIC
+	STATIC_DEFINE TREL_BUILT_AS_STATIC
 )
 
 # Compile flags for the library
-SET_TARGET_PROPERTIES (applib PROPERTIES COMPILE_FLAGS -DLIB_STATIC_DEFINE)
+SET_TARGET_PROPERTIES (TREL PROPERTIES COMPILE_FLAGS -DLIB_STATIC_DEFINE)
 
-# Additional function calls for building the app
-IF (BUILD_CLI_APP)
+# Additional function calls for building the testapp
+IF (BUILD_CLI_TESTAPP)
 	# Adding an executable to test the library
-	ADD_EXECUTABLE (app "main.c")
+	ADD_EXECUTABLE (testapp "main.c")
 	# Declaring a link between the executable and the library
-	TARGET_LINK_LIBRARIES (app applib)
-	#target_link_libraries(app PRIVATE )
-	target_include_directories(app PUBLIC "include")
+	TARGET_LINK_LIBRARIES (testapp TREL)
+	#target_link_libraries(testapp PRIVATE )
+	target_include_directories(testapp PUBLIC "include")
 	# Additional arguments for the excecutable compilation
-	TARGET_COMPILE_FEATURES (app PUBLIC c_std_99)
-ENDIF (BUILD_CLI_APP)
+	TARGET_COMPILE_FEATURES (testapp PUBLIC c_std_99)
+ENDIF (BUILD_CLI_TESTAPP)
+
