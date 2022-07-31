@@ -1,6 +1,10 @@
-# TSEL
-## TECSpace Engine Lib
+# TREL
+## TECSpace Rocket Engine Library
 This library is still in early development, only debug compiling options for x64 have been configured and tested for Windows and Unix like systems.
+
+## Roadmap
+Read the [TODO](https://github.com/Coheteria-TECSpace/TREL/blob/dev/TODO.md) and try to
+understand what to do just by reading that.
 
 ## Portability
 Given that this library expects to calculate data for rockets in many ways, allowing the same functionality to be 
@@ -38,12 +42,12 @@ In case you want to stay away from CMake, this should work for all Unix like sys
 mkdir build
 cd build
 gcc -c -Wall -Wextra -pedantic -Werror -fpic ../src/*.c -I../include/
-gcc -shared -o libapplib.so ./*.o
+gcc -shared -o libTREL.so ./*.o
 rm *.o
 ```
 ### Building main.c and linking to the lib from the build subdirectory
 ```
-gcc -o app ../main.c -Wall -Wextra -pedantic -Werror -I../include/ -L. -lapplib -lm
+gcc -o app ../main.c -Wall -Wextra -pedantic -Werror -I../include/ -L. -lTREL -lm
 export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH
 ```
 
@@ -54,12 +58,12 @@ In case you can't use (or don't want to use) WSL, this is the less Unix-y way of
 ```
 md build && cd build
 gcc -c -Wall -Wextra -pedantic -Werror -fpic ../src/*.c -I../include/
-gcc -shared -o libapplib.dll ./*.o
+gcc -shared -o libTREL.dll ./*.o
 del *.o
 ```
 ### Building main.c and linking to the lib from the build subdirectory
 ```
-gcc -o app ../main.c -Wall -Wextra -pedantic -Werror -I../include/ -L. -lapplib -lm
+gcc -o app ../main.c -Wall -Wextra -pedantic -Werror -I../include/ -L. -lTREL -lm
 ```
 
 
