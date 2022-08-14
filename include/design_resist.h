@@ -16,7 +16,7 @@ Inicio de traduccion a C por lross2k
 // TODO: remove temp_
 
 // Function prototypes
-// add APPLIB_EXPORT to any function needed from the dynamic library
+// add TREL_EXPORT to any function needed from the dynamic library
 void tsel_mean_tubing_diameter(engine_t *engine);
 void tsel_width_condition(engine_t *engine);
 void tsel_engine_max_pressure(engine_t *engine);

@@ -20,19 +20,20 @@ OPTION (BUILD_CLI_TESTAPP "Build testapp" ON)
 INCLUDE (GenerateExportHeader)
 
 # Decide which LIB_TYPE is to be used for the build
-SET (LIB_TYPE STATIC)
 IF (BUILD_SHARED_LIBS)
   SET (LIB_TYPE SHARED)
+ELSE (BUILD_SHARED_LIBS)
+  SET (LIB_TYPE STATIC)
 ENDIF (BUILD_SHARED_LIBS)
 
 # Create a target for the library
 ADD_LIBRARY (TREL ${LIB_TYPE} "src/design_func.c" 
-								"src/engine.c" 
-								"src/rendimientos.c" 
-								"src/comp_area.c" 
-								"src/comp_tiempo.c"
-								"src/design_resist.c"
-								"src/val_termod.c"
+							  "src/engine.c" 
+							  "src/rendimientos.c" 
+							  "src/comp_area.c" 
+							  "src/comp_tiempo.c"
+							  "src/design_resist.c"
+							  "src/val_termod.c"
 			)
 
 # Specify the directory to contain header files
@@ -46,16 +47,16 @@ ENDIF (NOT MSVC)
 IF (MSVC)
     # warning level 4 and all warnings as errors
     TARGET_COMPILE_OPTIONS(TREL PRIVATE /W4 /WX)
-ELSE(MSVC)
+ELSE (MSVC)
     # most warnings all treated as errors
     TARGET_COMPILE_OPTIONS(TREL PRIVATE -Wall -Wextra -pedantic -Werror)
-ENDIF(MSVC)
+ENDIF (MSVC)
 
 # Specify arguments to be used in the export header
 GENERATE_EXPORT_HEADER (TREL
 	BASE_NAME TREL
 	EXPORT_MACRO_NAME TREL_EXPORT
-	EXPORT_FILE_NAME appllib_Export.h
+	EXPORT_FILE_NAME TREL_Export.h
 	STATIC_DEFINE TREL_BUILT_AS_STATIC
 )
 
@@ -73,4 +74,3 @@ IF (BUILD_CLI_TESTAPP)
 	# Additional arguments for the excecutable compilation
 	TARGET_COMPILE_FEATURES (testapp PUBLIC c_std_99)
 ENDIF (BUILD_CLI_TESTAPP)
-
