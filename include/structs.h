@@ -1,5 +1,5 @@
-#ifndef TSEL_STRUCTS
-#define TSEL_STRUCTS
+#ifndef TREL_STRUCTS
+#define TREL_STRUCTS
 
 #include "DLLDefines.h"
 
@@ -48,4 +48,4 @@ typedef struct engine
 	screws_t *screws;       // ptr to initialized struct
 } TREL_EXPORT engine_t;
 
-#endif //TSEL_STRUCTS
+#endif //TREL_STRUCTS

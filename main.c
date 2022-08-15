@@ -1,33 +1,33 @@
 #include <stdio.h>
 #include <string.h>
 // Header for all the library functions
-#include <TSEL.h>
+#include <TREL.h>
 
 // Example of how to use the library functions
 void print_debug_example()
 {
 	// Se inicializan los tornillos
     printf("Inicializando structs\n");
-	grains_t* created_grains = tsel_grains_init(
+	grains_t* created_grains = trel_grains_init(
 		4,
 		0.01f,
 		0.0304f,
 		0.1f,
 		0.001f
 	);
-	fuel_t* created_fuel = tsel_fuel_init(
+	fuel_t* created_fuel = trel_fuel_init(
 		0.005f,
 		0.688f,
 		1859
 	);
-	screws_t* created_screw = tsel_screws_init(
+	screws_t* created_screw = trel_screws_init(
 		"Acero",
 		6,
 		0.007466f,
 		0.01f
 	);
 	// Se inicializa la tuberia
-    tubing_t* created_tube = tsel_tubing_init(
+    tubing_t* created_tube = trel_tubing_init(
         "Aluminio 6061-T6",
         0.073f,
         0.0052f,
@@ -38,7 +38,7 @@ void print_debug_example()
         205000000
     );
 	// Se inicializa el motor usando los tornillos y tuberia creados
-	engine_t* testing_engine = tsel_engine_init(
+	engine_t* testing_engine = trel_engine_init(
         800,
         1710,
 		created_grains,
@@ -48,18 +48,18 @@ void print_debug_example()
     );
 
 	// Acceder a memoria inicializada
-	printf("La presion del motor dada es %f psi\n",tsel_get_pressure(testing_engine));
-	printf("\nLa velocidad de escape automaticamente inicializada es %f\n", tsel_get_escape_vel(testing_engine));
+	printf("La presion del motor dada es %f psi\n",trel_get_pressure(testing_engine));
+	printf("\nLa velocidad de escape automaticamente inicializada es %f\n", trel_get_escape_vel(testing_engine));
 
 	// Modificar valores de memoria con funciones
-	tsel_set_escape_vel(testing_engine, 666.420f);
-	printf("\nLa velocidad de escape modificada con tsel_set_escape_vel() es %f\n", tsel_get_escape_vel(testing_engine));
+	trel_set_escape_vel(testing_engine, 666.420f);
+	printf("\nLa velocidad de escape modificada con tsel_set_escape_vel() es %f\n", trel_get_escape_vel(testing_engine));
 
 	// Usando una funcion de rendimientos.c
 	printf("\nEl valor de combuistion es %f\n", br_combustion(testing_engine));
 
 	// Usando una funcion de val_termod.c
-	printf("\nLa temperatura en garganta es de %f\n", tsel_temper_garganta(testing_engine));
+	printf("\nLa temperatura en garganta es de %f\n", trel_temper_garganta(testing_engine));
 
 }
 

@@ -1,5 +1,5 @@
-#ifndef TSEL_H
-#define TSEL_H
+#ifndef TREL_H
+#define TREL_H
 
 //#include "design_func.h"
 
@@ -50,19 +50,19 @@ typedef struct engine
 } engine_t;
 
 // Function prototypes
-grains_t *tsel_grains_init(
+grains_t *trel_grains_init(
     unsigned int amount,    /* E29 */
     float internal_radius,  /* E30 */
     float external_radius,  /* E31 */
     float longitude,        /* E32 */
     float grain_separation  /* E33 */
 );
-fuel_t *tsel_fuel_init(
+fuel_t *trel_fuel_init(
     float const_burn_rate,  /* E41 */
     float pressure_exponent,/* E42 */
     float density           /* E44 */
 );
-tubing_t *tsel_tubing_init(
+tubing_t *trel_tubing_init(
     char* material,         /* E16 & E17 */
     float diameter,         /* E13 */
     float thickness,        /* E14 */
@@ -72,13 +72,13 @@ tubing_t *tsel_tubing_init(
     float ult_tension,      /* E22 */
     float ult_pressure      /* E21 */
 );
-screws_t *tsel_screws_init(
+screws_t *trel_screws_init(
     char* material,
     unsigned int amount,
     float diameter,
     float dist_center_wall
 );
-engine_t *tsel_engine_init(
+engine_t *trel_engine_init(
     float pressure,         /* E24 */
     float temperature,      /* E26 */
     grains_t* grains,
@@ -86,12 +86,12 @@ engine_t *tsel_engine_init(
     tubing_t* tube,
     screws_t* screws
 );
-float tsel_psi_to_pa(float psi);
-void tsel_set_pressure(engine_t* engine, float pressure);
-void tsel_set_escape_vel(engine_t* engine, float vel);
-float tsel_get_escape_vel(engine_t* engine);
-float tsel_get_pressure(engine_t* engine);
-float tsel_temper_garganta(engine_t *engine);
+float trel_psi_to_pa(float psi);
+void trel_set_pressure(engine_t* engine, float pressure);
+void trel_set_escape_vel(engine_t* engine, float vel);
+float trel_get_escape_vel(engine_t* engine);
+float trel_get_pressure(engine_t* engine);
+float trel_temper_garganta(engine_t *engine);
 float br_combustion(engine_t *engine);
 
-#endif //TSEL_H
+#endif //TREL_H

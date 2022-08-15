@@ -11,7 +11,7 @@
 #include "DLLDefines.h"
 
 // Function prototypes
-float TREL_EXPORT tsel_get_pressure_pa(engine_t* engine);
+float TREL_EXPORT trel_get_pressure_pa(engine_t* engine);
 float TREL_EXPORT volumen_camara(engine_t* engine);
 float TREL_EXPORT calc_escape_vel(engine_t *engine);
 float TREL_EXPORT area_interna(engine_t* engine);

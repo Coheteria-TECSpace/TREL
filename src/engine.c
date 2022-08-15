@@ -1,7 +1,7 @@
 #include "engine.h"
 
 /* Initializes all variables in the grains struct */
-grains_t* tsel_grains_init(
+grains_t* trel_grains_init(
     unsigned int amount,
     float internal_radius,
     float external_radius,
@@ -21,7 +21,7 @@ grains_t* tsel_grains_init(
 }
 
 /* Initializes all the variables in the fuel strcut */
-fuel_t* tsel_fuel_init(
+fuel_t* trel_fuel_init(
     float const_burn_rate,
     float pressure_exponent,
     float density)
@@ -38,7 +38,7 @@ fuel_t* tsel_fuel_init(
 }
 
 /* Initializes all the variables in the tube struct */
-tubing_t* tsel_tubing_init(
+tubing_t* trel_tubing_init(
     char *material,
     float diameter,
     float thickness,
@@ -70,7 +70,7 @@ tubing_t* tsel_tubing_init(
 }
 
 /* Initializes all the variables in the screws struct */
-screws_t* tsel_screws_init(
+screws_t* trel_screws_init(
     char *material,
     unsigned int amount,
     float diameter,
@@ -92,7 +92,7 @@ screws_t* tsel_screws_init(
 }
 
 /* Initializes all the variables in the engine struct */
-engine_t* tsel_engine_init(
+engine_t* trel_engine_init(
     float pressure,
     float temperature,
     grains_t *grains,
@@ -119,39 +119,39 @@ engine_t* tsel_engine_init(
     engine->tube = tube;
     engine->screws = screws;
     engine->escape_vel = calc_escape_vel(engine);
-    tsel_engine_max_pressure(engine);
-    tsel_transversal_area_tube(engine);
-    tsel_tube_mateial_area(engine);
-    tsel_width_cutting_segment(engine);
-    tsel_area_per_screw(engine);
-    tsel_tangencial_stress(engine);
+    trel_engine_max_pressure(engine);
+    trel_transversal_area_tube(engine);
+    trel_tube_mateial_area(engine);
+    trel_width_cutting_segment(engine);
+    trel_area_per_screw(engine);
+    trel_tangencial_stress(engine);
 	return(engine);
 }
 
 /* returns given psi value in pascals */
-float tsel_psi_to_pa(float psi)
+float trel_psi_to_pa(float psi)
 {
 	return(6894.757f*psi);
 }
 
 /* returns the chamber pressure of given engine in psi */
-float tsel_get_pressure(engine_t *engine)
+float trel_get_pressure(engine_t *engine)
 {
     return(engine->pressure);
 }
 
 /* sets the chamber pressure in psi as given to the engine */
-void tsel_set_pressure(engine_t *engine, float pressure)
+void trel_set_pressure(engine_t *engine, float pressure)
 {
 	engine->pressure = pressure;
 }
 
-void tsel_set_escape_vel(engine_t *engine, float vel)
+void trel_set_escape_vel(engine_t *engine, float vel)
 {
      engine->escape_vel = vel;
 }
 
-float tsel_get_escape_vel(engine_t *engine)
+float trel_get_escape_vel(engine_t *engine)
 {
     return engine->escape_vel;
 }
