@@ -1,5 +1,6 @@
 # Visual Studio stuff
 .vs/
+.vscode/
 out/
 # Recommended build directory
 build/

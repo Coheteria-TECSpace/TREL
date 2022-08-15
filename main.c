@@ -67,9 +67,8 @@ void print_debug_example()
 int main(int argc, char *argv[])
 {
 	printf("* * * * * * * * * * * * * * * * * * * * * * * *\n");
-	printf("*            TECSpace Engine Lib              *\n");
-	printf("*            v 0.0.2d                         *\n");
-	//printf("*                                             *\n");
+	printf("*         TECSpace Rocket Engine Lib          *\n");
+	printf("*                v 0.1d                       *\n");
 	printf("* * * * * * * * * * * * * * * * * * * * * * * *\n\n");
 	if (argc <= 1)
 	{
