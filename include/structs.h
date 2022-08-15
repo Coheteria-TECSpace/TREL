@@ -1,5 +1,5 @@
-#ifndef TSEL_STRUCTS
-#define TSEL_STRUCTS
+#ifndef TREL_STRUCTS
+#define TREL_STRUCTS
 
 #include "DLLDefines.h"
 
@@ -7,12 +7,12 @@
 typedef struct {
     unsigned int amount;
     float init_inter_radius, extern_radius, longitude, grain_separation;
-} APPLIB_EXPORT grains_t;
+} TREL_EXPORT grains_t;
 
 /* Fuel structure */
 typedef struct {
     float const_burn_rate, pressure_exponent, density, burn_rate;
-} APPLIB_EXPORT fuel_t;
+} TREL_EXPORT fuel_t;
 
 // Estructura para tuberia
 typedef struct tubing
@@ -23,7 +23,7 @@ typedef struct tubing
    float shear_stress_tension, shear_stress_pressure;
    float ult_stress_tension, ult_stress_pressure;
    float transversal_area, material_area;
-} APPLIB_EXPORT tubing_t;
+} TREL_EXPORT tubing_t;
 
 // Estructura para tornillos
 typedef struct screws
@@ -33,7 +33,7 @@ typedef struct screws
     float area_per_screw, screw_occupied_area;
 	char  *material;
     float width_cutting_segment;
-} APPLIB_EXPORT screws_t;
+} TREL_EXPORT screws_t;
 
 // Estructura del engine
 typedef struct engine
@@ -46,6 +46,6 @@ typedef struct engine
     fuel_t *fuel;
     tubing_t *tube;         // ptr to intialized struct
 	screws_t *screws;       // ptr to initialized struct
-} APPLIB_EXPORT engine_t;
+} TREL_EXPORT engine_t;
 
-#endif //TSEL_STRUCTS
+#endif //TREL_STRUCTS

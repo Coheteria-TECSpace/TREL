@@ -4,7 +4,7 @@
 /*E43 */
 float br_combustion(engine_t *engine)
 {
-    return (engine->fuel->const_burn_rate* powf(tsel_get_pressure_pa(engine) * FACT_CONV_BR, engine->fuel->pressure_exponent) * FACT_CONV_M_TO_I);
+    return (engine->fuel->const_burn_rate* powf(trel_get_pressure_pa(engine) * FACT_CONV_BR, engine->fuel->pressure_exponent) * FACT_CONV_M_TO_I);
 }
 
 /*Combustible */
@@ -12,7 +12,7 @@ float br_combustion(engine_t *engine)
 /*E67 Volumen_Combustible */
 float volumen_combustible(engine_t *engine)
 {
-    return(float)(TSEL_PI*engine->grains->longitude*engine->grains->amount*(powf(engine->grains->extern_radius,2.0f)-powf(engine->grains->init_inter_radius,2.0f)));
+    return(float)(TREL_PI*engine->grains->longitude*engine->grains->amount*(powf(engine->grains->extern_radius,2.0f)-powf(engine->grains->init_inter_radius,2.0f)));
 }
 
 /*E68 Masa_Combustible */

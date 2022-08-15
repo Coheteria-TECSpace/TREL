@@ -5,7 +5,7 @@
 // E49 Volumen Especifico Camara de Combustible
 float vol_esp_cam_combustion(engine_t *engine)
 {
-    return (engine->temperature * CONSTANTE_GASES) / tsel_get_pressure_pa(engine);
+    return (engine->temperature * CONSTANTE_GASES) / trel_get_pressure_pa(engine);
 
 }
 
@@ -18,7 +18,7 @@ float vol_esp_garganta(engine_t *engine)
 // E51 Volumen Especifico Escape
 float vol_esp_escape(engine_t *engine)
 {
-    return vol_esp_cam_combustion(engine) * powf((tsel_get_pressure_pa(engine) / PRESION_ATMOSFERICA), (1 / HEAT_CAPACITY_RATIO));
+    return vol_esp_cam_combustion(engine) * powf((trel_get_pressure_pa(engine) / PRESION_ATMOSFERICA), (1 / HEAT_CAPACITY_RATIO));
 }
 
 // Presiones
@@ -26,13 +26,13 @@ float vol_esp_escape(engine_t *engine)
 // E53 presion de garganta
 float presion_garganta(engine_t *engine)
 {
-    return tsel_get_pressure_pa(engine) * powf((vol_esp_cam_combustion(engine) / vol_esp_garganta(engine)), (HEAT_CAPACITY_RATIO));
+    return trel_get_pressure_pa(engine) * powf((vol_esp_cam_combustion(engine) / vol_esp_garganta(engine)), (HEAT_CAPACITY_RATIO));
 }
 
 // Temperaturas
 
 // E56 temperatura de garganta
-float tsel_temper_garganta(engine_t *engine)
+float trel_temper_garganta(engine_t *engine)
 {
     return engine->temperature * powf((vol_esp_cam_combustion(engine) / vol_esp_garganta(engine)),(HEAT_CAPACITY_RATIO - 1));
 }
@@ -41,7 +41,7 @@ float tsel_temper_garganta(engine_t *engine)
 // E57 temperatura de escape
 float presion_escape(engine_t *engine)
 {
-    return engine->temperature * (powf((PRESION_ATMOSFERICA / tsel_get_pressure_pa(engine)),((HEAT_CAPACITY_RATIO - 1) / HEAT_CAPACITY_RATIO)));
+    return engine->temperature * (powf((PRESION_ATMOSFERICA / trel_get_pressure_pa(engine)),((HEAT_CAPACITY_RATIO - 1) / HEAT_CAPACITY_RATIO)));
 }
 
 
@@ -68,7 +68,7 @@ float vel_numero_mach_mt(engine_t *engine)
 // E62 Velocidad de Escape
 float velocidad_escape(engine_t *engine)
 {
-    return powf(powf(((2.0f * HEAT_CAPACITY_RATIO) / (HEAT_CAPACITY_RATIO - 1.0f) * CONSTANTE_GASES * engine->temperature* (1.0f - (PRESION_ATMOSFERICA /tsel_get_pressure_pa(engine) ))),
+    return powf(powf(((2.0f * HEAT_CAPACITY_RATIO) / (HEAT_CAPACITY_RATIO - 1.0f) * CONSTANTE_GASES * engine->temperature* (1.0f - (PRESION_ATMOSFERICA /trel_get_pressure_pa(engine) ))),
     ((HEAT_CAPACITY_RATIO - 1.0f) / HEAT_CAPACITY_RATIO)), (0.5f));
 }
 

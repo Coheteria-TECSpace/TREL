@@ -1,8 +1,8 @@
-#ifndef TSEL_CONSTANTS
-#define TSEL_CONSTANTS
+#ifndef TREL_CONSTANTS
+#define TREL_CONSTANTS
 
 //Constantes matemáticas
-#define TSEL_PI 3.141592f					// PI
+#define TREL_PI 3.141592f					// PI
 
 //Recamara 
 #define press_Pa (800.0f*6894.757f)			//E25 float input
@@ -33,4 +33,4 @@
 //Valores termodinámicos//
 #define escape 0						// E62 float var
 
-#endif // TSEL_CONSTANTS
+#endif // TREL_CONSTANTS
