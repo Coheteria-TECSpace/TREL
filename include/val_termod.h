@@ -14,7 +14,7 @@ float APPLIB_EXPORT vol_esp_garganta(engine_t* engine);
 float APPLIB_EXPORT vol_esp_escape(engine_t* engine);
 float APPLIB_EXPORT presion_garganta(engine_t* engine);
 //float APPLIB_EXPORT presion_escape(engine_t* engine);	// TODO
-float APPLIB_EXPORT tsel_temper_garganta(engine_t *engine);
+float APPLIB_EXPORT trel_temper_garganta(engine_t *engine);
 //float APPLIB_EXPORT temper_escape(engine_t* engine);
 float APPLIB_EXPORT velocidad_garganta(engine_t* engine);
 float APPLIB_EXPORT vel_sonica_local_at(engine_t* engine);

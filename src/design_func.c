@@ -10,26 +10,26 @@
 
 /*Functions*/
 // E25 returns chamber pressure in pascals
-float tsel_get_pressure_pa(engine_t* engine)
+float trel_get_pressure_pa(engine_t* engine)
 {
-	return(tsel_psi_to_pa(engine->pressure));
+	return(trel_psi_to_pa(engine->pressure));
 }
 // E49 Volumen especifico camara
 float volumen_camara(engine_t *engine)
 {
-	return(engine->temperature*CONSTANTE_GASES/tsel_get_pressure_pa(engine));
+	return(engine->temperature*CONSTANTE_GASES/trel_get_pressure_pa(engine));
 }
 // E62 Velocidad de escape
 float calc_escape_vel(engine_t* engine)
 {	
-	float calc_pow = powf((PRESION_ATMOSFERICA / tsel_get_pressure_pa(engine)), ((HEAT_CAPACITY_RATIO - 1.0f) / HEAT_CAPACITY_RATIO));
+	float calc_pow = powf((PRESION_ATMOSFERICA / trel_get_pressure_pa(engine)), ((HEAT_CAPACITY_RATIO - 1.0f) / HEAT_CAPACITY_RATIO));
 	return(sqrtf(2.0f * HEAT_CAPACITY_RATIO /(HEAT_CAPACITY_RATIO -1.0f) * CONSTANTE_GASES * engine->temperature * (1.0f - calc_pow)));
 }
 /* Determinacion de fuerza sobre tapas*/
 // E140 Area interna
 float area_interna(engine_t *engine)
 {
-	return(TSEL_PI*powf(engine->tube->internal_radius,2));
+	return(TREL_PI*powf(engine->tube->internal_radius,2));
 }
 // E141 Fuerza maxima
 float fuerza_maxima(engine_t *engine)
@@ -88,7 +88,7 @@ float deformacion_unitaria(engine_t *engine)
 // E153 Circunferencia interna total
 float circunferencia_interna_total(engine_t *engine)
 {
-	return(2*TSEL_PI*engine->tube->internal_radius);
+	return(2*TREL_PI*engine->tube->internal_radius);
 }
 // E154 Deformacion de la circunferencia interna
 float deformacion_circunferencia_interna(engine_t *engine)
@@ -98,7 +98,7 @@ float deformacion_circunferencia_interna(engine_t *engine)
 // E155 Circunferencia externa inicial
 float circunferencia_externa_inicial(engine_t *engine)
 {
-	return(TSEL_PI*engine->tube->diameter_ext);
+	return(TREL_PI*engine->tube->diameter_ext);
 }
 // E156 Deformacion de circunferencia externa
 float deformacion_circunferencia_externa(engine_t *engine)
@@ -109,7 +109,7 @@ float deformacion_circunferencia_externa(engine_t *engine)
 // radio_final(circunferencia_interna_total(),deformacion_circunferencia_interna());
 float radio_final(float circ_total,float deform_circ)
 {
-	return(circ_total*(deform_circ/1000.0f)/(2.0f*TSEL_PI));
+	return(circ_total*(deform_circ/1000.0f)/(2.0f*TREL_PI));
 }
 // E158 Diferencia de radio interno
 //float engine->tube->internal_radius = 1;	// Dependencia E15
