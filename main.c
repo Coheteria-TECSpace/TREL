@@ -61,6 +61,11 @@ void print_debug_example()
 	// Usando una funcion de val_termod.c
 	printf("\nLa temperatura en garganta es de %f\n", trel_temper_garganta(testing_engine));
 
+	// Probando valores generados por comp_area.c
+	printf("\nArea longitudinal promedio: %f\n", testing_engine->comp_area_values->avg_long_area);
+	printf("Area quemado promedio: %f\n", testing_engine->comp_area_values->avg_burn_area);
+	printf("Area transversal promedio: %f\n", testing_engine->comp_area_values->avg_trans_area);
+	printf("Suma de diferencia quemado: %f\n", testing_engine->comp_area_values->burn_sum_diff);
 }
 
 // Para hacer pruebas de la lib se tiene la aplicacion de CLI basica

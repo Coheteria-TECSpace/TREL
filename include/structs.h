@@ -1,7 +1,12 @@
-#ifndef TREL_STRUCTS
-#define TREL_STRUCTS
+#ifndef TREL_STRUCTS_H
+#define TREL_STRUCTS_H
 
 #include "DLLDefines.h"
+
+// Comp area calculations
+typedef struct {
+    float avg_long_area, avg_trans_area, avg_burn_area, burn_std_deviation, burn_sum_diff;
+} TREL_EXPORT comp_area_t;
 
 // Propellent grains structure
 typedef struct {
@@ -38,14 +43,15 @@ typedef struct screws
 // Estructura del engine
 typedef struct engine
 {
-	float pressure;         // chamber pressure in psi
+	float pressure;                // chamber pressure in psi
 	float escape_vel, temperature;
     float width_condition, margin_of_safety, max_stress, radial_stress;
     float tangencial_stress, longitudinal_stress, max_pressure;
-    grains_t *grains;       // ptr to intialized struct
+    grains_t *grains;              // ptr to intialized struct
     fuel_t *fuel;
-    tubing_t *tube;         // ptr to intialized struct
-	screws_t *screws;       // ptr to initialized struct
+    tubing_t *tube;                // ptr to intialized struct
+	screws_t *screws;              // ptr to initialized struct
+    comp_area_t* comp_area_values; // ptr to initialized struct
 } TREL_EXPORT engine_t;
 
-#endif //TREL_STRUCTS
+#endif //TREL_STRUCTS_H

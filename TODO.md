@@ -9,8 +9,8 @@
 	- [x] Diseño E30
 	- [x] Diseño E31
 	- [x] Diseño E32
-	- [ ] Diseño E43
-	- [ ] Diseño E70
+	- [x] Diseño E43
+	- [x] Diseño E70
 - "Comportamiento en el tiempo"
 	- [x] Diseño E9
 	- [x] Diseño E30

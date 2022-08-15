@@ -1,5 +1,5 @@
-#ifndef RENDIMIENTOS
-#define RENDIMIENTOS
+#ifndef RENDIMIENTOS_H
+#define RENDIMIENTOS_H
 
 #include <math.h>
 
@@ -12,7 +12,7 @@
 
 // TODO: cambiar list[] por nombres mas descriptivos
 
-//Constructores
+// Function prototypes
 float TREL_EXPORT volumen_combustible(engine_t *engine);
 float TREL_EXPORT masa_combustible(engine_t* engine);
 float TREL_EXPORT Tiempo_quemado_combustion(engine_t* engine);
@@ -28,4 +28,4 @@ float TREL_EXPORT I_tot_teo(engine_t* engine);
 float TREL_EXPORT I_tot_esp(float list[]);
 float TREL_EXPORT Delta_V_Esp(float list[]);
 
-#endif // RENDIMIENTOS
+#endif //RENDIMIENTOS_H

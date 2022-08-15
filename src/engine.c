@@ -8,7 +8,7 @@ grains_t* trel_grains_init(
     float longitude,
     float grain_separation)
 {
-    grains_t *grains = malloc(sizeof(*grains));
+    grains_t *grains = (grains_t *) malloc(sizeof(grains_t));
     if (!grains) {
         printf("Grains initialization failed\n");
     }
@@ -26,7 +26,7 @@ fuel_t* trel_fuel_init(
     float pressure_exponent,
     float density)
 {
-    fuel_t *fuel = malloc(sizeof(*fuel));
+    fuel_t *fuel = (fuel_t *) malloc(sizeof(fuel_t));
     if (!fuel) {
         printf("Fuel initialization failed\n");
     }
@@ -48,7 +48,7 @@ tubing_t* trel_tubing_init(
     float ult_tension,
     float ult_pressure)
 {
-    tubing_t *tube = malloc(sizeof(*tube));
+    tubing_t *tube = (tubing_t *) malloc(sizeof(tubing_t));
     if (!tube) {
         printf("Tubing initialization failed\n");
         exit(1);
@@ -76,7 +76,7 @@ screws_t* trel_screws_init(
     float diameter,
     float dist_center_wall)
 {
-    screws_t *screws = malloc(sizeof(*screws));
+    screws_t *screws = (screws_t *) malloc(sizeof(screws_t));
     if (!screws) {
         printf("Screws initialization failed\n");
         exit(1);
@@ -100,7 +100,14 @@ engine_t* trel_engine_init(
     tubing_t *tube,
     screws_t *screws)
 {
-    engine_t *engine = malloc(sizeof(*engine));
+    comp_area_t* comp_area_values = (comp_area_t*) malloc(sizeof(comp_area_t));
+    comp_area_values->avg_burn_area = 0.0f;
+    comp_area_values->avg_long_area = 0.0f;
+    comp_area_values->avg_trans_area = 0.0f;
+    comp_area_values->burn_std_deviation = 0.0f;
+    comp_area_values->burn_sum_diff = 0.0f;
+
+    engine_t *engine = (engine_t *) malloc(sizeof(engine_t));
     if (!engine) {
         printf("Engine initialization failed\n");
         exit(1);
@@ -119,12 +126,15 @@ engine_t* trel_engine_init(
     engine->tube = tube;
     engine->screws = screws;
     engine->escape_vel = calc_escape_vel(engine);
+    engine->comp_area_values = comp_area_values;
     trel_engine_max_pressure(engine);
     trel_transversal_area_tube(engine);
     trel_tube_mateial_area(engine);
     trel_width_cutting_segment(engine);
     trel_area_per_screw(engine);
     trel_tangencial_stress(engine);
+    if (trel_run_area_comp_iterations(engine)) // 1 means there was an error
+        return(NULL); // NULL means the engine couldn't be properly generated
 	return(engine);
 }
 
