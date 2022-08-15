@@ -1,16 +1,17 @@
 ﻿# TODO list for the project
 1. Complete dependency tree as much as possible in order.
-2. Implement Python library interface
+2. Change float to double precission for most of the calculations
+3. Implement Python library interface
 
 ## Dependency tree
 - "Diseño"
-	- [ ] Comport. de Area E11
-- "Comport. de Area"
+	- [x] Comport. de Area E11 ===> engine->comp_area_values->burn_std_deviation
+- "Comport. de Area" [IMPLEMENTADO]
 	- [x] Diseño E30
 	- [x] Diseño E31
 	- [x] Diseño E32
-	- [x] Diseño E43
-	- [x] Diseño E70
+	- [x] Diseño E43 ===> br_combustion(engine_t *engine)
+	- [x] Diseño E70 ===> Tiempo_quemado_combustion(engine_t *engine)
 - "Comportamiento en el tiempo"
 	- [x] Diseño E9
 	- [x] Diseño E30
@@ -43,7 +44,7 @@
 	- [x] Diseño E64
 	- [x] Diseño E65
 	- [ ] Diseño E68
-	- [ ] Diseño E70
+	- [x] Diseño E70 ===> Tiempo_quemado_combustion(engine_t *engine)
 	- [x] Diseño E85
 	- [ ] Diseño E88
 	- [ ] Diseño E89

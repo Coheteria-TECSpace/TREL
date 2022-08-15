@@ -5,7 +5,7 @@
 
 // Comp area calculations
 typedef struct {
-    float avg_long_area, avg_trans_area, avg_burn_area, burn_std_deviation, burn_sum_diff;
+    double avg_long_area, avg_trans_area, avg_burn_area, burn_std_deviation, burn_sum_diff;
 } TREL_EXPORT comp_area_t;
 
 // Propellent grains structure

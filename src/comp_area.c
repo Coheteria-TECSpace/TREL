@@ -79,6 +79,17 @@ int trel_run_area_comp_iterations(engine_t* engine)
     for (int i = 0; i < max_iterations; i++)
         burn_area_array[i] = burn_area_array[i] - burn_area;
 
+    // calculate standard deviation
+    double burn_std_deviation = 0.0;
+    // sum the squared burn area differences
+    for (int i = 0; i < max_iterations; i++) burn_std_deviation += burn_area_array[i] * burn_area_array[i];
+    // calculate the average of the squared differences
+    burn_std_deviation /= 1000.0;
+    // get the square root of the avg
+    burn_std_deviation = sqrt(burn_std_deviation);
+    // store the value in the engine
+    engine->comp_area_values->burn_std_deviation = burn_std_deviation;
+
     // then sum all the greater than zero differences, store them to a variable, and 
     // sum all the lower than zero differences, store them to another variable
     float lt_differences = 0.0f; // lower
@@ -94,20 +105,4 @@ int trel_run_area_comp_iterations(engine_t* engine)
     engine->comp_area_values->burn_sum_diff = gt_differences + lt_differences;
     
     return(0); // everything went well
-}
-
-//Proms_Comportamiento_Area//
-float prom_A_Trans()
-{
-    return 0.0015079f; // F1019 prom
-}
-
-float prom_A_Long()
-{
-    return 0.00966317f; // G1019 prom
-}
-
-float prom_A_Quemado()
-{
-    return 0.012679f; // H1019 prom
 }

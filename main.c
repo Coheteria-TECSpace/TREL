@@ -66,6 +66,7 @@ void print_debug_example()
 	printf("Area quemado promedio: %f\n", testing_engine->comp_area_values->avg_burn_area);
 	printf("Area transversal promedio: %f\n", testing_engine->comp_area_values->avg_trans_area);
 	printf("Suma de diferencia quemado: %f\n", testing_engine->comp_area_values->burn_sum_diff);
+	printf("Desviacion estandar area de quemado: %f\n", testing_engine->comp_area_values->burn_std_deviation);
 }
 
 // Para hacer pruebas de la lib se tiene la aplicacion de CLI basica
