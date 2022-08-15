@@ -134,7 +134,9 @@ engine_t* trel_engine_init(
     trel_area_per_screw(engine);
     trel_tangencial_stress(engine);
     if (trel_run_area_comp_iterations(engine)) // 1 means there was an error
+    {
         return(NULL); // NULL means the engine couldn't be properly generated
+    }
 	return(engine);
 }
 

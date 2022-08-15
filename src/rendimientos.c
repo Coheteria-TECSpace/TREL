@@ -32,13 +32,13 @@ float Tiempo_quemado_combustion(engine_t *engine)
 }
 
 /*E71 Área de quemado */
-float Ab_combustion(engine_t *engine)
+double Ab_combustion(engine_t *engine)
 {
     return (engine->comp_area_values->avg_burn_area*engine->grains->amount);
 }
 
 /*E72 Flujo másico*/
-float mg_combustion(engine_t *engine)
+double mg_combustion(engine_t *engine)
 {
     return Ab_combustion(engine)*engine->fuel->density*br_combustion(engine);
 }
@@ -46,7 +46,7 @@ float mg_combustion(engine_t *engine)
 /*Fuerzas*/
 
 /*E74 Empuje teórico*/
-float emp_teo(engine_t *engine)
+double emp_teo(engine_t *engine)
 {
     return mg_combustion(engine)*velocidad_escape(engine);
 }
@@ -87,7 +87,7 @@ float I_sp_esperado(float list[], engine_t *engine)
 }
 
 /*E83 Impulso total teórico*/
-float I_tot_teo(engine_t *engine)
+double I_tot_teo(engine_t *engine)
 {
     return emp_teo(engine)* Tiempo_quemado_combustion(engine);
 }
