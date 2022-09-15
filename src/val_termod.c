@@ -90,3 +90,4 @@ float vel_escape_caract(engine_t *engine)
 {
     return powf(powf((CONSTANTE_GASES * engine->temperature) / (HEAT_CAPACITY_RATIO *(2 / (HEAT_CAPACITY_RATIO + 1))),((HEAT_CAPACITY_RATIO + 1) / (HEAT_CAPACITY_RATIO - 1))), (0.5));
 }
+

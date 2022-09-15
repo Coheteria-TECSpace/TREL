@@ -9,11 +9,49 @@
 // E162 DIAMETRO_NUCLEO
 
 /*Functions*/
+
 // E25 returns chamber pressure in pascals
 float trel_get_pressure_pa(engine_t* engine)
 {
 	return(trel_psi_to_pa(engine->pressure));
 }
+
+//E34 returns the grain standard deviation
+float desv_est_grains(engine_t *engine)
+{
+	return((engine->comp_area_values->burn_std_deviation)*10e+4);
+}
+
+//E35 Volumen unitario granos
+float volumen_unitario(engine_t *engine)
+{
+	return(TREL_PI*(0.1f)*((engine->grains->extern_radius)^2-(0.01f)^2));
+}
+
+// E36 Masa unitaria grano
+float masa_unitaria()
+{
+	return(volumen_unitario()*1000.0f*(engine->fuel->density));
+}
+
+// E37 Longitud total con combustible
+float longitudt_ccombustible()
+{
+	return((engine->grains->amount)*(engine->grains->longitude));
+}
+
+// E38 Port Area
+float port_area()
+{
+	return(TREL_PI*(engine->grains->init_inter_radius)^2);
+}
+
+// E39
+float long_secc_combus()
+{
+	return((engine->grains->grain_separation)*((engine->grains->amount)-1.0f)+((engine->grains->longitude)*(engine->grains->amount)))
+}
+
 // E49 Volumen especifico camara
 float volumen_camara(engine_t *engine)
 {
@@ -25,6 +63,7 @@ float calc_escape_vel(engine_t* engine)
 	float calc_pow = powf((PRESION_ATMOSFERICA / trel_get_pressure_pa(engine)), ((HEAT_CAPACITY_RATIO - 1.0f) / HEAT_CAPACITY_RATIO));
 	return(sqrtf(2.0f * HEAT_CAPACITY_RATIO /(HEAT_CAPACITY_RATIO -1.0f) * CONSTANTE_GASES * engine->temperature * (1.0f - calc_pow)));
 }
+
 /* Determinacion de fuerza sobre tapas*/
 // E140 Area interna
 float area_interna(engine_t *engine)

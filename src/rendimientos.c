@@ -15,10 +15,16 @@ float volumen_combustible(engine_t *engine)
     return(float)(TREL_PI*engine->grains->longitude*engine->grains->amount*(powf(engine->grains->extern_radius,2.0f)-powf(engine->grains->init_inter_radius,2.0f)));
 }
 
-/*E68 Masa_Combustible */
+/*E68 Masa_Combustible lross */
 float masa_combustible(engine_t *engine)
 {
     return (volumen_combustible(engine) *engine->fuel->density);
+}
+
+// E68 Masa combustible aalvarado */
+float masa_combustible()
+{
+    return (engine->fuel->density*volumen_combustible(engine));
 }
 
 /*Combustión*/
@@ -101,3 +107,5 @@ float Delta_V_Esp(float list[])
 {
     return delta_V(list);
 }
+
+// E85 
