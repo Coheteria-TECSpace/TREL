@@ -47,6 +47,7 @@ typedef struct engine
 	float escape_vel, temperature;
     float width_condition, margin_of_safety, max_stress, radial_stress;
     float tangencial_stress, longitudinal_stress, max_pressure;
+    float nozzle_efficiency;
     grains_t *grains;              // ptr to intialized struct
     fuel_t *fuel;
     tubing_t *tube;                // ptr to intialized struct

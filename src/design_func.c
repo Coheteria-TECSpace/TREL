@@ -17,9 +17,9 @@ float trel_get_pressure_pa(engine_t* engine)
 }
 
 //E34 returns the grain standard deviation
-float desv_est_grains()
+float desv_est_grains(engine_t *engine)
 {
-	return(prom_A_Devest()*100000.0f);
+	return((float)(engine->comp_area_values->burn_std_deviation)*100000.0f);
 }
 
 //E35 Volumen unitario granos
@@ -163,13 +163,21 @@ float diferencia_radio_externo(engine_t *engine)
 {
 	return((radio_final(circunferencia_externa_inicial(engine),deformacion_circunferencia_externa(engine))-(engine->tube->diameter_ext/2.0f))*1000.0f);
 }
-/*Resistencia de tornillos*/
+/*Escape*/
+// E88
+float throat_area(engine_t *engine)
+{
+	return((float)mg_combustion(engine) * vol_esp_garganta(engine) / velocidad_garganta(engine));
+}
 
-/*Ecuacion de Barlow*/
+// E89
+float escape_area(engine_t* engine)
+{
+	return((float)mg_combustion(engine) * vol_esp_escape(engine) / calc_escape_vel(engine));
+}
 
-/*Longitud maxima de Tornillo*/
-
-/*O-ring's*/
-
-/*Informacion*/
-
+// E101 engine->nozzle_efficiency
+void set_nozzle_efficiency(engine_t* engine, float value)
+{
+	engine->nozzle_efficiency = value;
+}

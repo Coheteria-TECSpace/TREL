@@ -19,7 +19,6 @@ float TREL_EXPORT trel_temper_garganta(engine_t *engine);
 float TREL_EXPORT velocidad_garganta(engine_t* engine);
 float TREL_EXPORT vel_sonica_local_at(engine_t* engine);
 float TREL_EXPORT vel_numero_mach_mt(engine_t* engine);
-float TREL_EXPORT velocidad_escape(engine_t* engine);
 float TREL_EXPORT vel_sonica_local_a2(engine_t* engine);
 float TREL_EXPORT vel_numero_mach_m2(engine_t* engine);
 float TREL_EXPORT vel_escape_caract(engine_t* engine);

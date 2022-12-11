@@ -127,6 +127,7 @@ engine_t* trel_engine_init(
     engine->screws = screws;
     engine->escape_vel = calc_escape_vel(engine);
     engine->comp_area_values = comp_area_values;
+    engine->nozzle_efficiency = 0.0f;
     trel_engine_max_pressure(engine);
     trel_transversal_area_tube(engine);
     trel_tube_mateial_area(engine);

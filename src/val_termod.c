@@ -65,13 +65,6 @@ float vel_numero_mach_mt(engine_t *engine)
     return velocidad_garganta(engine) / vel_sonica_local_at(engine);
 }
 
-// E62 Velocidad de Escape
-float velocidad_escape(engine_t *engine)
-{
-    return powf(powf(((2.0f * HEAT_CAPACITY_RATIO) / (HEAT_CAPACITY_RATIO - 1.0f) * CONSTANTE_GASES * engine->temperature* (1.0f - (PRESION_ATMOSFERICA /trel_get_pressure_pa(engine) ))),
-    ((HEAT_CAPACITY_RATIO - 1.0f) / HEAT_CAPACITY_RATIO)), (0.5f));
-}
-
 // E63 Velocidad Sonica Local a2
 float vel_sonica_local_a2(engine_t *engine)
 {
@@ -82,7 +75,7 @@ float vel_sonica_local_a2(engine_t *engine)
 float vel_numero_mach_m2(engine_t *engine)
 
 {
-    return velocidad_escape(engine) / vel_sonica_local_a2(engine);
+    return calc_escape_vel(engine) / vel_sonica_local_a2(engine);
 }
 
 // E65 Velocidad de escape caracteristica
@@ -90,4 +83,3 @@ float vel_escape_caract(engine_t *engine)
 {
     return powf(powf((CONSTANTE_GASES * engine->temperature) / (HEAT_CAPACITY_RATIO *(2 / (HEAT_CAPACITY_RATIO + 1))),((HEAT_CAPACITY_RATIO + 1) / (HEAT_CAPACITY_RATIO - 1))), (0.5));
 }
-

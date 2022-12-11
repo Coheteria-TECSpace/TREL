@@ -48,7 +48,7 @@ double mg_combustion(engine_t *engine)
 /*E74 Empuje teórico*/
 double emp_teo(engine_t *engine)
 {
-    return mg_combustion(engine)*velocidad_escape(engine);
+    return mg_combustion(engine)*calc_escape_vel(engine);
 }
 
 /*E76 Empuje promedio esperado*/
@@ -77,7 +77,7 @@ float emp_max(float list[])
 /*E81 Impulso específico teórico*/
 float I_sp_teo(engine_t *engine)
 {
-    return velocidad_escape(engine)/GRAVITY;
+    return calc_escape_vel(engine)/GRAVITY;
 }
 
 /*E82 Impulso específico esperado*/
@@ -103,5 +103,3 @@ float Delta_V_Esp(float list[])
 {
     return delta_V(list);
 }
-
-// E85 
