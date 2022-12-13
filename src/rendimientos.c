@@ -52,24 +52,17 @@ double emp_teo(engine_t *engine)
 }
 
 /*E76 Empuje promedio esperado*/
-float emp_prom(float list[])
+double emp_prom(trel_rocket_t* rocket)
 {
-    return empuje_prom_tiempo(list);
+    if (!rocket->avg_thrust)
+        trel_run_time_comp_iterations(rocket);
+    return(rocket->avg_thrust);
 }
 
 /*E78 Empuje máximo esperado*/
-float emp_max(float list[])
+double emp_max(trel_rocket_t* rocket)
 {
-    float max = 0;
-    long unsigned int n;
-    for (n = 0; n < sizeof(*list); n++)
-    {
-        if (list[n] > max)
-        {
-            max = list[n];
-        }
-    }
-    return max;
+    return(rocket->max_thrust);
 }
 
 /*Impulsos*/
@@ -81,9 +74,9 @@ float I_sp_teo(engine_t *engine)
 }
 
 /*E82 Impulso específico esperado*/
-float I_sp_esperado(float list[], engine_t *engine)
+float I_sp_esperado(engine_t* engine)
 {
-    return (float)(impulso_esp(list, engine)/(masa_combustible(engine)*GRAVITY));
+    return(engine->fuel->density);
 }
 
 /*E83 Impulso total teórico*/
@@ -93,13 +86,13 @@ double I_tot_teo(engine_t *engine)
 }
 
 /*E84 Impulso total esperado*/
-float I_tot_esp(float list[])
+float I_tot_esp(engine_t* engine)
 {
-    return impulso_tot(list);
+    return(br_combustion(engine));
 }
 
 /*E85 Delta V esperado*/
-float Delta_V_Esp(float list[])
+double Delta_V_Esp(trel_rocket_t* rocket)
 {
-    return delta_V(list);
+    return(rocket->delta_v);
 }

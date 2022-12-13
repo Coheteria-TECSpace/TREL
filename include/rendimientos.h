@@ -20,12 +20,12 @@ double TREL_EXPORT Ab_combustion(engine_t* engine);
 float TREL_EXPORT br_combustion(engine_t* engine);
 double TREL_EXPORT mg_combustion(engine_t* engine);
 double TREL_EXPORT emp_teo(engine_t* engine);
-float TREL_EXPORT emp_prom(float list[]);
-float TREL_EXPORT emp_max(float list[]);
+double TREL_EXPORT emp_prom(trel_rocket_t* rocket);
+double TREL_EXPORT emp_max(trel_rocket_t* rocket);
 float TREL_EXPORT I_sp_teo(engine_t* engine);
-float TREL_EXPORT I_sp_esperado(float list[], engine_t *engine);
+float TREL_EXPORT I_sp_esperado(engine_t* engine);
 double TREL_EXPORT I_tot_teo(engine_t* engine);
-float TREL_EXPORT I_tot_esp(float list[]);
-float TREL_EXPORT Delta_V_Esp(float list[]);
+float TREL_EXPORT I_tot_esp(engine_t* engine);
+double TREL_EXPORT Delta_V_Esp(trel_rocket_t* rocket);
 
 #endif //RENDIMIENTOS_H

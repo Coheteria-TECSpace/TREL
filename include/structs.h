@@ -43,7 +43,8 @@ typedef struct screws
 // Estructura del engine
 typedef struct engine
 {
-	float pressure;                // chamber pressure in psi
+    double egine_mass;
+    float pressure;                // chamber pressure in psi
 	float escape_vel, temperature;
     float width_condition, margin_of_safety, max_stress, radial_stress;
     float tangencial_stress, longitudinal_stress, max_pressure;
@@ -54,5 +55,13 @@ typedef struct engine
 	screws_t *screws;              // ptr to initialized struct
     comp_area_t* comp_area_values; // ptr to initialized struct
 } TREL_EXPORT engine_t;
+
+// Struct for the whole rocket simulation
+typedef struct trel_rocket
+{
+    engine_t *engine;              // ptr to initialized struct
+    double telemtry_mass, parachute_mass, fuselage_mass;
+    double avg_thrust, max_thrust, delta_v; // Comportamiento en el Tiempo!AD3511
+} TREL_EXPORT trel_rocket_t;
 
 #endif //TREL_STRUCTS_H

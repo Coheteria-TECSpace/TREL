@@ -1,15 +1,7 @@
 #include "design_func.h"
 /*Hoja de Excel: Diseño*/
 
-/*Constants*/
-// E9 PRESION_ATMOSFERICA
-// E46 'Heat Capacity ratio' HEAT_CAPACITY_RATIO
-// E47 CONSTANTE_GASES
-// E54 PRESION_ATMOSFERICA
-// E162 DIAMETRO_NUCLEO
-
 /*Functions*/
-
 // E25 returns chamber pressure in pascals
 float trel_get_pressure_pa(engine_t* engine)
 {

@@ -24,5 +24,9 @@ float TREL_EXPORT cortante_promedio(engine_t* engine);
 float TREL_EXPORT margen_de_seguridad_cortante(engine_t* engine);
 float TREL_EXPORT aplastamiento(engine_t* engine);
 float TREL_EXPORT margen_de_seguridad_aplaztamiento(engine_t* engine);
+float port_area(engine_t* engine);
+float long_secc_combus(engine_t* engine);
+float volumen_unitario(engine_t* engine);
+float desv_est_grains(engine_t* engine);
 
 #endif //DESIGN_FUNC_H

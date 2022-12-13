@@ -112,6 +112,7 @@ engine_t* trel_engine_init(
         printf("Engine initialization failed\n");
         exit(1);
     }
+    engine->egine_mass = 0.0;
     engine->width_condition = 0.0f;
     engine->margin_of_safety = 0.0f;
     engine->max_stress = 0.0f;
@@ -167,4 +168,11 @@ void trel_set_escape_vel(engine_t *engine, float vel)
 float trel_get_escape_vel(engine_t *engine)
 {
     return engine->escape_vel;
+}
+
+int trel_set_engine_mass(engine_t* engine, double mass)
+{
+    if (!engine) return(1);
+    engine->egine_mass = mass;
+    return(0);
 }
