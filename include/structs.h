@@ -53,7 +53,7 @@ typedef struct engine
     fuel_t *fuel;
     tubing_t *tube;                // ptr to intialized struct
 	screws_t *screws;              // ptr to initialized struct
-    comp_area_t* comp_area_values; // ptr to initialized struct
+    comp_area_t *comp_area_values; // ptr to initialized struct
 } TREL_EXPORT engine_t;
 
 // Struct for the whole rocket simulation

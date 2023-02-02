@@ -46,6 +46,13 @@ void print_debug_example()
         created_tube,
         created_screw
     );
+	// Se inicializa el cohete
+	trel_rocket_t* testing_rocket = trel_rocket_init(
+		testing_engine,
+		10.0,
+		10.0,
+		10.0
+	);
 
 	// Acceder a memoria inicializada
 	printf("La presion del motor dada es %f psi\n",trel_get_pressure(testing_engine));
@@ -60,6 +67,8 @@ void print_debug_example()
 
 	// Usando una funcion de val_termod.c
 	printf("\nLa temperatura en garganta es de %f\n", trel_temper_garganta(testing_engine));
+
+	trel_run_time_comp_iterations(testing_rocket); // No recuerdo si es necesario jaja, mañana lo pruebo
 
 	// Probando valores generados por comp_area.c
 	printf("\nArea longitudinal promedio: %f\n", testing_engine->comp_area_values->avg_long_area);

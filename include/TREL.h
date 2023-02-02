@@ -44,16 +44,26 @@ typedef struct screws
 // Estructura del engine
 typedef struct engine
 {
+    double egine_mass;
     float pressure;                // chamber pressure in psi
-    float escape_vel, temperature;
+	float escape_vel, temperature;
     float width_condition, margin_of_safety, max_stress, radial_stress;
     float tangencial_stress, longitudinal_stress, max_pressure;
-    grains_t* grains;              // ptr to intialized struct
-    fuel_t* fuel;
-    tubing_t* tube;                // ptr to intialized struct
-    screws_t* screws;              // ptr to initialized struct
-    comp_area_t* comp_area_values; // ptr to initialized struct
+    float nozzle_efficiency;
+    grains_t *grains;              // ptr to intialized struct
+    fuel_t *fuel;
+    tubing_t *tube;                // ptr to intialized struct
+	screws_t *screws;              // ptr to initialized struct
+    comp_area_t *comp_area_values; // ptr to initialized struct
 } engine_t;
+
+// Estructura del cohete
+typedef struct trel_rocket
+{
+    engine_t *engine;              // ptr to initialized struct
+    double telemtry_mass, parachute_mass, fuselage_mass;
+    double avg_thrust, max_thrust, delta_v; // Comportamiento en el Tiempo!AD3511
+} trel_rocket_t;
 
 // Function prototypes
 grains_t *trel_grains_init(
@@ -92,6 +102,12 @@ engine_t *trel_engine_init(
     tubing_t* tube,
     screws_t* screws
 );
+trel_rocket_t *trel_rocket_init(
+    engine_t* engine,
+    double telemtry_mass,
+    double parachute_mass,
+    double fuselage_mass
+);
 float trel_psi_to_pa(float psi);
 void trel_set_pressure(engine_t* engine, float pressure);
 void trel_set_escape_vel(engine_t* engine, float vel);
@@ -99,5 +115,7 @@ float trel_get_escape_vel(engine_t* engine);
 float trel_get_pressure(engine_t* engine);
 float trel_temper_garganta(engine_t *engine);
 float br_combustion(engine_t *engine);
+int trel_run_area_comp_iterations(engine_t **engine);
+int trel_run_time_comp_iterations(trel_rocket_t* rocket);
 
 #endif //TREL_H

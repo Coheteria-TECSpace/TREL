@@ -1,17 +1,18 @@
 #include "comp_area.h"
+#include "stdio.h"
 
 // TODO: Evaluate if we need dynamic allocation for this iteration
 
-int trel_run_area_comp_iterations(engine_t* engine)
+int trel_run_area_comp_iterations(engine_t **engine)
 {
     // iterate over given iterations and step size
     const float max_iterations = 1000.0f;
-    const float burn_time = Tiempo_quemado_combustion(engine);
+    const float burn_time = Tiempo_quemado_combustion(*engine);
     const float step = burn_time/max_iterations;
     float time = 0.0f; // time in seconds
 
     // burn rate value from propellant
-    const float burn_rate = br_combustion(engine);
+    const float burn_rate = br_combustion(*engine);
 
     // variables for iteration
     float inst_radius = 0.0f;
@@ -35,13 +36,13 @@ int trel_run_area_comp_iterations(engine_t* engine)
     for (int it = 0; it < max_iterations; it++)
     {
         // instantaneous grain radius step
-        inst_radius = engine->grains->init_inter_radius + burn_rate * time;
+        inst_radius = (*engine)->grains->init_inter_radius + burn_rate * time;
 
         // instantaneous grain longitude step
-        inst_long = engine->grains->longitude - 2.0f * burn_rate * time;
+        inst_long = (*engine)->grains->longitude - 2.0f * burn_rate * time;
 
         // add to transversal area sum
-        transversal_area = TREL_PI * (engine->grains->extern_radius*engine->grains->extern_radius - 
+        transversal_area = TREL_PI * ((*engine)->grains->extern_radius*(*engine)->grains->extern_radius - 
                                       inst_radius * inst_radius);
         sum_transversal_area += transversal_area;
         
@@ -65,15 +66,15 @@ int trel_run_area_comp_iterations(engine_t* engine)
 
     // calculate average transversal area
     transversal_area = sum_transversal_area / max_iterations;
-    engine->comp_area_values->avg_trans_area = transversal_area;
+    (*engine)->comp_area_values->avg_trans_area = transversal_area;
 
     // calculate average longitudinal area
     longitudinal_area = sum_longitudinal_area / max_iterations;
-    engine->comp_area_values->avg_long_area = longitudinal_area;
+    (*engine)->comp_area_values->avg_long_area = longitudinal_area;
 
     // calculate average burn area
     burn_area = sum_burn_area / max_iterations;
-    engine->comp_area_values->avg_burn_area = burn_area;
+    (*engine)->comp_area_values->avg_burn_area = burn_area;
 
     // calculate the difference of each iteration's burn area and the average burn area
     for (int i = 0; i < max_iterations; i++)
@@ -88,7 +89,7 @@ int trel_run_area_comp_iterations(engine_t* engine)
     // get the square root of the avg
     burn_std_deviation = sqrt(burn_std_deviation);
     // store the value in the engine
-    engine->comp_area_values->burn_std_deviation = burn_std_deviation;
+    (*engine)->comp_area_values->burn_std_deviation = burn_std_deviation;
 
     // then sum all the greater than zero differences, store them to a variable, and 
     // sum all the lower than zero differences, store them to another variable
@@ -102,7 +103,6 @@ int trel_run_area_comp_iterations(engine_t* engine)
             lt_differences += burn_area_array[i];
 
     // calculate the difference of burn area by adding the two sums
-    engine->comp_area_values->burn_sum_diff = gt_differences + lt_differences;
-    
+    (*engine)->comp_area_values->burn_sum_diff = gt_differences + lt_differences;
     return(0); // everything went well
 }
