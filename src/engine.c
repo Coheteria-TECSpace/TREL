@@ -3,10 +3,10 @@
 /* Initializes all variables in the grains struct */
 grains_t* trel_grains_init(
     unsigned int amount,
-    float internal_radius,
-    float external_radius,
-    float longitude,
-    float grain_separation)
+    double internal_radius,
+    double external_radius,
+    double longitude,
+    double grain_separation)
 {
     grains_t *grains = (grains_t *) malloc(sizeof(grains_t));
     if (!grains) {
@@ -22,9 +22,9 @@ grains_t* trel_grains_init(
 
 /* Initializes all the variables in the fuel strcut */
 fuel_t* trel_fuel_init(
-    float const_burn_rate,
-    float pressure_exponent,
-    float density)
+    double const_burn_rate,
+    double pressure_exponent,
+    double density)
 {
     fuel_t *fuel = (fuel_t *) malloc(sizeof(fuel_t));
     if (!fuel) {
@@ -40,13 +40,13 @@ fuel_t* trel_fuel_init(
 /* Initializes all the variables in the tube struct */
 tubing_t* trel_tubing_init(
     char *material,
-    float diameter,
-    float thickness,
-    float young_module,
-    float shear_tension,
-    float shear_pressure,
-    float ult_tension,
-    float ult_pressure)
+    double diameter,
+    double thickness,
+    double young_module,
+    double shear_tension,
+    double shear_pressure,
+    double ult_tension,
+    double ult_pressure)
 {
     tubing_t *tube = (tubing_t *) malloc(sizeof(tubing_t));
     if (!tube) {
@@ -73,8 +73,8 @@ tubing_t* trel_tubing_init(
 screws_t* trel_screws_init(
     char *material,
     unsigned int amount,
-    float diameter,
-    float dist_center_wall)
+    double diameter,
+    double dist_center_wall)
 {
     screws_t *screws = (screws_t *) malloc(sizeof(screws_t));
     if (!screws) {
@@ -93,8 +93,9 @@ screws_t* trel_screws_init(
 
 /* Initializes all the variables in the engine struct */
 engine_t* trel_engine_init(
-    float pressure,
-    float temperature,
+    double pressure,
+    double temperature,
+    double engine_mass,
     grains_t *grains,
     fuel_t *fuel,
     tubing_t *tube,
@@ -112,7 +113,6 @@ engine_t* trel_engine_init(
         printf("Engine initialization failed\n");
         exit(1);
     }
-    engine->egine_mass = 0.0;
     engine->width_condition = 0.0f;
     engine->margin_of_safety = 0.0f;
     engine->max_stress = 0.0f;
@@ -128,6 +128,7 @@ engine_t* trel_engine_init(
     engine->screws = screws;
     engine->escape_vel = calc_escape_vel(engine);
     engine->comp_area_values = comp_area_values;
+    engine->engine_mass = engine_mass;
     engine->nozzle_efficiency = 0.0f;
     trel_engine_max_pressure(engine);
     trel_transversal_area_tube(engine);
@@ -143,29 +144,29 @@ engine_t* trel_engine_init(
 }
 
 /* returns given psi value in pascals */
-float trel_psi_to_pa(float psi)
+double trel_psi_to_pa(double psi)
 {
 	return(6894.757f*psi);
 }
 
 /* returns the chamber pressure of given engine in psi */
-float trel_get_pressure(engine_t *engine)
+double trel_get_pressure(engine_t *engine)
 {
     return(engine->pressure);
 }
 
 /* sets the chamber pressure in psi as given to the engine */
-void trel_set_pressure(engine_t *engine, float pressure)
+void trel_set_pressure(engine_t *engine, double pressure)
 {
 	engine->pressure = pressure;
 }
 
-void trel_set_escape_vel(engine_t *engine, float vel)
+void trel_set_escape_vel(engine_t *engine, double vel)
 {
      engine->escape_vel = vel;
 }
 
-float trel_get_escape_vel(engine_t *engine)
+double trel_get_escape_vel(engine_t *engine)
 {
     return engine->escape_vel;
 }
@@ -173,6 +174,6 @@ float trel_get_escape_vel(engine_t *engine)
 int trel_set_engine_mass(engine_t* engine, double mass)
 {
     if (!engine) return(1);
-    engine->egine_mass = mass;
+    engine->engine_mass = mass;
     return(0);
 }

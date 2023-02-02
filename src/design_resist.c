@@ -6,9 +6,9 @@ Inicio de traduccion a C por lross2k
 ******/
 
 // Variables necesarias de partes anteriores
-//float temp_E13 = 0.0730f;
-//float temp_E14 = 0.0052f;
-//float temp_E15 = 0.0314f;
+//double temp_E13 = 0.0730f;
+//double temp_E14 = 0.0052f;
+//double temp_E15 = 0.0314f;
 
 // Resistencia de materiales E115
 void trel_mean_tubing_diameter(engine_t *engine)
@@ -23,8 +23,8 @@ void trel_width_condition(engine_t *engine)
 // Presión maxima E118
 void trel_engine_max_pressure(engine_t *engine)
 {
-    // TODO: max_pressure = get_max(float *sim_data, int n_sim_data)
-    engine->max_pressure = 5.95f*powf(10,6); // Pascal
+    // TODO: max_pressure = get_max(double *sim_data, int n_sim_data)
+    engine->max_pressure = 5.95f*pow(10,6); // Pascal
     //engine.max_pressure = 5.95*e**6 # Pascales (Obtenido de simulación)
     //engine.pmax = 863.01 #PSI
 }
@@ -41,7 +41,7 @@ void trel_tangencial_stress(engine_t *engine)
     }
     else
     {
-        engine->tangencial_stress = engine->max_pressure*(powf((engine->tube->diameter_ext/2.0f),2.0f)+powf(engine->tube->internal_radius,2.0f))/(powf(engine->tube->diameter_ext/2.0f,2.0f)-powf(engine->tube->internal_radius,2.0f));
+        engine->tangencial_stress = engine->max_pressure*(pow((engine->tube->diameter_ext/2.0f),2.0f)+pow(engine->tube->internal_radius,2.0f))/(pow(engine->tube->diameter_ext/2.0f,2.0f)-pow(engine->tube->internal_radius,2.0f));
     }
 }
 // Esfuerzo Longitudinal E122
@@ -53,7 +53,7 @@ void trel_logitudinal_stress(engine_t *engine)
     }
     else
     {
-        engine->longitudinal_stress = engine->max_pressure*powf(engine->tube->internal_radius,2.0f)/(powf(engine->tube->diameter_ext,2.0f)-powf(engine->tube->internal_radius,2.0f));
+        engine->longitudinal_stress = engine->max_pressure*pow(engine->tube->internal_radius,2.0f)/(pow(engine->tube->diameter_ext,2.0f)-pow(engine->tube->internal_radius,2.0f));
     }
 }
 // Esfuerzo Radial E123
@@ -97,17 +97,17 @@ void trel_margin_of_safety(engine_t *engine)
 // engine_t has tubing_t *tube
 void trel_transversal_area_tube(engine_t *engine)
 {
-    engine->tube->transversal_area = (float)TREL_PI*(powf(engine->tube->diameter_ext/2.0f,2.0f)-powf(engine->tube->internal_radius,2.0f));
+    engine->tube->transversal_area = (double)TREL_PI*(pow(engine->tube->diameter_ext/2.0f,2.0f)-pow(engine->tube->internal_radius,2.0f));
 }
 // Angulo de sector circular E134
 void trel_ang_circular_sector(engine_t *engine)
 {
-    engine->tube->sector_angle = (180.0f/TREL_PI)*asinf((engine->screws->diameter/2)/engine->tube->internal_radius);
+    engine->tube->sector_angle = (180.0/TREL_PI)*asin((engine->screws->diameter/2)/engine->tube->internal_radius);
 }
 // Area transversal de 1 tornillo E135
 void trel_area_per_screw(engine_t *engine)
 {
-    engine->screws->area_per_screw = (float)(engine->tube->sector_angle/2.0f)*(powf(engine->tube->diameter_ext/2.0f,2.0f)-powf(engine->tube->internal_radius,2.0f)-powf(engine->tube->wall_thickness,2.0f));
+    engine->screws->area_per_screw = (double)(engine->tube->sector_angle/2.0f)*(pow(engine->tube->diameter_ext/2.0f,2.0f)-pow(engine->tube->internal_radius,2.0f)-pow(engine->tube->wall_thickness,2.0f));
 }
 // Area transversal ocupada por los tornillos E136
 void trel_screw_occupied_area(engine_t *engine)

@@ -6,28 +6,28 @@
 int trel_run_area_comp_iterations(engine_t **engine)
 {
     // iterate over given iterations and step size
-    const float max_iterations = 1000.0f;
-    const float burn_time = Tiempo_quemado_combustion(*engine);
-    const float step = burn_time/max_iterations;
-    float time = 0.0f; // time in seconds
+    const double max_iterations = 1000.0f;
+    const double burn_time = Tiempo_quemado_combustion(*engine);
+    const double step = burn_time/max_iterations;
+    double time = 0.0f; // time in seconds
 
     // burn rate value from propellant
-    const float burn_rate = br_combustion(*engine);
+    const double burn_rate = br_combustion(*engine);
 
     // variables for iteration
-    float inst_radius = 0.0f;
-    float inst_long = 0.0f;
+    double inst_radius = 0.0f;
+    double inst_long = 0.0f;
 
     // sums for eventual average value
-    float transversal_area = 0.0f;
-    float sum_transversal_area = 0.0f;
-    float longitudinal_area = 0.0f;
-    float sum_longitudinal_area = 0.0f;
-    float burn_area = 0.0f;
-    float sum_burn_area = 0.0f;
+    double transversal_area = 0.0;
+    double sum_transversal_area = 0.0;
+    double longitudinal_area = 0.0;
+    double sum_longitudinal_area = 0.0;
+    double burn_area = 0.0;
+    double sum_burn_area = 0.0;
 
     // array for final values calculation
-    float burn_area_array[1000];
+    double burn_area_array[1000];
     // initialize array
     for (int i = 0; i < 1000; i++)
         burn_area_array[i] = 0.0f;
@@ -48,7 +48,7 @@ int trel_run_area_comp_iterations(engine_t **engine)
         
         // add to longitudinal area sum
         if (!transversal_area)
-            longitudinal_area = 0.0f;
+            longitudinal_area = 0.0;
         else
             longitudinal_area = 2 * TREL_PI * inst_radius * inst_long;
         sum_longitudinal_area += longitudinal_area;
@@ -93,8 +93,8 @@ int trel_run_area_comp_iterations(engine_t **engine)
 
     // then sum all the greater than zero differences, store them to a variable, and 
     // sum all the lower than zero differences, store them to another variable
-    float lt_differences = 0.0f; // lower
-    float gt_differences = 0.0f; // greater
+    double lt_differences = 0.0f; // lower
+    double gt_differences = 0.0f; // greater
 
     for (int i = 0; i < max_iterations; i++)
         if (burn_area_array[i] > 0)

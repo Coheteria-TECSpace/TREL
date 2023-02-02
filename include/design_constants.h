@@ -2,10 +2,10 @@
 #define TREL_CONSTANTS
 
 //Constantes matemáticas
-#define TREL_PI 3.141592f					// PI
+#define TREL_PI 3.1415926535898			// PI
 
 //Recamara 
-#define press_Pa (800.0f*6894.757f)			//E25 float input
+#define press_Pa (800.0f*6894.757f)		//E25 double input
 
 //Constantes Físicas
 #define GRAVITY 9.81f					// g
@@ -18,6 +18,6 @@
 #define FACT_CONV_M_TO_I 0.0254f		//factor de conversion de metros a pulgadas
 
 //Valores termodinámicos//
-#define escape 0						// E62 float var
+#define escape 0						// E62 double var
 
 #endif // TREL_CONSTANTS

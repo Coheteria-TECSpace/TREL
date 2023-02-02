@@ -1,4 +1,4 @@
 ﻿# TODO list for the project
-1. Update the main function to test comp tiempo, and debug everything
-2. Change float to double precission for most of the calculations
+1. Implement height simulation
+2. Implement memory free functions, and destroy all pointers
 3. Implement Python library interface

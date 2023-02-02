@@ -2,23 +2,23 @@
 
 /*Otras variables adyacentes */
 /*E43 */
-float br_combustion(engine_t *engine)
+double br_combustion(engine_t *engine)
 {
-    return (engine->fuel->const_burn_rate* powf(trel_get_pressure_pa(engine) * 
+    return (engine->fuel->const_burn_rate* pow(trel_get_pressure_pa(engine) * 
             FACT_CONV_BR, engine->fuel->pressure_exponent) * FACT_CONV_M_TO_I);
 }
 
 /*Combustible */
 
 /*E67 Volumen_Combustible */
-float volumen_combustible(engine_t *engine)
+double volumen_combustible(engine_t *engine)
 {
-    return(float)(TREL_PI*engine->grains->longitude*engine->grains->amount*(powf(
-                  engine->grains->extern_radius,2.0f)-powf(engine->grains->init_inter_radius,2.0f)));
+    return(double)(TREL_PI*engine->grains->longitude*engine->grains->amount*(pow(
+                  engine->grains->extern_radius,2.0f)-pow(engine->grains->init_inter_radius,2.0f)));
 }
 
 /*E68 Masa_Combustible */
-float masa_combustible(engine_t *engine)
+double masa_combustible(engine_t *engine)
 {
     return (volumen_combustible(engine) *engine->fuel->density);
 }
@@ -26,7 +26,7 @@ float masa_combustible(engine_t *engine)
 /*Combustión*/
 
 /*E70 Tiempo de quemado total_Combustible*/
-float Tiempo_quemado_combustion(engine_t *engine)
+double Tiempo_quemado_combustion(engine_t *engine)
 {
     return (engine->grains->extern_radius-engine->grains->init_inter_radius)/br_combustion(engine);
 }
@@ -68,13 +68,13 @@ double emp_max(trel_rocket_t* rocket)
 /*Impulsos*/
 
 /*E81 Impulso específico teórico*/
-float I_sp_teo(engine_t *engine)
+double I_sp_teo(engine_t *engine)
 {
     return calc_escape_vel(engine)/GRAVITY;
 }
 
 /*E82 Impulso específico esperado*/
-float I_sp_esperado(engine_t* engine)
+double I_sp_esperado(engine_t* engine)
 {
     return(engine->fuel->density);
 }
@@ -86,7 +86,7 @@ double I_tot_teo(engine_t *engine)
 }
 
 /*E84 Impulso total esperado*/
-float I_tot_esp(engine_t* engine)
+double I_tot_esp(engine_t* engine)
 {
     return(br_combustion(engine));
 }

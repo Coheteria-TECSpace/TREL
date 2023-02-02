@@ -11,44 +11,44 @@ typedef struct {
 // Propellent grains structure
 typedef struct {
     unsigned int amount;
-    float init_inter_radius, extern_radius, longitude, grain_separation;
+    double init_inter_radius, extern_radius, longitude, grain_separation;
 } TREL_EXPORT grains_t;
 
 /* Fuel structure */
 typedef struct {
-    float const_burn_rate, pressure_exponent, density, burn_rate;
+    double const_burn_rate, pressure_exponent, density, burn_rate;
 } TREL_EXPORT fuel_t;
 
 // Estructura para tuberia
 typedef struct tubing
 {
    char *material;
-   float diameter_ext, wall_thickness, internal_radius;
-   float young_module, sector_angle, mean_tubing_diameter;
-   float shear_stress_tension, shear_stress_pressure;
-   float ult_stress_tension, ult_stress_pressure;
-   float transversal_area, material_area;
+   double diameter_ext, wall_thickness, internal_radius;
+   double young_module, sector_angle, mean_tubing_diameter;
+   double shear_stress_tension, shear_stress_pressure;
+   double ult_stress_tension, ult_stress_pressure;
+   double transversal_area, material_area;
 } TREL_EXPORT tubing_t;
 
 // Estructura para tornillos
 typedef struct screws
 {
-	float diameter, dist_center_wall;
+	double diameter, dist_center_wall;
 	unsigned int amount;
-    float area_per_screw, screw_occupied_area;
+    double area_per_screw, screw_occupied_area;
 	char  *material;
-    float width_cutting_segment;
+    double width_cutting_segment;
 } TREL_EXPORT screws_t;
 
 // Estructura del engine
 typedef struct engine
 {
-    double egine_mass;
-    float pressure;                // chamber pressure in psi
-	float escape_vel, temperature;
-    float width_condition, margin_of_safety, max_stress, radial_stress;
-    float tangencial_stress, longitudinal_stress, max_pressure;
-    float nozzle_efficiency;
+    double engine_mass;
+    double pressure;                // chamber pressure in psi
+	double escape_vel, temperature;
+    double width_condition, margin_of_safety, max_stress, radial_stress;
+    double tangencial_stress, longitudinal_stress, max_pressure;
+    double nozzle_efficiency;
     grains_t *grains;              // ptr to intialized struct
     fuel_t *fuel;
     tubing_t *tube;                // ptr to intialized struct
@@ -60,8 +60,8 @@ typedef struct engine
 typedef struct trel_rocket
 {
     engine_t *engine;              // ptr to initialized struct
-    double telemtry_mass, parachute_mass, fuselage_mass;
-    double avg_thrust, max_thrust, delta_v; // Comportamiento en el Tiempo!AD3511
+    double telemetry_mass, parachute_mass, fuselage_mass, payload_mass;
+    double avg_thrust, max_thrust, delta_v, max_pressure; // Comportamiento en el Tiempo!AD3511
 } TREL_EXPORT trel_rocket_t;
 
 #endif //TREL_STRUCTS_H

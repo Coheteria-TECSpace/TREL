@@ -41,6 +41,7 @@ void print_debug_example()
 	engine_t* testing_engine = trel_engine_init(
         800,
         1710,
+		1.5,
 		created_grains,
 		created_fuel,
         created_tube,
@@ -49,9 +50,10 @@ void print_debug_example()
 	// Se inicializa el cohete
 	trel_rocket_t* testing_rocket = trel_rocket_init(
 		testing_engine,
-		10.0,
-		10.0,
-		10.0
+		0.3,
+		0.05,
+		5.0,
+		1.5
 	);
 
 	// Acceder a memoria inicializada
@@ -68,14 +70,18 @@ void print_debug_example()
 	// Usando una funcion de val_termod.c
 	printf("\nLa temperatura en garganta es de %f\n", trel_temper_garganta(testing_engine));
 
-	trel_run_time_comp_iterations(testing_rocket); // No recuerdo si es necesario jaja, mañana lo pruebo
-
 	// Probando valores generados por comp_area.c
 	printf("\nArea longitudinal promedio: %f\n", testing_engine->comp_area_values->avg_long_area);
 	printf("Area quemado promedio: %f\n", testing_engine->comp_area_values->avg_burn_area);
 	printf("Area transversal promedio: %f\n", testing_engine->comp_area_values->avg_trans_area);
 	printf("Suma de diferencia quemado: %f\n", testing_engine->comp_area_values->burn_sum_diff);
 	printf("Desviacion estandar area de quemado: %f\n", testing_engine->comp_area_values->burn_std_deviation);
+
+	// Probando valores generados por comp_tiempo.c
+	printf("\nDelta V total: %lf\n", testing_rocket->delta_v);
+	printf("Maximo impulso: %lf\n", testing_rocket->max_thrust);
+	printf("Impulso promedio: %lf\n", testing_rocket->avg_thrust);
+	printf("Maxima presion: %lf\n", testing_rocket->max_pressure);
 }
 
 // Para hacer pruebas de la lib se tiene la aplicacion de CLI basica

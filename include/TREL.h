@@ -12,44 +12,44 @@ typedef struct {
 // Propellent grains structure
 typedef struct {
     unsigned int amount;
-    float init_inter_radius, extern_radius, longitude, grain_separation;
+    double init_inter_radius, extern_radius, longitude, grain_separation;
 } grains_t;
 
 /* Fuel structure */
 typedef struct {
-    float const_burn_rate, pressure_exponent, density, burn_rate;
+    double const_burn_rate, pressure_exponent, density, burn_rate;
 } fuel_t;
 
 // Estructura para tuberia
 typedef struct tubing
 {
     char* material;
-    float diameter_ext, wall_thickness, internal_radius;
-    float young_module, sector_angle, mean_tubing_diameter;
-    float shear_stress_tension, shear_stress_pressure;
-    float ult_stress_tension, ult_stress_pressure;
-    float transversal_area, material_area;
+    double diameter_ext, wall_thickness, internal_radius;
+    double young_module, sector_angle, mean_tubing_diameter;
+    double shear_stress_tension, shear_stress_pressure;
+    double ult_stress_tension, ult_stress_pressure;
+    double transversal_area, material_area;
 } tubing_t;
 
 // Estructura para tornillos
 typedef struct screws
 {
-    float diameter, dist_center_wall;
+    double diameter, dist_center_wall;
     unsigned int amount;
-    float area_per_screw, screw_occupied_area;
+    double area_per_screw, screw_occupied_area;
     char* material;
-    float width_cutting_segment;
+    double width_cutting_segment;
 } screws_t;
 
 // Estructura del engine
 typedef struct engine
 {
-    double egine_mass;
-    float pressure;                // chamber pressure in psi
-	float escape_vel, temperature;
-    float width_condition, margin_of_safety, max_stress, radial_stress;
-    float tangencial_stress, longitudinal_stress, max_pressure;
-    float nozzle_efficiency;
+    double engine_mass;
+    double pressure;                // chamber pressure in psi
+	double escape_vel, temperature;
+    double width_condition, margin_of_safety, max_stress, radial_stress;
+    double tangencial_stress, longitudinal_stress, max_pressure;
+    double nozzle_efficiency;
     grains_t *grains;              // ptr to intialized struct
     fuel_t *fuel;
     tubing_t *tube;                // ptr to intialized struct
@@ -61,42 +61,43 @@ typedef struct engine
 typedef struct trel_rocket
 {
     engine_t *engine;              // ptr to initialized struct
-    double telemtry_mass, parachute_mass, fuselage_mass;
-    double avg_thrust, max_thrust, delta_v; // Comportamiento en el Tiempo!AD3511
+    double telemtry_mass, parachute_mass, fuselage_mass, payload_mass;
+    double avg_thrust, max_thrust, delta_v, max_pressure; // Comportamiento en el Tiempo!AD3511
 } trel_rocket_t;
 
 // Function prototypes
 grains_t *trel_grains_init(
     unsigned int amount,    /* E29 */
-    float internal_radius,  /* E30 */
-    float external_radius,  /* E31 */
-    float longitude,        /* E32 */
-    float grain_separation  /* E33 */
+    double internal_radius,  /* E30 */
+    double external_radius,  /* E31 */
+    double longitude,        /* E32 */
+    double grain_separation  /* E33 */
 );
 fuel_t *trel_fuel_init(
-    float const_burn_rate,  /* E41 */
-    float pressure_exponent,/* E42 */
-    float density           /* E44 */
+    double const_burn_rate,  /* E41 */
+    double pressure_exponent,/* E42 */
+    double density           /* E44 */
 );
 tubing_t *trel_tubing_init(
     char* material,         /* E16 & E17 */
-    float diameter,         /* E13 */
-    float thickness,        /* E14 */
-    float young_module,     /* E18 */
-    float shear_tension,    /* E20 */
-    float shear_pressure,   /* E19 */
-    float ult_tension,      /* E22 */
-    float ult_pressure      /* E21 */
+    double diameter,         /* E13 */
+    double thickness,        /* E14 */
+    double young_module,     /* E18 */
+    double shear_tension,    /* E20 */
+    double shear_pressure,   /* E19 */
+    double ult_tension,      /* E22 */
+    double ult_pressure      /* E21 */
 );
 screws_t *trel_screws_init(
     char* material,
     unsigned int amount,
-    float diameter,
-    float dist_center_wall
+    double diameter,
+    double dist_center_wall
 );
 engine_t *trel_engine_init(
-    float pressure,         /* E24 */
-    float temperature,      /* E26 */
+    double pressure,         /* E24 */
+    double temperature,      /* E26 */
+    double engine_mass,
     grains_t* grains,
     fuel_t* fuel,
     tubing_t* tube,
@@ -104,17 +105,18 @@ engine_t *trel_engine_init(
 );
 trel_rocket_t *trel_rocket_init(
     engine_t* engine,
-    double telemtry_mass,
+    double telemetry_mass,
     double parachute_mass,
-    double fuselage_mass
+    double fuselage_mass,
+    double payload_mass
 );
-float trel_psi_to_pa(float psi);
-void trel_set_pressure(engine_t* engine, float pressure);
-void trel_set_escape_vel(engine_t* engine, float vel);
-float trel_get_escape_vel(engine_t* engine);
-float trel_get_pressure(engine_t* engine);
-float trel_temper_garganta(engine_t *engine);
-float br_combustion(engine_t *engine);
+double trel_psi_to_pa(double psi);
+void trel_set_pressure(engine_t* engine, double pressure);
+void trel_set_escape_vel(engine_t* engine, double vel);
+double trel_get_escape_vel(engine_t* engine);
+double trel_get_pressure(engine_t* engine);
+double trel_temper_garganta(engine_t *engine);
+double br_combustion(engine_t *engine);
 int trel_run_area_comp_iterations(engine_t **engine);
 int trel_run_time_comp_iterations(trel_rocket_t* rocket);
 

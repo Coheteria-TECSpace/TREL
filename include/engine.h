@@ -16,44 +16,45 @@
 // Function prototypes
 grains_t TREL_EXPORT *trel_grains_init(
     unsigned int amount,    /* E29 */
-    float internal_radius,  /* E30 */
-    float external_radius,  /* E31 */
-    float longitude,        /* E32 */
-    float grain_separation  /* E33 */
+    double internal_radius,  /* E30 */
+    double external_radius,  /* E31 */
+    double longitude,        /* E32 */
+    double grain_separation  /* E33 */
 );
 fuel_t TREL_EXPORT *trel_fuel_init(
-    float const_burn_rate,  /* E41 */
-    float pressure_exponent,/* E42 */
-    float density           /* E44 */
+    double const_burn_rate,  /* E41 */
+    double pressure_exponent,/* E42 */
+    double density           /* E44 */
 );
 tubing_t TREL_EXPORT *trel_tubing_init(
     char *material,         /* E16 & E17 */
-    float diameter,         /* E13 */
-    float thickness,        /* E14 */
-    float young_module,     /* E18 */
-    float shear_tension,    /* E20 */
-    float shear_pressure,   /* E19 */
-    float ult_tension,      /* E22 */
-    float ult_pressure      /* E21 */
+    double diameter,         /* E13 */
+    double thickness,        /* E14 */
+    double young_module,     /* E18 */
+    double shear_tension,    /* E20 */
+    double shear_pressure,   /* E19 */
+    double ult_tension,      /* E22 */
+    double ult_pressure      /* E21 */
 );
 screws_t TREL_EXPORT* trel_screws_init(
     char* material,
     unsigned int amount,
-    float diameter,
-    float dist_center_wall
+    double diameter,
+    double dist_center_wall
 );
 engine_t TREL_EXPORT* trel_engine_init(
-    float pressure,         /* E24 */
-    float temperature,      /* E26 */
+    double pressure,         /* E24 */
+    double temperature,      /* E26 */
+    double engine_mass,
     grains_t* grains,
     fuel_t* fuel,
     tubing_t* tube,
     screws_t* screws
 );
-float TREL_EXPORT trel_psi_to_pa(float psi);
-void TREL_EXPORT trel_set_pressure(engine_t *engine, float pressure);
-void TREL_EXPORT trel_set_escape_vel(engine_t *engine, float vel);
-float TREL_EXPORT trel_get_escape_vel(engine_t *engine);
-float TREL_EXPORT trel_get_pressure(engine_t *engine);
+double TREL_EXPORT trel_psi_to_pa(double psi);
+void TREL_EXPORT trel_set_pressure(engine_t *engine, double pressure);
+void TREL_EXPORT trel_set_escape_vel(engine_t *engine, double vel);
+double TREL_EXPORT trel_get_escape_vel(engine_t *engine);
+double TREL_EXPORT trel_get_pressure(engine_t *engine);
 
 #endif // ENGINE_H
