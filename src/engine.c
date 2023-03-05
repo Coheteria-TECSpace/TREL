@@ -39,7 +39,7 @@ fuel_t* trel_fuel_init(
 
 /* Initializes all the variables in the tube struct */
 tubing_t* trel_tubing_init(
-    char *material,
+//    char *material,
     double diameter,
     double thickness,
     double young_module,
@@ -53,7 +53,7 @@ tubing_t* trel_tubing_init(
         printf("Tubing initialization failed\n");
         exit(1);
     }
-    tube->material                  = material;
+    //tube->material                  = material;
     tube->diameter_ext              = diameter;
     tube->wall_thickness            = thickness;
     tube->young_module              = young_module;

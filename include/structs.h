@@ -22,7 +22,7 @@ typedef struct {
 // Estructura para tuberia
 typedef struct tubing
 {
-   char *material;
+   //char *material;
    double diameter_ext, wall_thickness, internal_radius;
    double young_module, sector_angle, mean_tubing_diameter;
    double shear_stress_tension, shear_stress_pressure;

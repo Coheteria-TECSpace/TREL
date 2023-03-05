@@ -32,7 +32,7 @@ void print_debug_example()
 
 	// Se inicializa la tuberia
     tubing_t* created_tube = trel_tubing_init(
-        "Aluminio 6061-T6",
+        //"Aluminio 6061-T6",
         0.073,
         0.0052,
         68900000000.0,
