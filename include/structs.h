@@ -36,7 +36,7 @@ typedef struct screws
 	double diameter, dist_center_wall;
 	unsigned int amount;
     double area_per_screw, screw_occupied_area;
-	char  *material;
+	//char  *material;
     double width_cutting_segment;
 } TREL_EXPORT screws_t;
 

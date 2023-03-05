@@ -71,7 +71,7 @@ tubing_t* trel_tubing_init(
 
 /* Initializes all the variables in the screws struct */
 screws_t* trel_screws_init(
-    char *material,
+    //char *material,
     unsigned int amount,
     double diameter,
     double dist_center_wall)
@@ -81,7 +81,7 @@ screws_t* trel_screws_init(
         printf("Screws initialization failed\n");
         exit(1);
     }
-    screws->material = material;
+    //screws->material = material;
     screws->diameter = diameter;
     screws->amount = amount;
     screws->dist_center_wall = dist_center_wall;

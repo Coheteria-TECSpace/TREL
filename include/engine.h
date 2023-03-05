@@ -37,7 +37,7 @@ tubing_t TREL_EXPORT *trel_tubing_init(
     double ult_pressure      /* E21 */
 );
 screws_t TREL_EXPORT* trel_screws_init(
-    char* material,
+    //char* material,
     unsigned int amount,
     double diameter,
     double dist_center_wall
@@ -58,3 +58,4 @@ double TREL_EXPORT trel_get_escape_vel(engine_t *engine);
 double TREL_EXPORT trel_get_pressure(engine_t *engine);
 
 #endif // ENGINE_H
+

@@ -10,29 +10,33 @@ void print_debug_example()
     printf("Inicializando structs\n");
 	grains_t* created_grains = trel_grains_init(
 		4,
-		0.01f,
-		0.0304f,
-		0.1f,
-		0.001f
+		0.01,
+		0.0304,
+		0.1,
+		0.001
 	);
 	fuel_t* created_fuel = trel_fuel_init(
-		0.005f,
-		0.688f,
+		0.005,
+		0.688,
 		1859
 	);
 	screws_t* created_screw = trel_screws_init(
-		"Acero",
+//		"Acero",
 		6,
-		0.007466f,
-		0.01f
+		0.007466,
+		0.01
 	);
+
+    //printf("Probando %i y %s\n", created_screw->amount, created_screw->material);
+    printf("Probando %i\n", created_screw->amount);
+
 	// Se inicializa la tuberia
     tubing_t* created_tube = trel_tubing_init(
         "Aluminio 6061-T6",
-        0.073f,
-        0.0052f,
-        68900000000.0f,
-        275000000.0f,
+        0.073,
+        0.0052,
+        68900000000.0,
+        275000000.0,
         -1,
         310000000,
         205000000
@@ -57,25 +61,25 @@ void print_debug_example()
 	);
 
 	// Acceder a memoria inicializada
-	printf("La presion del motor dada es %f psi\n",trel_get_pressure(testing_engine));
-	printf("\nLa velocidad de escape automaticamente inicializada es %f\n", trel_get_escape_vel(testing_engine));
+	printf("La presion del motor dada es %lf psi\n",trel_get_pressure(testing_engine));
+	printf("\nLa velocidad de escape automaticamente inicializada es %lf\n", trel_get_escape_vel(testing_engine));
 
 	// Modificar valores de memoria con funciones
-	trel_set_escape_vel(testing_engine, 666.420f);
-	printf("\nLa velocidad de escape modificada con tsel_set_escape_vel() es %f\n", trel_get_escape_vel(testing_engine));
+	trel_set_escape_vel(testing_engine, 666.420);
+	printf("\nLa velocidad de escape modificada con tsel_set_escape_vel() es %lf\n", trel_get_escape_vel(testing_engine));
 
 	// Usando una funcion de rendimientos.c
-	printf("\nEl valor de combuistion es %f\n", br_combustion(testing_engine));
+	printf("\nEl valor de combuistion es %lf\n", br_combustion(testing_engine));
 
 	// Usando una funcion de val_termod.c
-	printf("\nLa temperatura en garganta es de %f\n", trel_temper_garganta(testing_engine));
+	printf("\nLa temperatura en garganta es de %lf\n", trel_temper_garganta(testing_engine));
 
 	// Probando valores generados por comp_area.c
-	printf("\nArea longitudinal promedio: %f\n", testing_engine->comp_area_values->avg_long_area);
-	printf("Area quemado promedio: %f\n", testing_engine->comp_area_values->avg_burn_area);
-	printf("Area transversal promedio: %f\n", testing_engine->comp_area_values->avg_trans_area);
-	printf("Suma de diferencia quemado: %f\n", testing_engine->comp_area_values->burn_sum_diff);
-	printf("Desviacion estandar area de quemado: %f\n", testing_engine->comp_area_values->burn_std_deviation);
+	printf("\nArea longitudinal promedio: %lf\n", testing_engine->comp_area_values->avg_long_area);
+	printf("Area quemado promedio: %lf\n", testing_engine->comp_area_values->avg_burn_area);
+	printf("Area transversal promedio: %lf\n", testing_engine->comp_area_values->avg_trans_area);
+	printf("Suma de diferencia quemado: %lf\n", testing_engine->comp_area_values->burn_sum_diff);
+	printf("Desviacion estandar area de quemado: %lf\n", testing_engine->comp_area_values->burn_std_deviation);
 
 	// Probando valores generados por comp_tiempo.c
 	printf("\nDelta V total: %lf\n", testing_rocket->delta_v);

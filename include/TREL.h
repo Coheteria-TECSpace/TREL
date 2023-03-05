@@ -89,7 +89,7 @@ tubing_t *trel_tubing_init(
     double ult_pressure      /* E21 */
 );
 screws_t *trel_screws_init(
-    char* material,
+//    char* material,
     unsigned int amount,
     double diameter,
     double dist_center_wall
