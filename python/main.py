@@ -27,3 +27,4 @@ created_tube = TREL_TUBING.from_address(trel_tubing_init(
         310000000,
         205000000))
 
+print(created_tube.wall_thickness)

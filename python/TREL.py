@@ -1,7 +1,10 @@
 ﻿import ctypes
 import os
-#TREL = ctypes.CDLL(os.getcwd()+"/libTREL.so")
-TREL = ctypes.CDLL("../build/libTREL.so")
+
+if os.name == 'posix':
+    TREL = ctypes.CDLL("./libTREL.so")
+elif os.name == 'nt':
+    TREL = ctypes.CDLL("./TREL.dll")
 
 # Struct and constructor for propellent grains
 class TREL_GRAINS(ctypes.Structure):

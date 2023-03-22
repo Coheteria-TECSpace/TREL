@@ -1,6 +1,7 @@
 # Visual Studio stuff
 .vs/
 .vscode/
+CMakeSettings.json
 out/
 # Recommended build directory
 build/
