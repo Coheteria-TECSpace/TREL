@@ -34,7 +34,8 @@ tubing_t TREL_EXPORT *trel_tubing_init(
     double shear_tension,    /* E20 */
     double shear_pressure,   /* E19 */
     double ult_tension,      /* E22 */
-    double ult_pressure      /* E21 */
+    double ult_pressure,     /* E21 */
+    double nozzle_efficiency
 );
 screws_t TREL_EXPORT* trel_screws_init(
     //char* material,

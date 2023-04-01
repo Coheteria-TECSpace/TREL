@@ -16,7 +16,11 @@ trel_rocket_t TREL_EXPORT* trel_rocket_init(
     double telemetry_mass,
     double parachute_mass,
     double fuselage_mass,
-    double payload_mass
+    double payload_mass,
+    double initial_height,
+    double sim_latitude,
+    double body_diameter,
+    double drag_coefficient
 );
 
 #endif//ROCKET_H

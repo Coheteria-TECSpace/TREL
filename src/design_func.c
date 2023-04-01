@@ -47,13 +47,14 @@ double long_secc_combus(engine_t* engine)
 // E49 Volumen especifico camara
 double volumen_camara(engine_t *engine)
 {
-	return(engine->temperature*CONSTANTE_GASES/trel_get_pressure_pa(engine));
+	return(engine->temperature*TREL_GAS_CONST/trel_get_pressure_pa(engine));
 }
-// E62 Velocidad de escape
+// E62 Velocidad de 
+
 double calc_escape_vel(engine_t* engine)
 {	
-	double calc_pow = pow((PRESION_ATMOSFERICA / trel_get_pressure_pa(engine)), ((HEAT_CAPACITY_RATIO - 1.0) / HEAT_CAPACITY_RATIO));
-	return(sqrt(2.0 * HEAT_CAPACITY_RATIO /(HEAT_CAPACITY_RATIO -1.0) * CONSTANTE_GASES * engine->temperature * (1.0 - calc_pow)));
+	double calc_pow = pow((TREL_ATMOSPHERIC_PRESSURE / trel_get_pressure_pa(engine)), ((TREL_HEAT_CAP_RATIO - 1.0) / TREL_HEAT_CAP_RATIO));
+	return(sqrt(2.0 * TREL_HEAT_CAP_RATIO /(TREL_HEAT_CAP_RATIO -1.0) * TREL_GAS_CONST * engine->temperature * (1.0 - calc_pow)));
 }
 
 /* Determinacion de fuerza sobre tapas*/

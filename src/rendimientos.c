@@ -70,7 +70,7 @@ double emp_max(trel_rocket_t* rocket)
 /*E81 Impulso específico teórico*/
 double I_sp_teo(engine_t *engine)
 {
-    return calc_escape_vel(engine)/GRAVITY;
+    return calc_escape_vel(engine)/TREL_GRAV_CONST;
 }
 
 /*E82 Impulso específico esperado*/

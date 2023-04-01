@@ -57,7 +57,11 @@ void print_debug_example()
 		0.3,
 		0.05,
 		5.0,
-		1.5
+		1.5,
+		1207.0,
+		9.936111,
+		0.13,
+		0,4
 	);
 
 	// Acceder a memoria inicializada
@@ -86,6 +90,10 @@ void print_debug_example()
 	printf("Maximo impulso: %lf\n", testing_rocket->max_thrust);
 	printf("Impulso promedio: %lf\n", testing_rocket->avg_thrust);
 	printf("Maxima presion: %lf\n", testing_rocket->max_pressure);
+
+	// Probando valores generados por height_sim.c
+	for (int i = 0; i < 50; i += 10)
+		printf("Masa de cohete %lf\n", testing_rocket->rocket_mass[i]);
 }
 
 // Para hacer pruebas de la lib se tiene la aplicacion de CLI basica

@@ -9,6 +9,7 @@
 #include "design_func.h"
 #include "comp_area.h"
 #include "comp_tiempo.h"
+#include "height_sim.h"
 
 // TODO: cambiar list[] por nombres mas descriptivos
 

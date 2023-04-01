@@ -46,7 +46,8 @@ tubing_t* trel_tubing_init(
     double shear_tension,
     double shear_pressure,
     double ult_tension,
-    double ult_pressure)
+    double ult_pressure,
+    double nozzle_efficiency)
 {
     tubing_t *tube = (tubing_t *) malloc(sizeof(tubing_t));
     if (!tube) {
@@ -61,11 +62,12 @@ tubing_t* trel_tubing_init(
     tube->shear_stress_pressure     = shear_pressure;
     tube->ult_stress_tension        = ult_tension;
     tube->ult_stress_pressure       = ult_pressure;
-    tube->mean_tubing_diameter      = 0.0f;
-    tube->transversal_area          = 0.0f;
+    tube->mean_tubing_diameter      = 0.0;
+    tube->transversal_area          = 0.0;
     tube->internal_radius           = (tube->diameter_ext-(2*tube->wall_thickness))/2; /* E15 */
-    tube->sector_angle              = 0.0f;    /* degrees */
-    tube->material_area             = 0.0f;
+    tube->sector_angle              = 0.0;    /* degrees */
+    tube->material_area             = 0.0;
+    tube->nozzle_efficiency         = nozzle_efficiency;
     return(tube);
 }
 

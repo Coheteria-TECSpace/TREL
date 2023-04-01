@@ -28,6 +28,7 @@ typedef struct tubing
    double shear_stress_tension, shear_stress_pressure;
    double ult_stress_tension, ult_stress_pressure;
    double transversal_area, material_area;
+   double nozzle_efficiency;
 } TREL_EXPORT tubing_t;
 
 // Estructura para tornillos
@@ -60,8 +61,18 @@ typedef struct engine
 typedef struct trel_rocket
 {
     engine_t *engine;              // ptr to initialized struct
-    double telemetry_mass, parachute_mass, fuselage_mass, payload_mass;
+    double telemetry_mass, parachute_mass, fuselage_mass, payload_mass, initial_height;
     double avg_thrust, max_thrust, delta_v, max_pressure; // Comportamiento en el Tiempo!AD3511
+    double sim_latitude, max_sim_height, body_diameter, drag_coefficient;
+    double rocket_position[1000];
+    double rocket_speed[1000]; // m/s
+    double rocket_acceleration[1000];
+    double rocket_force_balance[1000];
+    double rocket_drag[1000];
+    double rocket_weight[1000];
+    double rocket_mass[1000];
+    double rocket_force[1000];
+    double time[1000];
 } TREL_EXPORT trel_rocket_t;
 
 #endif //TREL_STRUCTS_H

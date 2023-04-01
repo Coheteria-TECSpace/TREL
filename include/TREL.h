@@ -60,9 +60,19 @@ typedef struct engine
 // Estructura del cohete
 typedef struct trel_rocket
 {
-    engine_t *engine;              // ptr to initialized struct
-    double telemtry_mass, parachute_mass, fuselage_mass, payload_mass;
+    engine_t* engine;              // ptr to initialized struct
+    double telemetry_mass, parachute_mass, fuselage_mass, payload_mass, initial_height;
     double avg_thrust, max_thrust, delta_v, max_pressure; // Comportamiento en el Tiempo!AD3511
+    double sim_latitude, max_sim_height, body_diameter, drag_coefficient;
+    double rocket_position[1000];
+    double rocket_speed[1000]; // m/s
+    double rocket_acceleration[1000];
+    double rocket_force_balance[1000];
+    double rocket_drag[1000];
+    double rocket_weight[1000];
+    double rocket_mass[1000];
+    double rocket_force[1000];
+    double time[1000];
 } trel_rocket_t;
 
 // Function prototypes
@@ -108,7 +118,11 @@ trel_rocket_t *trel_rocket_init(
     double telemetry_mass,
     double parachute_mass,
     double fuselage_mass,
-    double payload_mass
+    double payload_mass,
+    double initial_height,
+    double sim_latitude,
+    double body_diameter,
+    double drag_coefficient
 );
 double trel_psi_to_pa(double psi);
 void trel_set_pressure(engine_t* engine, double pressure);

@@ -16,9 +16,9 @@ int trel_run_time_comp_iterations(trel_rocket_t* rocket)
     // variables for iteration
     double dead_mass = rocket->fuselage_mass + rocket->parachute_mass + rocket->telemetry_mass + engine->engine_mass + rocket->payload_mass;
     const double delta_t = step;
-    double pressure_abs = PRESION_ATMOSFERICA;
+    double pressure_abs = TREL_ATMOSPHERIC_PRESSURE;
     //double pressure = pressure_abs / 6894.757f;
-    //double pressure_man = pressure_abs - PRESION_ATMOSFERICA;
+    //double pressure_man = pressure_abs - TREL_ATMOSPHERIC_PRESSURE;
     double burn_rate = engine->fuel->const_burn_rate * pow(pressure_abs * 0.000145038f, engine->fuel->pressure_exponent) * 0.0254f;
     double inst_radius = engine->grains->init_inter_radius;
     double inst_long = engine->grains->longitude;
@@ -36,11 +36,11 @@ int trel_run_time_comp_iterations(trel_rocket_t* rocket)
     double free_vol = port_area(engine) - fuel_vol;
     double internal_mass = (free_vol * pressure_abs) / (long_secc_combus(engine) * engine->fuel->const_burn_rate);
     //double areas_ratio = total_burn_area / engine->grains->longitude;    
-    double virtual_escape_pressure = pressure_abs / pow((1.0 + ((HEAT_CAPACITY_RATIO - 1.0) / 2.0) * volumen_unitario(engine) * volumen_unitario(engine)), (HEAT_CAPACITY_RATIO / (HEAT_CAPACITY_RATIO - 1.0)));
-    //double real_escape_pressure = pressure_abs / pow((1 + ((HEAT_CAPACITY_RATIO - 1) / 2) * volumen_unitario(engine) * volumen_unitario(engine)), (HEAT_CAPACITY_RATIO / (HEAT_CAPACITY_RATIO - 1))) < PRESION_ATMOSFERICA ? PRESION_ATMOSFERICA : pressure_abs / pow((1 + ((HEAT_CAPACITY_RATIO - 1) / 2) * volumen_unitario(engine) * volumen_unitario(engine)), (HEAT_CAPACITY_RATIO / (HEAT_CAPACITY_RATIO - 1)));
-    double force_coeff = pow((((2.0 * HEAT_CAPACITY_RATIO * HEAT_CAPACITY_RATIO) / (HEAT_CAPACITY_RATIO - 1.0)) * pow((2.0 / (HEAT_CAPACITY_RATIO + 1.0)), ((HEAT_CAPACITY_RATIO + 1.0) / (HEAT_CAPACITY_RATIO - 1.0))) * ((1.0 - pow((virtual_escape_pressure / pressure_abs), ((HEAT_CAPACITY_RATIO - 1.0) / HEAT_CAPACITY_RATIO))))), 0.5) + (((virtual_escape_pressure - PRESION_ATMOSFERICA) / (pressure_abs)) * (engine->grains->grain_separation / engine->grains->longitude));
-    double adjusted_cr = force_coeff * desv_est_grains(engine);
-    double force = adjusted_cr * pressure_abs * engine->grains->longitude > 0 ? adjusted_cr * pressure_abs * engine->grains->longitude : 0.0;
+    double virtual_escape_pressure = pressure_abs / pow((1.0 + ((TREL_HEAT_CAP_RATIO - 1.0) / 2.0) * volumen_unitario(engine) * volumen_unitario(engine)), (TREL_HEAT_CAP_RATIO / (TREL_HEAT_CAP_RATIO - 1.0)));
+    //double real_escape_pressure = pressure_abs / pow((1 + ((TREL_HEAT_CAP_RATIO - 1) / 2) * volumen_unitario(engine) * volumen_unitario(engine)), (TREL_HEAT_CAP_RATIO / (TREL_HEAT_CAP_RATIO - 1))) < TREL_ATMOSPHERIC_PRESSURE ? TREL_ATMOSPHERIC_PRESSURE : pressure_abs / pow((1 + ((TREL_HEAT_CAP_RATIO - 1) / 2) * volumen_unitario(engine) * volumen_unitario(engine)), (TREL_HEAT_CAP_RATIO / (TREL_HEAT_CAP_RATIO - 1)));
+    double force_coeff = pow((((2.0 * TREL_HEAT_CAP_RATIO * TREL_HEAT_CAP_RATIO) / (TREL_HEAT_CAP_RATIO - 1.0)) * pow((2.0 / (TREL_HEAT_CAP_RATIO + 1.0)), ((TREL_HEAT_CAP_RATIO + 1.0) / (TREL_HEAT_CAP_RATIO - 1.0))) * ((1.0 - pow((virtual_escape_pressure / pressure_abs), ((TREL_HEAT_CAP_RATIO - 1.0) / TREL_HEAT_CAP_RATIO))))), 0.5) + (((virtual_escape_pressure - TREL_ATMOSPHERIC_PRESSURE) / (pressure_abs)) * (engine->grains->grain_separation / engine->grains->longitude));
+    double adjusted_cf = force_coeff * engine->tube->nozzle_efficiency;
+    double force = adjusted_cf * pressure_abs * engine->grains->longitude > 0 ? adjusted_cf * pressure_abs * engine->grains->longitude : 0.0;
     double total_thrust = 0.0;
     double delta_v = total_thrust / (fuel_mass + (double)dead_mass);
 
@@ -57,7 +57,7 @@ int trel_run_time_comp_iterations(trel_rocket_t* rocket)
     {
         pressure_abs = engine->fuel->const_burn_rate * long_secc_combus(engine) * internal_mass / free_vol;
         //pressure = pressure_abs / 6894.757f;
-        //pressure_man = pressure_abs - PRESION_ATMOSFERICA;
+        //pressure_man = pressure_abs - TREL_ATMOSPHERIC_PRESSURE;
         burn_rate = engine->fuel->const_burn_rate * pow(pressure_abs * 0.000145038f, engine->fuel->pressure_exponent) * 0.0254f;
         inst_radius = inst_radius > 0 && (inst_radius + burn_rate * delta_t) < engine->grains->extern_radius ? inst_radius + burn_rate * delta_t : 0;
         inst_long = inst_radius > 0 ? inst_long - burn_rate * delta_t * 2 : 0;
@@ -70,18 +70,18 @@ int trel_run_time_comp_iterations(trel_rocket_t* rocket)
         produced_mass = fuel_mass - engine->fuel->density * fuel_vol;
         fuel_mass = engine->fuel->density * fuel_vol;
         //produced_massic_flux = produced_mass / delta_t;
-        escape_massic_flux = pressure_abs > PRESION_ATMOSFERICA ? engine->grains->longitude * pressure_abs * HEAT_CAPACITY_RATIO * (sqrt(pow((2.0f / (HEAT_CAPACITY_RATIO + 1.0f)), ((HEAT_CAPACITY_RATIO + 1.0f) / (HEAT_CAPACITY_RATIO - 1.0f))))) / pow((HEAT_CAPACITY_RATIO * engine->fuel->const_burn_rate * long_secc_combus(engine)), 0.5f) : 0.0f;
+        escape_massic_flux = pressure_abs > TREL_ATMOSPHERIC_PRESSURE ? engine->grains->longitude * pressure_abs * TREL_HEAT_CAP_RATIO * (sqrt(pow((2.0f / (TREL_HEAT_CAP_RATIO + 1.0f)), ((TREL_HEAT_CAP_RATIO + 1.0f) / (TREL_HEAT_CAP_RATIO - 1.0f))))) / pow((TREL_HEAT_CAP_RATIO * engine->fuel->const_burn_rate * long_secc_combus(engine)), 0.5f) : 0.0f;
         //flux_diff = produced_massic_flux - escape_massic_flux;
         escape_delta_m = escape_massic_flux * delta_t;
         internal_mass = produced_mass + internal_mass - escape_delta_m > 0.0f ? produced_mass + internal_mass - escape_delta_m : 0.0f;
         //areas_ratio = total_burn_area / engine->grains->longitude;
-        virtual_escape_pressure = pressure_abs / pow((1.0f + ((HEAT_CAPACITY_RATIO - 1.0f) / 2.0f) * volumen_unitario(engine) * volumen_unitario(engine)), (HEAT_CAPACITY_RATIO / (HEAT_CAPACITY_RATIO - 1.0f)));
-        //real_escape_pressure = pressure_abs / pow((1 + ((HEAT_CAPACITY_RATIO - 1) / 2) * volumen_unitario(engine) * volumen_unitario(engine)), (HEAT_CAPACITY_RATIO / (HEAT_CAPACITY_RATIO - 1))) < PRESION_ATMOSFERICA ? PRESION_ATMOSFERICA : pressure_abs / pow((1 + ((HEAT_CAPACITY_RATIO - 1) / 2) * volumen_unitario(engine) * volumen_unitario(engine)), (HEAT_CAPACITY_RATIO / (HEAT_CAPACITY_RATIO - 1)));
-        force_coeff = pow((((2.0 * HEAT_CAPACITY_RATIO * HEAT_CAPACITY_RATIO) / (HEAT_CAPACITY_RATIO - 1.0)) * pow((2.0 / (HEAT_CAPACITY_RATIO + 1.0)), ((HEAT_CAPACITY_RATIO + 1.0) / (HEAT_CAPACITY_RATIO - 1.0))) * ((1.0 - pow((virtual_escape_pressure / pressure_abs), ((HEAT_CAPACITY_RATIO - 1.0) / HEAT_CAPACITY_RATIO))))), 0.5) + (((virtual_escape_pressure - PRESION_ATMOSFERICA) / (pressure_abs)) * (engine->grains->grain_separation / engine->grains->longitude));
-        adjusted_cr = force_coeff * desv_est_grains(engine);
+        virtual_escape_pressure = pressure_abs / pow((1.0f + ((TREL_HEAT_CAP_RATIO - 1.0f) / 2.0f) * volumen_unitario(engine) * volumen_unitario(engine)), (TREL_HEAT_CAP_RATIO / (TREL_HEAT_CAP_RATIO - 1.0f)));
+        //real_escape_pressure = pressure_abs / pow((1 + ((TREL_HEAT_CAP_RATIO - 1) / 2) * volumen_unitario(engine) * volumen_unitario(engine)), (TREL_HEAT_CAP_RATIO / (TREL_HEAT_CAP_RATIO - 1))) < TREL_ATMOSPHERIC_PRESSURE ? TREL_ATMOSPHERIC_PRESSURE : pressure_abs / pow((1 + ((TREL_HEAT_CAP_RATIO - 1) / 2) * volumen_unitario(engine) * volumen_unitario(engine)), (TREL_HEAT_CAP_RATIO / (TREL_HEAT_CAP_RATIO - 1)));
+        force_coeff = pow((((2.0 * TREL_HEAT_CAP_RATIO * TREL_HEAT_CAP_RATIO) / (TREL_HEAT_CAP_RATIO - 1.0)) * pow((2.0 / (TREL_HEAT_CAP_RATIO + 1.0)), ((TREL_HEAT_CAP_RATIO + 1.0) / (TREL_HEAT_CAP_RATIO - 1.0))) * ((1.0 - pow((virtual_escape_pressure / pressure_abs), ((TREL_HEAT_CAP_RATIO - 1.0) / TREL_HEAT_CAP_RATIO))))), 0.5) + (((virtual_escape_pressure - TREL_ATMOSPHERIC_PRESSURE) / (pressure_abs)) * (engine->grains->grain_separation / engine->grains->longitude));
+        adjusted_cf = force_coeff * desv_est_grains(engine);
         //total_thrust = ((force + adjusted_cr * pressure_abs * engine->grains->longitude > 0 ? adjusted_cr * pressure_abs * engine->grains->longitude : 0.0f) / (2.0f)) * delta_t;
         last_force = force;
-        force = adjusted_cr * pressure_abs * engine->grains->longitude > 0 ? adjusted_cr * pressure_abs * engine->grains->longitude : 0.0f;
+        force = adjusted_cf * pressure_abs * engine->grains->longitude > 0 ? adjusted_cf * pressure_abs * engine->grains->longitude : 0.0f;
         total_thrust = (force + last_force) / 2.0 * delta_t;
         delta_v = total_thrust / (fuel_mass + dead_mass);
 
