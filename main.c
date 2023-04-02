@@ -21,7 +21,7 @@ void print_debug_example()
 		1859
 	);
 	screws_t* created_screw = trel_screws_init(
-//		"Acero",
+		"Acero",
 		6,
 		0.007466,
 		0.01
@@ -32,7 +32,7 @@ void print_debug_example()
 
 	// Se inicializa la tuberia
     tubing_t* created_tube = trel_tubing_init(
-        //"Aluminio 6061-T6",
+        "Aluminio 6061-T6",
         0.073,
         0.0052,
         68900000000.0,
@@ -95,6 +95,36 @@ void print_debug_example()
 	// Probando valores generados por height_sim.c
 	for (int i = 0; i < 50; i += 10)
 		printf("Masa de cohete %lf\n", testing_rocket->rocket_mass[i]);
+	
+	// Printing rocket values
+	printf("\nRocket data\n");
+	printf("telemetry_mass %lf\n", testing_rocket->telemetry_mass);
+	printf("parachute_mass %lf\n", testing_rocket->parachute_mass);
+	printf("fuselage_mass %lf\n", testing_rocket->fuselage_mass);
+	printf("payload_mass %lf\n", testing_rocket->payload_mass);
+	printf("initial_height %lf\n", testing_rocket->initial_height);
+	printf("avg_thrust %lf\n", testing_rocket->avg_thrust);
+	printf("max_thrust %lf\n", testing_rocket->max_thrust);
+	printf("delta_v %lf\n", testing_rocket->delta_v);
+	printf("max_pressure %lf\n", testing_rocket->max_pressure);
+	printf("sim_latitude %lf\n", testing_rocket->sim_latitude);
+	printf("max_sim_height %lf\n", testing_rocket->max_sim_height);
+	printf("body_diameter %lf\n", testing_rocket->body_diameter);
+	printf("drag_coefficient %lf\n", testing_rocket->drag_coefficient);
+	/*
+	printf("rocket_position %lf\n", testing_rocket->rocket_position);
+	printf("rocket_speed %lf\n", testing_rocket->rocket_speed);
+	printf("rocket_acceleration %lf\n", testing_rocket->rocket_acceleration);
+	printf("rocket_force_balance %lf\n", testing_rocket->rocket_force_balance);
+	printf("rocket_drag %lf\n", testing_rocket->rocket_drag);
+	printf("rocket_weight %lf\n", testing_rocket->rocket_weight);
+	printf("rocket_mass %lf\n", testing_rocket->rocket_mass);
+	printf("rocket_force %lf\n", testing_rocket->rocket_force);
+	printf("time %lf\n", testing_rocket->time);
+	*/
+
+	printf("Tubing's material name: %s\n", created_tube->material);
+	printf("Screws' material name: %s\n", created_screw->material);
 }
 
 // Para hacer pruebas de la lib se tiene la aplicacion de CLI basica

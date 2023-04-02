@@ -21,7 +21,7 @@ typedef struct {
 // Estructura para tuberia
 typedef struct tubing
 {
-    //char* material;
+    char   material[100];
     double diameter_ext, wall_thickness, internal_radius;
     double young_module, sector_angle, mean_tubing_diameter;
     double shear_stress_tension, shear_stress_pressure;
@@ -35,7 +35,7 @@ typedef struct screws
     double diameter, dist_center_wall;
     unsigned int amount;
     double area_per_screw, screw_occupied_area;
-    char* material;
+    char  material[100];
     double width_cutting_segment;
 } screws_t;
 
@@ -87,7 +87,7 @@ fuel_t *trel_fuel_init(
     double density           /* E44 */
 );
 tubing_t *trel_tubing_init(
-    //char* material,         /* E16 & E17 */
+    char* material,         /* E16 & E17 */
     double diameter,         /* E13 */
     double thickness,        /* E14 */
     double young_module,     /* E18 */
@@ -98,7 +98,7 @@ tubing_t *trel_tubing_init(
     double nozzle_efficiency
 );
 screws_t *trel_screws_init(
-//    char* material,
+    char* material,
     unsigned int amount,
     double diameter,
     double dist_center_wall

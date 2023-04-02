@@ -27,7 +27,7 @@ fuel_t TREL_EXPORT *trel_fuel_init(
     double density           /* E44 */
 );
 tubing_t TREL_EXPORT *trel_tubing_init(
-    //char *material,         /* E16 & E17 */
+    char  *material,         /* E16 & E17 */
     double diameter,         /* E13 */
     double thickness,        /* E14 */
     double young_module,     /* E18 */
@@ -38,7 +38,7 @@ tubing_t TREL_EXPORT *trel_tubing_init(
     double nozzle_efficiency
 );
 screws_t TREL_EXPORT* trel_screws_init(
-    //char* material,
+    char* material,
     unsigned int amount,
     double diameter,
     double dist_center_wall

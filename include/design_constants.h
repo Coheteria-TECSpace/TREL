@@ -1,6 +1,8 @@
 #ifndef TREL_CONSTANTS
 #define TREL_CONSTANTS
 
+#define TREL_MAX_STR_LEN 100
+
 //Constantes matemáticas
 #define TREL_PI 3.1415926535898			// PI
 

@@ -1,3 +1,4 @@
+#include <string.h>
 #include "engine.h"
 
 /* Initializes all variables in the grains struct */
@@ -41,7 +42,7 @@ fuel_t* trel_fuel_init(
 
 /* Initializes all the variables in the tube struct */
 tubing_t* trel_tubing_init(
-//    char *material,
+    char  *material,
     double diameter,
     double thickness,
     double young_module,
@@ -56,7 +57,7 @@ tubing_t* trel_tubing_init(
         printf("Tubing initialization failed\n");
         exit(1);
     }
-    //tube->material                  = material;
+    strcpy_s(tube->material, sizeof(char) * TREL_MAX_STR_LEN, material);
     tube->diameter_ext              = diameter;
     tube->wall_thickness            = thickness;
     tube->young_module              = young_module;
@@ -66,7 +67,7 @@ tubing_t* trel_tubing_init(
     tube->ult_stress_pressure       = ult_pressure;
     tube->mean_tubing_diameter      = 0.0;
     tube->transversal_area          = 0.0;
-    tube->internal_radius           = (tube->diameter_ext-(2*tube->wall_thickness))/2; /* E15 */
+    tube->internal_radius           = (tube->diameter_ext-(2.0*tube->wall_thickness))/2.0; /* E15 */
     tube->sector_angle              = 0.0;    /* degrees */
     tube->material_area             = 0.0;
     tube->nozzle_efficiency         = nozzle_efficiency;
@@ -75,7 +76,7 @@ tubing_t* trel_tubing_init(
 
 /* Initializes all the variables in the screws struct */
 screws_t* trel_screws_init(
-    //char *material,
+    char *material,
     unsigned int amount,
     double diameter,
     double dist_center_wall)
@@ -85,7 +86,7 @@ screws_t* trel_screws_init(
         printf("Screws initialization failed\n");
         exit(1);
     }
-    //screws->material = material;
+    strcpy_s(screws->material, sizeof(char) * TREL_MAX_STR_LEN, material);
     screws->diameter = diameter;
     screws->amount = amount;
     screws->dist_center_wall = dist_center_wall;

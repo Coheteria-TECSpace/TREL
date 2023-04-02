@@ -1,6 +1,7 @@
 #ifndef TREL_STRUCTS_H
 #define TREL_STRUCTS_H
 
+#include "design_constants.h"
 #include "DLLDefines.h"
 
 // Comp area calculations
@@ -22,7 +23,7 @@ typedef struct {
 // Estructura para tuberia
 typedef struct tubing
 {
-   //char *material;
+   char   material[TREL_MAX_STR_LEN];
    double diameter_ext, wall_thickness, internal_radius;
    double young_module, sector_angle, mean_tubing_diameter;
    double shear_stress_tension, shear_stress_pressure;
@@ -37,7 +38,7 @@ typedef struct screws
 	double diameter, dist_center_wall;
 	unsigned int amount;
     double area_per_screw, screw_occupied_area;
-	//char  *material;
+	char   material[TREL_MAX_STR_LEN];
     double width_cutting_segment;
 } TREL_EXPORT screws_t;
 
