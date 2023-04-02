@@ -39,7 +39,8 @@ void print_debug_example()
         275000000.0,
         -1,
         310000000,
-        205000000
+        205000000,
+		0.85
     );
 	// Se inicializa el motor usando los tornillos y tuberia creados
 	engine_t* testing_engine = trel_engine_init(
@@ -53,15 +54,15 @@ void print_debug_example()
     );
 	// Se inicializa el cohete
 	trel_rocket_t* testing_rocket = trel_rocket_init(
-		testing_engine,
-		0.3,
-		0.05,
-		5.0,
-		1.5,
-		1207.0,
-		9.936111,
-		0.13,
-		0,4
+		testing_engine,  // engine
+		0.3,             // telemetry_mass
+		0.05,            // parachute_mass
+		5.0,             // fuselage_mass
+		1.5,             // payload_mass
+		1207.0,          // initial_height
+		9.936111,        // sim_latitude
+		0.13,            // body_diameter
+		0.4              // drag_coefficient
 	);
 
 	// Acceder a memoria inicializada

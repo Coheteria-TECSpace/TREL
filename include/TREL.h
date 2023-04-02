@@ -1,8 +1,6 @@
 #ifndef TREL_H
 #define TREL_H
 
-//#include "design_func.h"
-
 // Types
 // Comp area calculations
 typedef struct {
@@ -96,7 +94,8 @@ tubing_t *trel_tubing_init(
     double shear_tension,    /* E20 */
     double shear_pressure,   /* E19 */
     double ult_tension,      /* E22 */
-    double ult_pressure      /* E21 */
+    double ult_pressure,     /* E21 */
+    double nozzle_efficiency
 );
 screws_t *trel_screws_init(
 //    char* material,
@@ -133,5 +132,6 @@ double trel_temper_garganta(engine_t *engine);
 double br_combustion(engine_t *engine);
 int trel_run_area_comp_iterations(engine_t **engine);
 int trel_run_time_comp_iterations(trel_rocket_t* rocket);
+int trel_run_height_sim_iterations(trel_rocket_t** rocket);
 
 #endif //TREL_H

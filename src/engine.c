@@ -11,6 +11,7 @@ grains_t* trel_grains_init(
     grains_t *grains = (grains_t *) malloc(sizeof(grains_t));
     if (!grains) {
         printf("Grains initialization failed\n");
+        exit(1);
     }
     grains->amount = amount;
     grains->init_inter_radius = internal_radius;
@@ -29,6 +30,7 @@ fuel_t* trel_fuel_init(
     fuel_t *fuel = (fuel_t *) malloc(sizeof(fuel_t));
     if (!fuel) {
         printf("Fuel initialization failed\n");
+        exit(1);
     }
     fuel->const_burn_rate = const_burn_rate;
     fuel->pressure_exponent = pressure_exponent;
@@ -104,6 +106,10 @@ engine_t* trel_engine_init(
     screws_t *screws)
 {
     comp_area_t *comp_area_values = (comp_area_t*) malloc(sizeof(comp_area_t));
+    if (!comp_area_values) {
+        printf("Engine initialization failed due to comp_area_values\n");
+        exit(1);
+    }
     comp_area_values->avg_burn_area = 0.0f;
     comp_area_values->avg_long_area = 0.0f;
     comp_area_values->avg_trans_area = 0.0f;

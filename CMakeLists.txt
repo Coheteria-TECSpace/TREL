@@ -35,7 +35,8 @@ ADD_LIBRARY (TREL ${LIB_TYPE} "src/design_func.c"
 							  "src/design_resist.c"
 							  "src/val_termod.c"
 							  "src/rocket.c"
-			                                  "src/height_sim.c")
+			                  "src/height_sim.c"
+)
 
 # Specify the directory to contain header files
 INCLUDE_DIRECTORIES ("include")

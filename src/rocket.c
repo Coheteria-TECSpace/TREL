@@ -1,7 +1,7 @@
 #include "rocket.h"
 
 /* Initializes all the variables in the rocket struct */
-trel_rocket_t* trel_rocket_init(
+trel_rocket_t *trel_rocket_init(
     engine_t* engine,
     double telemetry_mass,
     double parachute_mass,
