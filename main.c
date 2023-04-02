@@ -94,7 +94,7 @@ void print_debug_example()
 
 	// Probando valores generados por height_sim.c
 	for (int i = 0; i < 50; i += 10)
-		printf("Masa de cohete %lf\n", testing_rocket->rocket_mass[i]);
+		printf("Masa de cohete %lf\n", testing_rocket->sim_values->rocket_mass[i]);
 	
 	// Printing rocket values
 	printf("\nRocket data\n");

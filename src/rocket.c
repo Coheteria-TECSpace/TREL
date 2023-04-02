@@ -17,6 +17,19 @@ trel_rocket_t *trel_rocket_init(
         printf("Rocket initialization failed\n");
         exit(1);
     }
+
+    trel_height_sim_t* sim_values = (trel_height_sim_t*)malloc(sizeof(trel_height_sim_t));
+    if (!sim_values) {
+        printf("Engine initialization failed due to sim_values\n");
+        exit(1);
+    }
+    sim_values->max_rocket_acceleration = 0.0;
+    sim_values->max_rocket_drag = 0.0;
+    sim_values->max_rocket_force_balance = 0.0;
+    sim_values->max_rocket_height = 0.0;
+    sim_values->max_rocket_position = 0.0;
+    sim_values->max_rocket_speed = 0.0;
+
     rocket->telemetry_mass = telemetry_mass;
     rocket->parachute_mass = parachute_mass;
     rocket->fuselage_mass = fuselage_mass;
@@ -27,6 +40,7 @@ trel_rocket_t *trel_rocket_init(
     rocket->max_sim_height = 0.0;
     rocket->body_diameter = body_diameter;
     rocket->drag_coefficient = drag_coefficient;
+    rocket->sim_values = sim_values;
     if (trel_run_time_comp_iterations(rocket)) // 1 means there was an error
     {
         return(NULL); // NULL means the engine couldn't be properly generated

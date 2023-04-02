@@ -55,13 +55,9 @@ typedef struct engine
     comp_area_t *comp_area_values; // ptr to initialized struct
 } engine_t;
 
-// Estructura del cohete
-typedef struct trel_rocket
+// Struct for height simulation results
+typedef struct trel_height_sim_values
 {
-    engine_t* engine;              // ptr to initialized struct
-    double telemetry_mass, parachute_mass, fuselage_mass, payload_mass, initial_height;
-    double avg_thrust, max_thrust, delta_v, max_pressure; // Comportamiento en el Tiempo!AD3511
-    double sim_latitude, max_sim_height, body_diameter, drag_coefficient;
     double rocket_position[1000];
     double rocket_speed[1000]; // m/s
     double rocket_acceleration[1000];
@@ -71,6 +67,22 @@ typedef struct trel_rocket
     double rocket_mass[1000];
     double rocket_force[1000];
     double time[1000];
+    double max_rocket_height;
+    double max_rocket_position;
+    double max_rocket_speed; // m/s
+    double max_rocket_acceleration;
+    double max_rocket_force_balance;
+    double max_rocket_drag;
+} trel_height_sim_t;
+
+// Struct for the rocket
+typedef struct trel_rocket
+{
+    engine_t* engine;              // ptr to initialized struct
+    double telemetry_mass, parachute_mass, fuselage_mass, payload_mass, initial_height;
+    double avg_thrust, max_thrust, delta_v, max_pressure; // Comportamiento en el Tiempo!AD3511
+    double sim_latitude, max_sim_height, body_diameter, drag_coefficient;
+    trel_height_sim_t* sim_values;
 } trel_rocket_t;
 
 // Function prototypes
