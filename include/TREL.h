@@ -1,13 +1,13 @@
 #ifndef TREL_H
 #define TREL_H
 
-// Types
-// Comp area calculations
+/* Types */
+/* Comp area calculations */
 typedef struct {
     double avg_long_area, avg_trans_area, avg_burn_area, burn_std_deviation, burn_sum_diff;
 } comp_area_t;
 
-// Propellent grains structure
+/* Propellent grains structure */
 typedef struct {
     unsigned int amount;
     double init_inter_radius, extern_radius, longitude, grain_separation;
@@ -18,7 +18,7 @@ typedef struct {
     double const_burn_rate, pressure_exponent, density, burn_rate;
 } fuel_t;
 
-// Estructura para tuberia
+/* Estructura para tuberia */
 typedef struct tubing
 {
     char   material[100];
@@ -29,7 +29,7 @@ typedef struct tubing
     double transversal_area, material_area;
 } tubing_t;
 
-// Estructura para tornillos
+/* Estructura para tornillos */
 typedef struct screws
 {
     double diameter, dist_center_wall;
@@ -39,27 +39,27 @@ typedef struct screws
     double width_cutting_segment;
 } screws_t;
 
-// Estructura del engine
+/* Estructura del engine */
 typedef struct engine
 {
     double engine_mass;
-    double pressure;                // chamber pressure in psi
+    double pressure;                /* chamber pressure in psi */
 	double escape_vel, temperature;
     double width_condition, margin_of_safety, max_stress, radial_stress;
     double tangencial_stress, longitudinal_stress, max_pressure;
     double nozzle_efficiency;
-    grains_t *grains;              // ptr to intialized struct
+    grains_t *grains;              /* ptr to intialized struct */
     fuel_t *fuel;
-    tubing_t *tube;                // ptr to intialized struct
-	screws_t *screws;              // ptr to initialized struct
-    comp_area_t *comp_area_values; // ptr to initialized struct
+    tubing_t *tube;                /* ptr to intialized struct */
+	screws_t *screws;              /* ptr to initialized struct */
+    comp_area_t *comp_area_values; /* ptr to initialized struct */
 } engine_t;
 
-// Struct for height simulation results
+/* Struct for height simulation results */
 typedef struct trel_height_sim_values
 {
     double rocket_position[1000];
-    double rocket_speed[1000]; // m/s
+    double rocket_speed[1000]; /* m/s */
     double rocket_acceleration[1000];
     double rocket_force_balance[1000];
     double rocket_drag[1000];
@@ -69,23 +69,23 @@ typedef struct trel_height_sim_values
     double time[1000];
     double max_rocket_height;
     double max_rocket_position;
-    double max_rocket_speed; // m/s
+    double max_rocket_speed; /* m/s */
     double max_rocket_acceleration;
     double max_rocket_force_balance;
     double max_rocket_drag;
 } trel_height_sim_t;
 
-// Struct for the rocket
+/* Struct for the rocket */
 typedef struct trel_rocket
 {
-    engine_t* engine;              // ptr to initialized struct
+    engine_t* engine;              /* ptr to initialized struct */
     double telemetry_mass, parachute_mass, fuselage_mass, payload_mass, initial_height;
-    double avg_thrust, max_thrust, delta_v, max_pressure; // Comportamiento en el Tiempo!AD3511
+    double avg_thrust, max_thrust, delta_v, max_pressure; /* Comportamiento en el Tiempo!AD3511 */
     double sim_latitude, max_sim_height, body_diameter, drag_coefficient;
     trel_height_sim_t* sim_values;
 } trel_rocket_t;
 
-// Function prototypes
+/* Function prototypes */
 grains_t *trel_grains_init(
     unsigned int amount,    /* E29 */
     double internal_radius,  /* E30 */
@@ -146,4 +146,4 @@ int trel_run_area_comp_iterations(engine_t **engine);
 int trel_run_time_comp_iterations(trel_rocket_t* rocket);
 int trel_run_height_sim_iterations(trel_rocket_t** rocket);
 
-#endif //TREL_H
+#endif /*TREL_H */

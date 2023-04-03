@@ -11,9 +11,9 @@
 #include "comp_tiempo.h"
 #include "height_sim.h"
 
-// TODO: cambiar list[] por nombres mas descriptivos
+/* TODO: cambiar list[] por nombres mas descriptivos */
 
-// Function prototypes
+/* Function prototypes */
 double TREL_EXPORT volumen_combustible(engine_t *engine);
 double TREL_EXPORT masa_combustible(engine_t* engine);
 double TREL_EXPORT Tiempo_quemado_combustion(engine_t* engine);
@@ -29,4 +29,4 @@ double TREL_EXPORT I_tot_teo(engine_t* engine);
 double TREL_EXPORT I_tot_esp(engine_t* engine);
 double TREL_EXPORT Delta_V_Esp(trel_rocket_t* rocket);
 
-#endif //RENDIMIENTOS_H
+#endif /*RENDIMIENTOS_H */

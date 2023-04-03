@@ -10,7 +10,7 @@
 #include "engine.h"
 #include "DLLDefines.h"
 
-// Function prototypes
+/* Function prototypes */
 double trel_get_pressure_pa(engine_t* engine);
 double volumen_camara(engine_t* engine);
 double calc_escape_vel(engine_t *engine);
@@ -31,4 +31,4 @@ double desv_est_grains(engine_t* engine);
 double throat_area(engine_t* engine);
 double escape_area(engine_t* engine);
 
-#endif //DESIGN_FUNC_H
+#endif /*DESIGN_FUNC_H */

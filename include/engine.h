@@ -9,11 +9,11 @@
 #include "design_resist.h"
 #include "structs.h"
 
-// TODO: free library structs function
+/* TODO: free library structs function */
 
 
 
-// Function prototypes
+/* Function prototypes */
 grains_t TREL_EXPORT *trel_grains_init(
     unsigned int amount,    /* E29 */
     double internal_radius,  /* E30 */
@@ -58,5 +58,4 @@ void TREL_EXPORT trel_set_escape_vel(engine_t *engine, double vel);
 double TREL_EXPORT trel_get_escape_vel(engine_t *engine);
 double TREL_EXPORT trel_get_pressure(engine_t *engine);
 
-#endif // ENGINE_H
-
+#endif /* ENGINE_H */

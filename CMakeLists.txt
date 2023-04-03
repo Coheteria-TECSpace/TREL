@@ -17,7 +17,7 @@ OPTION (BUILD_SHARED_LIBS "Build Shared Libraries" ON)
 OPTION (BUILD_CLI_TESTAPP "Build testapp" ON)
 
 # Used to generate header with macros for the library
-INCLUDE (GenerateExportHeader)
+#INCLUDE (GenerateExportHeader)
 
 # Decide which LIB_TYPE is to be used for the build
 IF (BUILD_SHARED_LIBS)
@@ -55,15 +55,16 @@ ELSE (MSVC)
 ENDIF (MSVC)
 
 # Specify arguments to be used in the export header
-GENERATE_EXPORT_HEADER (TREL
-	BASE_NAME TREL
-	EXPORT_MACRO_NAME TREL_EXPORT
-	EXPORT_FILE_NAME TREL_Export.h
-	STATIC_DEFINE TREL_BUILT_AS_STATIC
-)
+#GENERATE_EXPORT_HEADER (TREL
+#	BASE_NAME TREL
+#	EXPORT_MACRO_NAME TREL_EXPORT
+#	EXPORT_FILE_NAME TREL_Export.h
+#	STATIC_DEFINE TREL_BUILT_AS_STATIC
+#)
 
 # Compile flags for the library
 SET_TARGET_PROPERTIES (TREL PROPERTIES COMPILE_FLAGS -DLIB_STATIC_DEFINE)
+SET_PROPERTY(TARGET TREL PROPERTY C_STANDARD 90)
 
 # Additional function calls for building the testapp
 IF (BUILD_CLI_TESTAPP)
@@ -72,7 +73,7 @@ IF (BUILD_CLI_TESTAPP)
 	# Declaring a link between the executable and the library
 	TARGET_LINK_LIBRARIES (testapp TREL)
 	#target_link_libraries(testapp PRIVATE )
-	target_include_directories(testapp PUBLIC "include")
+	TARGET_INCLUDE_DIRECTORIES (testapp PUBLIC "include")
 	# Additional arguments for the excecutable compilation
-	TARGET_COMPILE_FEATURES (testapp PUBLIC c_std_99)
+	TARGET_COMPILE_FEATURES (testapp PUBLIC c_std_90)
 ENDIF (BUILD_CLI_TESTAPP)

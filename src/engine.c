@@ -57,9 +57,9 @@ tubing_t* trel_tubing_init(
         printf("Tubing initialization failed\n");
         exit(1);
     }
-#if defined (_WIN32) // Take advantage of TR 24731-1 from MSVC
+#if defined (_WIN32) /* Take advantage of TR 24731-1 from MSVC */
     strcpy_s(tube->material, sizeof(char) * TREL_MAX_STR_LEN, material);
-#else // Take the most portable approach for NIX
+#else /* Take the most portable approach for NIX */
     strncpy(tube->material, material, TREL_MAX_STR_LEN);
 #endif
     tube->diameter_ext              = diameter;
@@ -90,9 +90,9 @@ screws_t* trel_screws_init(
         printf("Screws initialization failed\n");
         exit(1);
     }
-#if defined (_WIN32) // Take advantage of TR 24731-1 from MSVC
+#if defined (_WIN32) /* Take advantage of TR 24731-1 from MSVC */
     strcpy_s(screws->material, sizeof(char) * TREL_MAX_STR_LEN, material);
-#else // Take the most portable approach for NIX
+#else /* Take the most portable approach for NIX */
     strncpy(screws->material, material, TREL_MAX_STR_LEN);
 #endif
     screws->diameter = diameter;
@@ -115,6 +115,8 @@ engine_t* trel_engine_init(
     screws_t *screws)
 {
     comp_area_t *comp_area_values = (comp_area_t*) malloc(sizeof(comp_area_t));
+    engine_t *engine = (engine_t *) malloc(sizeof(engine_t));
+
     if (!comp_area_values) {
         printf("Engine initialization failed due to comp_area_values\n");
         exit(1);
@@ -125,7 +127,6 @@ engine_t* trel_engine_init(
     comp_area_values->burn_std_deviation = 0.0f;
     comp_area_values->burn_sum_diff = 0.0f;
 
-    engine_t *engine = (engine_t *) malloc(sizeof(engine_t));
     if (!engine) {
         printf("Engine initialization failed\n");
         exit(1);
@@ -153,9 +154,9 @@ engine_t* trel_engine_init(
     trel_width_cutting_segment(engine);
     trel_area_per_screw(engine);
     trel_tangencial_stress(engine);
-    if (trel_run_area_comp_iterations(&engine)) // 1 means there was an error
+    if (trel_run_area_comp_iterations(&engine)) /* 1 means there was an error */
     {
-        return(NULL); // NULL means the engine couldn't be properly generated
+        return(NULL); /* NULL means the engine couldn't be properly generated */
     }
 	return(engine);
 }

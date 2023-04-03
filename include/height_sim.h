@@ -3,7 +3,7 @@
 
 #include "design_func.h"
 
-// Function prototypes
+/* Function prototypes */
 int TREL_EXPORT trel_run_height_sim_iterations(trel_rocket_t** rocket);
 
-#endif //HEIGHT_SIM_H
+#endif /*HEIGHT_SIM_H */

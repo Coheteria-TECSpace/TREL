@@ -8,9 +8,9 @@
 #include "design_func.h"
 #include "structs.h"
 
-// TODO: free library structs function
+/* TODO: free library structs function */
 
-// Function prototypes
+/* Function prototypes */
 trel_rocket_t TREL_EXPORT* trel_rocket_init(
     engine_t* engine,
     double telemetry_mass,
@@ -23,4 +23,4 @@ trel_rocket_t TREL_EXPORT* trel_rocket_init(
     double drag_coefficient
 );
 
-#endif//ROCKET_H
+#endif/*ROCKET_H */

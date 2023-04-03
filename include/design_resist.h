@@ -13,10 +13,10 @@ Inicio de traduccion a C por lross2k
 #include "DLLDefines.h"
 #include "structs.h"
 
-// TODO: remove temp_
+/* TODO: remove temp_ */
 
-// Function prototypes
-// add APPLIB_EXPORT to any function needed from the dynamic library
+/* Function prototypes */
+/* add APPLIB_EXPORT to any function needed from the dynamic library */
 void trel_mean_tubing_diameter(engine_t *engine);
 void trel_width_condition(engine_t *engine);
 void trel_engine_max_pressure(engine_t *engine);
@@ -32,4 +32,4 @@ void trel_screw_occupied_area(engine_t *engine);
 void trel_tube_mateial_area(engine_t *engine);
 void trel_width_cutting_segment(engine_t *engine);
 
-#endif //DESIGN_RESISTENCIA_H
+#endif /*DESIGN_RESISTENCIA_H */

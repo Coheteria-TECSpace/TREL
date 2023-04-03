@@ -117,16 +117,17 @@ int trel_run_height_sim_iterations(trel_rocket_t** rocket)
 {    
     engine_t *engine = (*rocket)->engine;
     trel_height_sim_t *res = (*rocket)->sim_values;
-    res->time[0] = 0;
 
-    // iterate over given iterations and step size
+    /* iterate over given iterations and step size */
     const unsigned int max_iterations = TREL_MAX_ITERATIONS;
     const double burn_time = Tiempo_quemado_combustion((*rocket)->engine);
     const double step = burn_time / TREL_MAX_ITERATIONS;
 
-    // variables for iteration
+    unsigned int it = 0;
+
+    /* variables for iteration */
     double rocket_height = 0.0;
-    //double rocket_total_thrust = 0.0;
+    /*double rocket_total_thrust = 0.0; */
     double fuel_volume = 0.0;
     double gravitational_accel = 0.0;
     double force_coeff = 0.0;
@@ -171,13 +172,13 @@ int trel_run_height_sim_iterations(trel_rocket_t** rocket)
     res->rocket_force[0] = adjusted_cf * pressure * throat_area((*rocket)->engine) > 0 ? adjusted_cf * pressure * throat_area((*rocket)->engine) : 0;
     res->rocket_force_balance[0] = calc_force_balance(res->rocket_force[0], res->rocket_position[0], res->rocket_speed[0], res->rocket_drag[0], res->rocket_weight[0]);
 
-    // iteration loop
-    for (unsigned int it = 1; it < max_iterations; it++)
+    /* iteration loop */
+    for (it = 1; it < max_iterations; it++)
     {
         res->time[it] = res->time[it - 1] + step;
 
         gravitational_accel = calc_iter_grav_accel(rocket, rocket_height);
-        atmospheric_pressure = TREL_ATMOSPHERIC_PRESSURE * pow(1.0 - TREL_ADIABATIC_GRADIENT * rocket_height / TREL_STANDARD_TEMP, gravitational_accel * TREL_DRY_AIR_MOLAR_MASS / (TREL_IDEAL_GAS_CONST * TREL_ADIABATIC_GRADIENT));  // ACA SE COLAPSA EL TITANIC
+        atmospheric_pressure = TREL_ATMOSPHERIC_PRESSURE * pow(1.0 - TREL_ADIABATIC_GRADIENT * rocket_height / TREL_STANDARD_TEMP, gravitational_accel * TREL_DRY_AIR_MOLAR_MASS / (TREL_IDEAL_GAS_CONST * TREL_ADIABATIC_GRADIENT));  /* ACA SE COLAPSA EL TITANIC */
         pressure = calc_iter_pressure(engine, intern_gas_mass, free_volume, atmospheric_pressure);
         inst_radius = calc_inst_radius(inst_radius, burn_rate, step, (*rocket)->engine->grains->extern_radius);
         inst_long = calc_inst_long(inst_radius, inst_long, burn_rate, step);
@@ -205,7 +206,7 @@ int trel_run_height_sim_iterations(trel_rocket_t** rocket)
         res->rocket_position[it] = (res->rocket_speed[it] * step + res->rocket_position[it - 1]) * (res->rocket_speed[it] * step + res->rocket_position[it - 1] > 0.0);
         rocket_height = (*rocket)->initial_height + res->rocket_position[it];
 
-        // Check for new max values
+        /* Check for new max values */
         if (rocket_height > res->max_rocket_height)
             res->max_rocket_height = rocket_height;
         if (res->rocket_position[it] > res->max_rocket_position)
@@ -220,5 +221,5 @@ int trel_run_height_sim_iterations(trel_rocket_t** rocket)
             res->max_rocket_drag = res->rocket_drag[it];
     }
 
-    return(0); // everything went well
+    return(0); /* everything went well */
 }

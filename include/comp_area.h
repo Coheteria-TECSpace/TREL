@@ -3,7 +3,7 @@
 
 #include "design_func.h"
 
-// Function prototypes
+/* Function prototypes */
 int TREL_EXPORT trel_run_area_comp_iterations(engine_t **engine);
 
-#endif //COMP_AREA_H
+#endif /*COMP_AREA_H */

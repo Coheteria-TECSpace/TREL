@@ -13,12 +13,13 @@ trel_rocket_t *trel_rocket_init(
     double drag_coefficient)
 {
     trel_rocket_t* rocket = (trel_rocket_t*)malloc(sizeof(trel_rocket_t));
+    trel_height_sim_t* sim_values = (trel_height_sim_t*)malloc(sizeof(trel_height_sim_t));
+    unsigned int i = 0;
     if (!rocket) {
         printf("Rocket initialization failed\n");
         exit(1);
     }
 
-    trel_height_sim_t* sim_values = (trel_height_sim_t*)malloc(sizeof(trel_height_sim_t));
     if (!sim_values) {
         printf("Engine initialization failed due to sim_values\n");
         exit(1);
@@ -30,7 +31,7 @@ trel_rocket_t *trel_rocket_init(
     sim_values->max_rocket_position = 0.0;
     sim_values->max_rocket_speed = 0.0;
 
-    for (unsigned int i = 0; i < TREL_MAX_ITERATIONS; i++)
+    for (i = 0; i < TREL_MAX_ITERATIONS; i++)
     {
         sim_values->rocket_position[i] = 0.0;
         sim_values->rocket_speed[i] = 0.0;
@@ -54,13 +55,13 @@ trel_rocket_t *trel_rocket_init(
     rocket->body_diameter = body_diameter;
     rocket->drag_coefficient = drag_coefficient;
     rocket->sim_values = sim_values;
-    if (trel_run_time_comp_iterations(rocket)) // 1 means there was an error
+    if (trel_run_time_comp_iterations(rocket)) /* 1 means there was an error */
     {
-        return(NULL); // NULL means the engine couldn't be properly generated
+        return(NULL); /* NULL means the engine couldn't be properly generated */
     }
-    if (trel_run_height_sim_iterations(&rocket)) // 1 means there was an error
+    if (trel_run_height_sim_iterations(&rocket)) /* 1 means there was an error */
     {
-        return(NULL); // NULL means the engine couldn't be properly generated
+        return(NULL); /* NULL means the engine couldn't be properly generated */
     }
     return(rocket);
 }
