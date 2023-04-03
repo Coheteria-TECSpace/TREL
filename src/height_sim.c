@@ -1,9 +1,8 @@
 #include "height_sim.h"
 #include "stdio.h"
 
-// TODO: CHECK ANYTHING THAT USES pressure_abs, it might be pressure instead
-
 #define TRANSVERSAL_AREA(DIAMETER) (TREL_PI * DIAMETER * DIAMETER / 4)
+#define POW2(VAR) (VAR * VAR)
 
 double calc_force_balance(double rocket_force, double rocket_position, double rocket_speed, 
                           double rocket_drag, double rocket_weight)
@@ -73,25 +72,44 @@ double calc_iter_grav_accel(trel_rocket_t **rocket, double rocket_height)
 {
     double val = 0.0;
     val = TREL_ECUATOR_GRAV_ACCEL;
-    val *= (1 + (TREL_GRAV_CRUSH * (sin((*rocket)->sim_latitude * TREL_PI / 180)) * (sin((*rocket)->sim_latitude * TREL_PI / 180))) - (TREL_GRAV_CRUSH_4 * (sin((2 * (*rocket)->sim_latitude) * TREL_PI / 180)) * (sin((2 * (*rocket)->sim_latitude) * TREL_PI / 180))));
+    val *= (1 + (TREL_GRAV_CRUSH * (sin((*rocket)->sim_latitude * TREL_PI / 180)) * 
+           (sin((*rocket)->sim_latitude * TREL_PI / 180))) - (TREL_GRAV_CRUSH_4 * 
+           (sin((2 * (*rocket)->sim_latitude) * TREL_PI / 180)) * (sin((2 * 
+           (*rocket)->sim_latitude) * TREL_PI / 180))));
     val -= (TREL_GRAV_A * rocket_height);
     return(val);
 }
 
-    //printf("DEBUG 000 $E$36 %lf , $E$37 %lf", e36, e37);
-    //printf("DEBUG 001 $E$39 %lf", e39);
 double calc_iter_force_coeff(double virt_escape_pressure, double pressure, double atmospheric_pressure, engine_t *engine)
 {
-    double val = pow((2.0 * TREL_HEAT_CAP_RATIO * TREL_HEAT_CAP_RATIO / (TREL_HEAT_CAP_RATIO - 1.0) * pow((2.0 / (TREL_HEAT_CAP_RATIO + 1.0)), ((TREL_HEAT_CAP_RATIO + 1) / (TREL_HEAT_CAP_RATIO - 1))) * ((1 - pow((virt_escape_pressure / pressure), ((TREL_HEAT_CAP_RATIO - 1.0) / TREL_HEAT_CAP_RATIO))))), 0.5);
-    val += (virt_escape_pressure - atmospheric_pressure) / pressure * escape_area(engine) / throat_area(engine);
+    double val = pow((2.0 * TREL_HEAT_CAP_RATIO * TREL_HEAT_CAP_RATIO / 
+                 (TREL_HEAT_CAP_RATIO - 1.0) * pow((2.0 / (TREL_HEAT_CAP_RATIO + 1.0)), 
+                 ((TREL_HEAT_CAP_RATIO + 1) / (TREL_HEAT_CAP_RATIO - 1))) * 
+                 ((1 - pow((virt_escape_pressure / pressure), ((TREL_HEAT_CAP_RATIO - 1.0) / 
+                 TREL_HEAT_CAP_RATIO))))), 0.5);
+    val += (virt_escape_pressure - atmospheric_pressure) / pressure * escape_area(engine) / 
+           throat_area(engine);
     return(val);
 }
 
 double calc_iter_virt_escape_pressure(double pressure, engine_t *engine)
 {
+    double val = pressure / pow(1.0 + ((TREL_HEAT_CAP_RATIO - 1.0) / 2.0) * 
+                 vel_numero_mach_m2(engine) * vel_numero_mach_m2(engine), TREL_HEAT_CAP_RATIO / 
+                 (TREL_HEAT_CAP_RATIO - 1.0));
+    return(val);
+}
+
+double calc_iter_escape_massic_flux(double pressure, double atmospheric_pressure, engine_t *engine)
+{
     double val = 0.0;
-    //D69 / (1 + (($E$44 - 1) / 2) * $E$39 ^ 2) ^ ($E$44 / ($E$44 - 1));
-    val = pressure / pow(1.0 + ((TREL_HEAT_CAP_RATIO - 1.0) / 2.0) * vel_numero_mach_m2(engine) * vel_numero_mach_m2(engine), TREL_HEAT_CAP_RATIO / (TREL_HEAT_CAP_RATIO - 1.0));
+    if (pressure > atmospheric_pressure)
+    {
+        val = throat_area(engine) * pressure * TREL_HEAT_CAP_RATIO * (sqrt(pow((2.0 / 
+              (TREL_HEAT_CAP_RATIO + 1.0)) , ((TREL_HEAT_CAP_RATIO + 1.0) / 
+              (TREL_HEAT_CAP_RATIO - 1.0))))) / pow((TREL_HEAT_CAP_RATIO * TREL_GAS_CONST * 
+              engine->temperature) , 0.5);
+    }
     return(val);
 }
 
@@ -128,18 +146,17 @@ int trel_run_height_sim_iterations(trel_rocket_t** rocket)
     double burn_rate = 0.0;
     double virt_escape_pressure = 0.0;
     double delta_m = 0.0;
-
-    const double total_volume = TREL_PI * (*rocket)->engine->tube->internal_radius * (*rocket)->engine->tube->internal_radius * ((*rocket)->engine->grains->grain_separation * ((*rocket)->engine->grains->amount - 1) + (*rocket)->engine->grains->longitude * (*rocket)->engine->grains->amount);
-        //printf("DEBUG 000 %lf\n", inst_radius);
+    const double total_volume = TREL_PI * POW2(engine->tube->internal_radius) * 
+                                (engine->grains->grain_separation * (engine->grains->amount - 1) + engine->grains->longitude * engine->grains->amount);
     
     inst_long = engine->grains->longitude;
     inst_radius = engine->grains->init_inter_radius;
-    fuel_volume = (*rocket)->engine->grains->amount * TREL_PI * (((*rocket)->engine->grains->extern_radius * (*rocket)->engine->grains->extern_radius) - (inst_radius * inst_radius)) * inst_long;
-    fuel_mass = fuel_volume * (*rocket)->engine->fuel->density;
+    fuel_volume = engine->grains->amount * TREL_PI * (POW2(engine->grains->extern_radius) - POW2(inst_radius)) * inst_long;
+    fuel_mass = fuel_volume * engine->fuel->density;
     prev_fuel_mass = fuel_mass;
     free_volume = total_volume - fuel_volume;
     rocket_height = (*rocket)->initial_height;
-    gravitational_accel = TREL_ECUATOR_GRAV_ACCEL * (1 + (TREL_GRAV_CRUSH * (sin((*rocket)->sim_latitude * TREL_PI / 180)) * (sin((*rocket)->sim_latitude * TREL_PI / 180))) - (TREL_GRAV_CRUSH_4 * (sin((2 * (*rocket)->sim_latitude) * TREL_PI / 180)) * (sin((2 * (*rocket)->sim_latitude) * TREL_PI / 180)))) - (TREL_GRAV_A * rocket_height);
+    gravitational_accel = TREL_ECUATOR_GRAV_ACCEL * (1.0 + (TREL_GRAV_CRUSH * (sin((*rocket)->sim_latitude * TREL_PI / 180.0)) * (sin((*rocket)->sim_latitude * TREL_PI / 180.0))) - (TREL_GRAV_CRUSH_4 * (sin((2.0 * (*rocket)->sim_latitude) * TREL_PI / 180.0)) * (sin((2.0 * (*rocket)->sim_latitude) * TREL_PI / 180.0)))) - (TREL_GRAV_A * rocket_height);
     atmospheric_pressure = TREL_ATMOSPHERIC_PRESSURE * pow(1.0 - TREL_ADIABATIC_GRADIENT * rocket_height / TREL_STANDARD_TEMP, gravitational_accel * TREL_DRY_AIR_MOLAR_MASS / (TREL_IDEAL_GAS_CONST * TREL_ADIABATIC_GRADIENT));
     pressure = atmospheric_pressure;
     intern_gas_mass = pressure * free_volume / (TREL_GAS_CONST * (*rocket)->engine->temperature);
@@ -168,12 +185,12 @@ int trel_run_height_sim_iterations(trel_rocket_t** rocket)
         atmospheric_temp = TREL_STANDARD_TEMP - (TREL_ADIABATIC_GRADIENT * rocket_height);
         atmospheric_density = atmospheric_pressure * TREL_DRY_AIR_MOLAR_MASS / (TREL_IDEAL_GAS_CONST * atmospheric_temp);
         fuel_volume = (*rocket)->engine->grains->amount * TREL_PI * (((*rocket)->engine->grains->extern_radius * (*rocket)->engine->grains->extern_radius) - inst_radius * inst_radius) * inst_long;
-        escape_massic_flux = pressure > atmospheric_pressure ? engine->grains->longitude * pressure * TREL_HEAT_CAP_RATIO * (sqrt(pow((2.0 / (TREL_HEAT_CAP_RATIO + 1.0)), ((TREL_HEAT_CAP_RATIO + 1.0) / (TREL_HEAT_CAP_RATIO - 1.0))))) / pow((TREL_HEAT_CAP_RATIO * engine->fuel->const_burn_rate * long_secc_combus(engine)), 0.5f) : 0.0f;
+        escape_massic_flux = calc_iter_escape_massic_flux(pressure, atmospheric_pressure, engine);
         fuel_mass = fuel_volume * (*rocket)->engine->fuel->density;
         produced_mass = prev_fuel_mass - fuel_mass;
         prev_fuel_mass = fuel_mass;
         delta_m = escape_massic_flux * step;
-        intern_gas_mass = produced_mass + intern_gas_mass - delta_m > 0 ? produced_mass + intern_gas_mass - delta_m : 0.0;
+        intern_gas_mass = (produced_mass + intern_gas_mass - delta_m) > 0.0 ? produced_mass + intern_gas_mass - delta_m : 0.0;
         free_volume = total_volume - fuel_volume;
         virt_escape_pressure = calc_iter_virt_escape_pressure(pressure, engine);
         force_coeff = calc_iter_force_coeff(virt_escape_pressure, pressure, atmospheric_pressure, engine);

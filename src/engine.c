@@ -57,7 +57,11 @@ tubing_t* trel_tubing_init(
         printf("Tubing initialization failed\n");
         exit(1);
     }
+#if defined (_WIN32) // Take advantage of TR 24731-1 from MSVC
     strcpy_s(tube->material, sizeof(char) * TREL_MAX_STR_LEN, material);
+#else // Take the most portable approach for NIX
+    strncpy(tube->material, material, TREL_MAX_STR_LEN);
+#endif
     tube->diameter_ext              = diameter;
     tube->wall_thickness            = thickness;
     tube->young_module              = young_module;
@@ -86,7 +90,11 @@ screws_t* trel_screws_init(
         printf("Screws initialization failed\n");
         exit(1);
     }
+#if defined (_WIN32) // Take advantage of TR 24731-1 from MSVC
     strcpy_s(screws->material, sizeof(char) * TREL_MAX_STR_LEN, material);
+#else // Take the most portable approach for NIX
+    strncpy(screws->material, material, TREL_MAX_STR_LEN);
+#endif
     screws->diameter = diameter;
     screws->amount = amount;
     screws->dist_center_wall = dist_center_wall;
