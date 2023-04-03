@@ -61,15 +61,15 @@ typedef struct engine
 // Struct for height simulation results
 typedef struct trel_height_sim_values
 {
-    double rocket_position[1000];
-    double rocket_speed[1000]; // m/s
-    double rocket_acceleration[1000];
-    double rocket_force_balance[1000];
-    double rocket_drag[1000];
-    double rocket_weight[1000];
-    double rocket_mass[1000];
-    double rocket_force[1000];
-    double time[1000];
+    double rocket_position[TREL_MAX_ITERATIONS];
+    double rocket_speed[TREL_MAX_ITERATIONS]; // m/s
+    double rocket_acceleration[TREL_MAX_ITERATIONS];
+    double rocket_force_balance[TREL_MAX_ITERATIONS];
+    double rocket_drag[TREL_MAX_ITERATIONS];
+    double rocket_weight[TREL_MAX_ITERATIONS];
+    double rocket_mass[TREL_MAX_ITERATIONS];
+    double rocket_force[TREL_MAX_ITERATIONS];
+    double time[TREL_MAX_ITERATIONS];
     double max_rocket_height;
     double max_rocket_position;
     double max_rocket_speed; // m/s

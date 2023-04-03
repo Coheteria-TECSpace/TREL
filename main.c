@@ -66,35 +66,31 @@ void print_debug_example()
 	);
 
 	// Acceder a memoria inicializada
-	printf("La presion del motor dada es %lf psi\n",trel_get_pressure(testing_engine));
-	printf("\nLa velocidad de escape automaticamente inicializada es %lf\n", trel_get_escape_vel(testing_engine));
+	//printf("La presion del motor dada es %lf psi\n",trel_get_pressure(testing_engine));
+	//printf("\nLa velocidad de escape automaticamente inicializada es %lf\n", trel_get_escape_vel(testing_engine));
 
 	// Modificar valores de memoria con funciones
-	trel_set_escape_vel(testing_engine, 666.420);
-	printf("\nLa velocidad de escape modificada con tsel_set_escape_vel() es %lf\n", trel_get_escape_vel(testing_engine));
+	//trel_set_escape_vel(testing_engine, 666.420);
+	//printf("\nLa velocidad de escape modificada con tsel_set_escape_vel() es %lf\n", trel_get_escape_vel(testing_engine));
 
 	// Usando una funcion de rendimientos.c
-	printf("\nEl valor de combuistion es %lf\n", br_combustion(testing_engine));
+	//printf("\nEl valor de combuistion es %lf\n", br_combustion(testing_engine));
 
 	// Usando una funcion de val_termod.c
-	printf("\nLa temperatura en garganta es de %lf\n", trel_temper_garganta(testing_engine));
+	//printf("\nLa temperatura en garganta es de %lf\n", trel_temper_garganta(testing_engine));
 
 	// Probando valores generados por comp_area.c
-	printf("\nArea longitudinal promedio: %lf\n", testing_engine->comp_area_values->avg_long_area);
-	printf("Area quemado promedio: %lf\n", testing_engine->comp_area_values->avg_burn_area);
-	printf("Area transversal promedio: %lf\n", testing_engine->comp_area_values->avg_trans_area);
-	printf("Suma de diferencia quemado: %lf\n", testing_engine->comp_area_values->burn_sum_diff);
-	printf("Desviacion estandar area de quemado: %lf\n", testing_engine->comp_area_values->burn_std_deviation);
+	//printf("\nArea longitudinal promedio: %lf\n", testing_engine->comp_area_values->avg_long_area);
+	//printf("Area quemado promedio: %lf\n", testing_engine->comp_area_values->avg_burn_area);
+	//printf("Area transversal promedio: %lf\n", testing_engine->comp_area_values->avg_trans_area);
+	//printf("Suma de diferencia quemado: %lf\n", testing_engine->comp_area_values->burn_sum_diff);
+	//printf("Desviacion estandar area de quemado: %lf\n", testing_engine->comp_area_values->burn_std_deviation);
 
 	// Probando valores generados por comp_tiempo.c
-	printf("\nDelta V total: %lf\n", testing_rocket->delta_v);
-	printf("Maximo impulso: %lf\n", testing_rocket->max_thrust);
-	printf("Impulso promedio: %lf\n", testing_rocket->avg_thrust);
-	printf("Maxima presion: %lf\n", testing_rocket->max_pressure);
-
-	// Probando valores generados por height_sim.c
-	for (int i = 0; i < 50; i += 10)
-		printf("Masa de cohete %lf\n", testing_rocket->sim_values->rocket_mass[i]);
+	//printf("\nDelta V total: %lf\n", testing_rocket->delta_v);
+	//printf("Maximo impulso: %lf\n", testing_rocket->max_thrust);
+	//printf("Impulso promedio: %lf\n", testing_rocket->avg_thrust);
+	//printf("Maxima presion: %lf\n", testing_rocket->max_pressure);
 	
 	// Printing rocket values
 	printf("\nRocket data\n");

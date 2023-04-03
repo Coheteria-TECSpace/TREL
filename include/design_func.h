@@ -29,5 +29,6 @@ double long_secc_combus(engine_t* engine);
 double volumen_unitario(engine_t* engine);
 double desv_est_grains(engine_t* engine);
 double throat_area(engine_t* engine);
+double escape_area(engine_t* engine);
 
 #endif //DESIGN_FUNC_H

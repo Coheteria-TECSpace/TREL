@@ -160,13 +160,13 @@ double diferencia_radio_externo(engine_t *engine)
 // E88
 double throat_area(engine_t *engine)
 {
-	return((double)mg_combustion(engine) * vol_esp_garganta(engine) / velocidad_garganta(engine));
+	return(mg_combustion(engine) * vol_esp_garganta(engine) / velocidad_garganta(engine));
 }
 
 // E89
 double escape_area(engine_t* engine)
 {
-	return((double)mg_combustion(engine) * vol_esp_escape(engine) / calc_escape_vel(engine));
+	return(mg_combustion(engine) * vol_esp_escape(engine) / calc_escape_vel(engine));
 }
 
 // E101 engine->nozzle_efficiency

@@ -30,6 +30,19 @@ trel_rocket_t *trel_rocket_init(
     sim_values->max_rocket_position = 0.0;
     sim_values->max_rocket_speed = 0.0;
 
+    for (unsigned int i = 0; i < TREL_MAX_ITERATIONS; i++)
+    {
+        sim_values->rocket_position[i] = 0.0;
+        sim_values->rocket_speed[i] = 0.0;
+        sim_values->rocket_acceleration[i] = 0.0;
+        sim_values->rocket_force_balance[i] = 0.0;
+        sim_values->rocket_drag[i] = 0.0;
+        sim_values->rocket_weight[i] = 0.0;
+        sim_values->rocket_mass[i] = 0.0;
+        sim_values->rocket_force[i] = 0.0;
+        sim_values->time[i] = 0.0;
+    }
+
     rocket->telemetry_mass = telemetry_mass;
     rocket->parachute_mass = parachute_mass;
     rocket->fuselage_mass = fuselage_mass;

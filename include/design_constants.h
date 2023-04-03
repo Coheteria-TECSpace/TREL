@@ -2,6 +2,7 @@
 #define TREL_CONSTANTS
 
 #define TREL_MAX_STR_LEN 100
+#define TREL_MAX_ITERATIONS 1000
 
 //Constantes matemáticas
 #define TREL_PI 3.1415926535898			// PI

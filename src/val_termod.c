@@ -12,7 +12,7 @@ double vol_esp_cam_combustion(engine_t *engine)
 // E50 Volumen Especifico de Garganta
 double vol_esp_garganta(engine_t *engine)
 {
-    return vol_esp_cam_combustion(engine) * (pow((TREL_HEAT_CAP_RATIO + 1),(1 / TREL_HEAT_CAP_RATIO - 1)));
+    return vol_esp_cam_combustion(engine) * pow((TREL_HEAT_CAP_RATIO + 1.0) / 2.0 , (1.0 / (TREL_HEAT_CAP_RATIO - 1.0)));
 }
 
 // E51 Volumen Especifico Escape
