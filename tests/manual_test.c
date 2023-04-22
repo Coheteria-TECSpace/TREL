@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <string.h>
 // Header for all the library functions
 #include <TREL.h>
 
@@ -26,10 +25,6 @@ void print_debug_example()
 		0.007466,
 		0.01
 	);
-
-    //printf("Probando %i y %s\n", created_screw->amount, created_screw->material);
-    printf("Probando %i\n", created_screw->amount);
-
 	// Se inicializa la tuberia
     tubing_t* created_tube = trel_tubing_init(
         "Aluminio 6061-T6",
@@ -80,17 +75,17 @@ void print_debug_example()
 	//printf("\nLa temperatura en garganta es de %lf\n", trel_temper_garganta(testing_engine));
 
 	// Probando valores generados por comp_area.c
-	//printf("\nArea longitudinal promedio: %lf\n", testing_engine->comp_area_values->avg_long_area);
-	//printf("Area quemado promedio: %lf\n", testing_engine->comp_area_values->avg_burn_area);
-	//printf("Area transversal promedio: %lf\n", testing_engine->comp_area_values->avg_trans_area);
-	//printf("Suma de diferencia quemado: %lf\n", testing_engine->comp_area_values->burn_sum_diff);
-	//printf("Desviacion estandar area de quemado: %lf\n", testing_engine->comp_area_values->burn_std_deviation);
+	printf("\nArea longitudinal promedio: %lf\n", testing_engine->comp_area_values->avg_long_area);
+	printf("Area quemado promedio: %lf\n", testing_engine->comp_area_values->avg_burn_area);
+	printf("Area transversal promedio: %lf\n", testing_engine->comp_area_values->avg_trans_area);
+	printf("Suma de diferencia quemado: %lf\n", testing_engine->comp_area_values->burn_sum_diff);
+	printf("Desviacion estandar area de quemado: %lf\n", testing_engine->comp_area_values->burn_std_deviation);
 
 	// Probando valores generados por comp_tiempo.c
-	//printf("\nDelta V total: %lf\n", testing_rocket->delta_v);
-	//printf("Maximo impulso: %lf\n", testing_rocket->max_thrust);
-	//printf("Impulso promedio: %lf\n", testing_rocket->avg_thrust);
-	//printf("Maxima presion: %lf\n", testing_rocket->max_pressure);
+	printf("\nDelta V total: %lf\n", testing_rocket->delta_v);
+	printf("Maximo impulso: %lf\n", testing_rocket->max_thrust);
+	printf("Impulso promedio: %lf\n", testing_rocket->avg_thrust);
+	printf("Maxima presion: %lf\n", testing_rocket->max_pressure);
 	
 	// Printing rocket values
 	printf("\nRocket data\n");
@@ -119,61 +114,13 @@ void print_debug_example()
 	printf("time %lf\n", testing_rocket->time);
 	*/
 
-	printf("Tubing's material name: %s\n", created_tube->material);
-	printf("Screws' material name: %s\n", created_screw->material);
+	//printf("Tubing's material name: %s\n", created_tube->material);
+	//printf("Screws' material name: %s\n", created_screw->material);
 }
 
 // Para hacer pruebas de la lib se tiene la aplicacion de CLI basica
 int main(int argc, char *argv[])
 {
-	printf("* * * * * * * * * * * * * * * * * * * * * * * *\n");
-	printf("*         TECSpace Rocket Engine Lib          *\n");
-	printf("*                v 0.2d                       *\n");
-	printf("* * * * * * * * * * * * * * * * * * * * * * * *\n\n");
-	if (argc <= 1)
-	{
-		printf(	"Usage: -f <enginefile> [options]\n"
-				"Check help with : --help or -h\n");
-
-		printf("\n* * *\nShowing debug example, gonna remove this for final CLI build\n* * *\n\n");
-
-		print_debug_example();
-	}
-	else
-	{
-		int i;
-		for (i = 1; i < argc; i++) {
-			printf("Parameter %s\n", argv[i]);
-			if (strncmp(argv[i],"-f",2) == 0) {
-				if (i+1 < argc) {
-					//-f toma el siguiente argumento
-					if (strncmp(argv[i+1],"debug",6) == 0) {
-						printf("\'-f debug\' showing the debugging example\n");
-						print_debug_example();
-					}
-					else {
-						printf("%s is not a valid file for -f\nRead --help\n", argv[i+1]);
-					}
-					i++;
-				}
-				else
-				{
-					printf("Missing arguments\n");
-				}
-			}
-			else if (strncmp(argv[i],"--help",7) == 0 || strncmp(argv[i],"-h",3) == 0) {
-				printf("This app hasn't been released yet, expect bugs\n\n");
-				printf("--help (-h)\nShows this message\n\n");
-				printf("-f <enginefile> [options]\nSelects the engine file to read and searches for options\n"
-					"options should be given as [opt1,opt2,opt3] with no spaces\n"
-					"there aren\'t avaliable options yet\n");
-			}
-			else
-			{
-				printf("Unknown parameter %s\n", argv[i]);
-			}
-			printf("\n");
-		}
-	}
+	print_debug_example();
 	return(0);
 }
