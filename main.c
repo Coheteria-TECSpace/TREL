@@ -88,18 +88,17 @@ void print_debug_example()
 	printf("Impulso promedio: %lf\n", testing_rocket->avg_thrust);
 	printf("Maxima presion: %lf\n\n", testing_rocket->max_pressure);
 	
+	/*
 	// Printing rocket values
-	//printf("\nRocket data\n");
-	//printf("telemetry_mass %lf\n", testing_rocket->telemetry_mass);
-	//printf("parachute_mass %lf\n", testing_rocket->parachute_mass);
-	//printf("fuselage_mass %lf\n", testing_rocket->fuselage_mass);
-	//printf("payload_mass %lf\n", testing_rocket->payload_mass);
+	printf("\nRocket data\n");
+	printf("telemetry_mass %lf\n", testing_rocket->telemetry_mass);
+	printf("parachute_mass %lf\n", testing_rocket->parachute_mass);
+	printf("fuselage_mass %lf\n", testing_rocket->fuselage_mass);
+	printf("payload_mass %lf\n", testing_rocket->payload_mass);
 	printf("initial_height %lf\n", testing_rocket->initial_height);
 	printf("sim_latitude %lf\n", testing_rocket->sim_latitude);
-	printf("max_sim_height %lf\n", testing_rocket->max_sim_height);
 	printf("body_diameter %lf\n", testing_rocket->body_diameter);
 	printf("drag_coefficient %lf\n", testing_rocket->drag_coefficient);
-	/*
 	printf("rocket_position %lf\n", testing_rocket->rocket_position);
 	printf("rocket_speed %lf\n", testing_rocket->rocket_speed);
 	printf("rocket_acceleration %lf\n", testing_rocket->rocket_acceleration);
@@ -110,6 +109,13 @@ void print_debug_example()
 	printf("rocket_force %lf\n", testing_rocket->rocket_force);
 	printf("time %lf\n", testing_rocket->time);
 	*/
+
+    printf("max_rocket_height %lf\n", testing_rocket->sim_values->max_rocket_height);
+    printf("max_rocket_position %lf\n", testing_rocket->sim_values->max_rocket_position);
+    printf("max_rocket_speed %lf\n", testing_rocket->sim_values->max_rocket_speed); /* m/s */
+    printf("max_rocket_acceleration %lf\n", testing_rocket->sim_values->max_rocket_acceleration);
+    printf("max_rocket_force_balance %lf\n", testing_rocket->sim_values->max_rocket_force_balance);
+    printf("max_rocket_drag %lf\n", testing_rocket->sim_values->max_rocket_drag);
 
 	//printf("Tubing's material name: %s\n", created_tube->material);
 	//printf("Screws' material name: %s\n", created_screw->material);

@@ -51,7 +51,6 @@ trel_rocket_t *trel_rocket_init(
     rocket->engine = engine;
     rocket->initial_height = initial_height;
     rocket->sim_latitude = sim_latitude;
-    rocket->max_sim_height = 0.0;
     rocket->body_diameter = body_diameter;
     rocket->drag_coefficient = drag_coefficient;
     rocket->sim_values = sim_values;
