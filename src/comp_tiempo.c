@@ -2,6 +2,16 @@
 
 #define POW2(VAR) (VAR * VAR)
 
+double calc_iter_internal_mass(double produced_mass, double internal_mass, double escape_delta_m)
+{
+    double val = 0.0;
+    if (produced_mass + internal_mass - escape_delta_m > 0.0)
+    {
+        val = produced_mass + internal_mass - escape_delta_m;
+    }
+    return(val);
+}
+
 /*Comportamiento en el Tiempo!AD3511 */
 int trel_run_time_comp_iterations(trel_rocket_t* rocket)
 {
@@ -77,7 +87,7 @@ int trel_run_time_comp_iterations(trel_rocket_t* rocket)
         escape_massic_flux = calc_iter_escape_massic_flux(pressure_abs, TREL_ATMOSPHERIC_PRESSURE, engine);
         /*flux_diff = produced_massic_flux - escape_massic_flux; */
         escape_delta_m = escape_massic_flux * delta_t;
-        internal_mass = produced_mass + internal_mass - escape_delta_m > 0.0f ? produced_mass + internal_mass - escape_delta_m : 0.0f;
+        internal_mass = calc_iter_internal_mass(produced_mass, internal_mass, escape_delta_m);
         /*areas_ratio = total_burn_area / engine->grains->longitude; */
         virtual_escape_pressure = calc_iter_virt_escape_pressure(pressure_abs, engine);
         /*real_escape_pressure = pressure_abs / pow((1 + ((TREL_HEAT_CAP_RATIO - 1) / 2) * volumen_unitario(engine) * volumen_unitario(engine)), (TREL_HEAT_CAP_RATIO / (TREL_HEAT_CAP_RATIO - 1))) < TREL_ATMOSPHERIC_PRESSURE ? TREL_ATMOSPHERIC_PRESSURE : pressure_abs / pow((1 + ((TREL_HEAT_CAP_RATIO - 1) / 2) * volumen_unitario(engine) * volumen_unitario(engine)), (TREL_HEAT_CAP_RATIO / (TREL_HEAT_CAP_RATIO - 1))); */
@@ -86,7 +96,7 @@ int trel_run_time_comp_iterations(trel_rocket_t* rocket)
         /*total_thrust = ((force + adjusted_cr * pressure_abs * engine->grains->longitude > 0 ? adjusted_cr * pressure_abs * engine->grains->longitude : 0.0f) / (2.0f)) * delta_t; */
         last_force = force;
         force = adjusted_cf * pressure_abs * throat_area(engine) > 0 ? adjusted_cf * pressure_abs * throat_area(engine) : 0.0;
-        total_thrust = (force + last_force) / 2.0 * delta_t;
+        total_thrust = ((force + last_force) / 2.0) * delta_t;
         delta_v = total_thrust / (fuel_mass + dead_mass);
 
         /* step time value */
@@ -97,10 +107,10 @@ int trel_run_time_comp_iterations(trel_rocket_t* rocket)
 
         /* add to delta_v sum and avg thrust */
         sum_delta_v += delta_v;
-        sum_avg_thrust += force;
+        sum_avg_thrust += total_thrust;
 
-        if (force > max_thrust)
-            max_thrust = force;
+        if (total_thrust > max_thrust)
+            max_thrust = total_thrust;
 
         if (pressure_abs > max_pressure)
             max_pressure = pressure_abs;
