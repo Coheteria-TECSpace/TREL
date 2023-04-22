@@ -5,6 +5,8 @@ CMakeSettings.json
 out/
 # Recommended build directory
 build/
+Debug/
+Release/
 # Binary files leftover 
 *.exe
 *.so

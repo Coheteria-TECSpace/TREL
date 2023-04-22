@@ -7,7 +7,6 @@
 void print_debug_example()
 {
 	// Se inicializan los tornillos
-    printf("Inicializando structs\n");
 	grains_t* created_grains = trel_grains_init(
 		4,
 		0.01,
@@ -26,9 +25,6 @@ void print_debug_example()
 		0.007466,
 		0.01
 	);
-
-    //printf("Probando %i y %s\n", created_screw->amount, created_screw->material);
-    printf("Probando %i\n", created_screw->amount);
 
 	// Se inicializa la tuberia
     tubing_t* created_tube = trel_tubing_init(
@@ -87,22 +83,18 @@ void print_debug_example()
 	//printf("Desviacion estandar area de quemado: %lf\n", testing_engine->comp_area_values->burn_std_deviation);
 
 	// Probando valores generados por comp_tiempo.c
-	//printf("\nDelta V total: %lf\n", testing_rocket->delta_v);
-	//printf("Maximo impulso: %lf\n", testing_rocket->max_thrust);
-	//printf("Impulso promedio: %lf\n", testing_rocket->avg_thrust);
-	//printf("Maxima presion: %lf\n", testing_rocket->max_pressure);
+	printf("\nDelta V total: %lf\n", testing_rocket->delta_v);
+	printf("Maximo impulso: %lf\n", testing_rocket->max_thrust);
+	printf("Impulso promedio: %lf\n", testing_rocket->avg_thrust);
+	printf("Maxima presion: %lf\n\n", testing_rocket->max_pressure);
 	
 	// Printing rocket values
-	printf("\nRocket data\n");
-	printf("telemetry_mass %lf\n", testing_rocket->telemetry_mass);
-	printf("parachute_mass %lf\n", testing_rocket->parachute_mass);
-	printf("fuselage_mass %lf\n", testing_rocket->fuselage_mass);
-	printf("payload_mass %lf\n", testing_rocket->payload_mass);
+	//printf("\nRocket data\n");
+	//printf("telemetry_mass %lf\n", testing_rocket->telemetry_mass);
+	//printf("parachute_mass %lf\n", testing_rocket->parachute_mass);
+	//printf("fuselage_mass %lf\n", testing_rocket->fuselage_mass);
+	//printf("payload_mass %lf\n", testing_rocket->payload_mass);
 	printf("initial_height %lf\n", testing_rocket->initial_height);
-	printf("avg_thrust %lf\n", testing_rocket->avg_thrust);
-	printf("max_thrust %lf\n", testing_rocket->max_thrust);
-	printf("delta_v %lf\n", testing_rocket->delta_v);
-	printf("max_pressure %lf\n", testing_rocket->max_pressure);
 	printf("sim_latitude %lf\n", testing_rocket->sim_latitude);
 	printf("max_sim_height %lf\n", testing_rocket->max_sim_height);
 	printf("body_diameter %lf\n", testing_rocket->body_diameter);
@@ -119,61 +111,13 @@ void print_debug_example()
 	printf("time %lf\n", testing_rocket->time);
 	*/
 
-	printf("Tubing's material name: %s\n", created_tube->material);
-	printf("Screws' material name: %s\n", created_screw->material);
+	//printf("Tubing's material name: %s\n", created_tube->material);
+	//printf("Screws' material name: %s\n", created_screw->material);
 }
 
 // Para hacer pruebas de la lib se tiene la aplicacion de CLI basica
 int main(int argc, char *argv[])
 {
-	printf("* * * * * * * * * * * * * * * * * * * * * * * *\n");
-	printf("*         TECSpace Rocket Engine Lib          *\n");
-	printf("*                v 0.2d                       *\n");
-	printf("* * * * * * * * * * * * * * * * * * * * * * * *\n\n");
-	if (argc <= 1)
-	{
-		printf(	"Usage: -f <enginefile> [options]\n"
-				"Check help with : --help or -h\n");
-
-		printf("\n* * *\nShowing debug example, gonna remove this for final CLI build\n* * *\n\n");
-
-		print_debug_example();
-	}
-	else
-	{
-		int i;
-		for (i = 1; i < argc; i++) {
-			printf("Parameter %s\n", argv[i]);
-			if (strncmp(argv[i],"-f",2) == 0) {
-				if (i+1 < argc) {
-					//-f toma el siguiente argumento
-					if (strncmp(argv[i+1],"debug",6) == 0) {
-						printf("\'-f debug\' showing the debugging example\n");
-						print_debug_example();
-					}
-					else {
-						printf("%s is not a valid file for -f\nRead --help\n", argv[i+1]);
-					}
-					i++;
-				}
-				else
-				{
-					printf("Missing arguments\n");
-				}
-			}
-			else if (strncmp(argv[i],"--help",7) == 0 || strncmp(argv[i],"-h",3) == 0) {
-				printf("This app hasn't been released yet, expect bugs\n\n");
-				printf("--help (-h)\nShows this message\n\n");
-				printf("-f <enginefile> [options]\nSelects the engine file to read and searches for options\n"
-					"options should be given as [opt1,opt2,opt3] with no spaces\n"
-					"there aren\'t avaliable options yet\n");
-			}
-			else
-			{
-				printf("Unknown parameter %s\n", argv[i]);
-			}
-			printf("\n");
-		}
-	}
+	print_debug_example();
 	return(0);
 }

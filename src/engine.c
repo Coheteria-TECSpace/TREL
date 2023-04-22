@@ -58,9 +58,9 @@ tubing_t* trel_tubing_init(
         exit(1);
     }
 #if defined (_WIN32) /* Take advantage of TR 24731-1 from MSVC */
-    strcpy_s(tube->material, sizeof(char) * TREL_MAX_STR_LEN, material);
+    strcpy_s(tube->material, sizeof(char) * TREL_MAX_STR_LEN - 1, material);
 #else /* Take the most portable approach for NIX */
-    strncpy(tube->material, material, TREL_MAX_STR_LEN);
+    strncpy(tube->material, material, TREL_MAX_STR_LEN - 1);
 #endif
     tube->diameter_ext              = diameter;
     tube->wall_thickness            = thickness;
@@ -91,9 +91,9 @@ screws_t* trel_screws_init(
         exit(1);
     }
 #if defined (_WIN32) /* Take advantage of TR 24731-1 from MSVC */
-    strcpy_s(screws->material, sizeof(char) * TREL_MAX_STR_LEN, material);
+    strcpy_s(screws->material, sizeof(char) * TREL_MAX_STR_LEN - 1, material);
 #else /* Take the most portable approach for NIX */
-    strncpy(screws->material, material, TREL_MAX_STR_LEN);
+    strncpy(screws->material, material, TREL_MAX_STR_LEN - 1);
 #endif
     screws->diameter = diameter;
     screws->amount = amount;
