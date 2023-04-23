@@ -4,7 +4,8 @@
 CMakeSettings.json
 out/
 # Recommended build directory
-build/
+Release/
+Debug/
 # Binary files leftover 
 *.exe
 *.so
@@ -16,5 +17,5 @@ build/
 # Compressed files for whatever reason
 *.zip
 *.7z
-# Python interpreter leftovers
+# Bindings stuff
 __pycache__/
