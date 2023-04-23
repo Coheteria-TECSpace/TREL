@@ -2,6 +2,7 @@
 .vs/
 .vscode/
 CMakeSettings.json
+CMakePresets.json
 out/
 # Recommended build directory
 Release/

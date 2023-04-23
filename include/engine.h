@@ -53,10 +53,10 @@ void TREL_EXPORT trel_set_pressure(engine_t *engine, double pressure);
 void TREL_EXPORT trel_set_escape_vel(engine_t *engine, double vel);
 double TREL_EXPORT trel_get_escape_vel(engine_t *engine);
 double TREL_EXPORT trel_get_pressure(engine_t *engine);
-void trel_grains_free(grains_t** grains);
-void trel_fuel_free(fuel_t** fuel);
-void trel_tubing_free(tubing_t** tubing);
-void trel_screws_free(screws_t** screws);
-void trel_engine_free(engine_t** engine);
+void TREL_EXPORT trel_grains_free(grains_t** grains);
+void TREL_EXPORT trel_fuel_free(fuel_t** fuel);
+void TREL_EXPORT trel_tubing_free(tubing_t** tubing);
+void TREL_EXPORT trel_screws_free(screws_t** screws);
+void TREL_EXPORT trel_engine_free(engine_t** engine);
 
 #endif /* ENGINE_H */

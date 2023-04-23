@@ -1,9 +1,6 @@
 # @version 0.0.1
 # CMake allows for a wide range of platforms and IDEs/build tools
 # This project structure was designed with Win32 and UNIX like OS in mind
-# Some terminal arguments should allow for specific builds with make
-# cmake -DCMAKE_BUILD_TYPE=Debug path/to/source
-# cmake -DCMAKE_BUILD_TYPE=Release path/to/source
 
 # Probably works on 3.12, hasn't been tested yet
 CMAKE_MINIMUM_REQUIRED (VERSION 3.13.4)
