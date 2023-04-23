@@ -1,6 +1,8 @@
 #include "design_func.h"
 /*Hoja de Excel: Diseño */
 
+#define TREL_GRAINS engine->(*grains)
+
 /*Functions*/
 /* E25 returns chamber pressure in pascals */
 double trel_get_pressure_pa(engine_t* engine)
@@ -17,7 +19,7 @@ double desv_est_grains(engine_t *engine)
 /*E35 Volumen unitario granos */
 double volumen_unitario(engine_t *engine)
 {
-	return(TREL_PI*(0.1)*((engine->grains->extern_radius)*(engine->grains->extern_radius)-(0.01)*(0.01)));
+	return(TREL_PI*(0.1)*(((*engine->grains)->extern_radius)*((*engine->grains)->extern_radius)-(0.01)*(0.01)));
 }
 
 /* E36 Masa unitaria grano */
@@ -29,19 +31,20 @@ double masa_unitaria(engine_t* engine)
 /* E37 Longitud total con combustible */
 double longitudt_ccombustible(engine_t *engine)
 {
-	return((engine->grains->amount)*(engine->grains->longitude));
+	return(((*engine->grains)->amount)*((*engine->grains)->longitude));
 }
 
 /* E38 Port Area */
 double port_area(engine_t* engine)
 {
-	return(TREL_PI*(engine->grains->init_inter_radius)*(engine->grains->init_inter_radius));
+	return(TREL_PI*((*engine->grains)->init_inter_radius)*((*engine->grains)->init_inter_radius));
 }
 
 /* E39 */
 double long_secc_combus(engine_t* engine)
 {
-	return((engine->grains->grain_separation)*((engine->grains->amount)-1.0)+((engine->grains->longitude)*(engine->grains->amount)));
+	return(((*engine->grains)->grain_separation)*(((*engine->grains)->amount)-1.0)+
+	       (((*engine->grains)->longitude)*((*engine->grains)->amount)));
 }
 
 /* E49 Volumen especifico camara */

@@ -13,8 +13,8 @@ double br_combustion(engine_t *engine)
 /*E67 Volumen_Combustible */
 double volumen_combustible(engine_t *engine)
 {
-    return(double)(TREL_PI*engine->grains->longitude*engine->grains->amount*(pow(
-                  engine->grains->extern_radius,2.0f)-pow(engine->grains->init_inter_radius,2.0f)));
+    return(double)(TREL_PI*(*engine->grains)->longitude*(*engine->grains)->amount*(pow(
+                  (*engine->grains)->extern_radius,2.0f)-pow((*engine->grains)->init_inter_radius,2.0f)));
 }
 
 /*E68 Masa_Combustible */
@@ -28,13 +28,13 @@ double masa_combustible(engine_t *engine)
 /*E70 Tiempo de quemado total_Combustible*/
 double Tiempo_quemado_combustion(engine_t *engine)
 {
-    return (engine->grains->extern_radius-engine->grains->init_inter_radius)/br_combustion(engine);
+    return ((*engine->grains)->extern_radius-(*engine->grains)->init_inter_radius)/br_combustion(engine);
 }
 
 /*E71 Área de quemado */
 double Ab_combustion(engine_t *engine)
 {
-    return (engine->comp_area_values->avg_burn_area*engine->grains->amount);
+    return (engine->comp_area_values->avg_burn_area*(*engine->grains)->amount);
 }
 
 /*E72 Flujo másico*/

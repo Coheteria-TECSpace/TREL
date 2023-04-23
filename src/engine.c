@@ -2,7 +2,7 @@
 #include "engine.h"
 
 /* Initializes all variables in the grains struct */
-grains_t* trel_grains_init(
+grains_t *trel_grains_init(
     unsigned int amount,
     double internal_radius,
     double external_radius,
@@ -109,7 +109,7 @@ engine_t* trel_engine_init(
     double pressure,
     double temperature,
     double engine_mass,
-    grains_t *grains,
+    grains_t **grains,
     fuel_t *fuel,
     tubing_t *tube,
     screws_t *screws)
@@ -194,4 +194,53 @@ int trel_set_engine_mass(engine_t* engine, double mass)
     if (!engine) return(1);
     engine->engine_mass = mass;
     return(0);
+}
+
+void trel_grains_free(grains_t** grains)
+{
+    free(*grains);
+    *grains = NULL;
+}
+
+void trel_fuel_free(fuel_t** fuel)
+{
+    free(*fuel);
+    *fuel = NULL;
+}
+
+void trel_tubing_free(tubing_t** tubing)
+{
+    free(*tubing);
+    *tubing = NULL;
+}
+
+void trel_screws_free(screws_t** screws)
+{
+    free(*screws);
+    *screws = NULL;
+}
+
+void trel_comp_area_free(comp_area_t** values)
+{
+    free(*values);
+    *values = NULL;
+}
+
+void trel_engine_free(engine_t** engine)
+{
+    if ((*engine)->comp_area_values != NULL)
+        trel_comp_area_free(&(*engine)->comp_area_values);
+    if ((*engine)->screws != NULL)
+        trel_screws_free(&(*engine)->screws);
+    if ((*engine)->tube != NULL)
+        trel_tubing_free(&(*engine)->tube);
+    if ((*engine)->fuel != NULL)
+        trel_fuel_free(&(*engine)->fuel);
+    if ((*engine)->grains != NULL)
+        trel_grains_free((*engine)->grains);
+    if (*engine != NULL)
+    {
+        free(*engine);
+        *engine = NULL;
+    }
 }

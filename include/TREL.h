@@ -119,7 +119,7 @@ engine_t *trel_engine_init(
     double pressure,         /* E24 */
     double temperature,      /* E26 */
     double engine_mass,
-    grains_t* grains,
+    grains_t **grains,
     fuel_t* fuel,
     tubing_t* tube,
     screws_t* screws
@@ -145,5 +145,11 @@ double br_combustion(engine_t *engine);
 int trel_run_area_comp_iterations(engine_t **engine);
 int trel_run_time_comp_iterations(trel_rocket_t* rocket);
 int trel_run_height_sim_iterations(trel_rocket_t** rocket);
+
+void trel_grains_free(grains_t** grains);
+void trel_fuel_free(fuel_t** fuel);
+void trel_tubing_free(tubing_t** tubing);
+void trel_screws_free(screws_t** screws);
+void trel_engine_free(engine_t** engine);
 
 #endif /*TREL_H */

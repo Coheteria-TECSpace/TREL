@@ -51,7 +51,7 @@ typedef struct engine
     double width_condition, margin_of_safety, max_stress, radial_stress;
     double tangencial_stress, longitudinal_stress, max_pressure;
     double nozzle_efficiency;
-    grains_t *grains;              /* ptr to intialized struct */
+    grains_t **grains;              /* ptr to intialized struct */
     fuel_t *fuel;
     tubing_t *tube;                /* ptr to intialized struct */
 	screws_t *screws;              /* ptr to initialized struct */

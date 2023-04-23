@@ -148,11 +148,11 @@ int trel_run_height_sim_iterations(trel_rocket_t** rocket)
     double virt_escape_pressure = 0.0;
     double delta_m = 0.0;
     const double total_volume = TREL_PI * POW2(engine->tube->internal_radius) * 
-                                (engine->grains->grain_separation * (engine->grains->amount - 1) + engine->grains->longitude * engine->grains->amount);
+                                ((*engine->grains)->grain_separation * ((*engine->grains)->amount - 1) + (*engine->grains)->longitude * (*engine->grains)->amount);
     
-    inst_long = engine->grains->longitude;
-    inst_radius = engine->grains->init_inter_radius;
-    fuel_volume = engine->grains->amount * TREL_PI * (POW2(engine->grains->extern_radius) - POW2(inst_radius)) * inst_long;
+    inst_long = (*engine->grains)->longitude;
+    inst_radius = (*engine->grains)->init_inter_radius;
+    fuel_volume = (*engine->grains)->amount * TREL_PI * (POW2((*engine->grains)->extern_radius) - POW2(inst_radius)) * inst_long;
     fuel_mass = fuel_volume * engine->fuel->density;
     prev_fuel_mass = fuel_mass;
     free_volume = total_volume - fuel_volume;
@@ -180,12 +180,12 @@ int trel_run_height_sim_iterations(trel_rocket_t** rocket)
         gravitational_accel = calc_iter_grav_accel(rocket, rocket_height);
         atmospheric_pressure = TREL_ATMOSPHERIC_PRESSURE * pow(1.0 - TREL_ADIABATIC_GRADIENT * rocket_height / TREL_STANDARD_TEMP, gravitational_accel * TREL_DRY_AIR_MOLAR_MASS / (TREL_IDEAL_GAS_CONST * TREL_ADIABATIC_GRADIENT));  /* ACA SE COLAPSA EL TITANIC */
         pressure = calc_iter_pressure(engine, intern_gas_mass, free_volume, atmospheric_pressure);
-        inst_radius = calc_inst_radius(inst_radius, burn_rate, step, (*rocket)->engine->grains->extern_radius);
+        inst_radius = calc_inst_radius(inst_radius, burn_rate, step, (*(*rocket)->engine->grains)->extern_radius);
         inst_long = calc_inst_long(inst_radius, inst_long, burn_rate, step);
         burn_rate = calc_burn_rate(engine, pressure);
         atmospheric_temp = TREL_STANDARD_TEMP - (TREL_ADIABATIC_GRADIENT * rocket_height);
         atmospheric_density = atmospheric_pressure * TREL_DRY_AIR_MOLAR_MASS / (TREL_IDEAL_GAS_CONST * atmospheric_temp);
-        fuel_volume = (*rocket)->engine->grains->amount * TREL_PI * (((*rocket)->engine->grains->extern_radius * (*rocket)->engine->grains->extern_radius) - inst_radius * inst_radius) * inst_long;
+        fuel_volume = (*(*rocket)->engine->grains)->amount * TREL_PI * (((*(*rocket)->engine->grains)->extern_radius * (*(*rocket)->engine->grains)->extern_radius) - inst_radius * inst_radius) * inst_long;
         escape_massic_flux = calc_iter_escape_massic_flux(pressure, atmospheric_pressure, engine);
         fuel_mass = fuel_volume * (*rocket)->engine->fuel->density;
         produced_mass = prev_fuel_mass - fuel_mass;

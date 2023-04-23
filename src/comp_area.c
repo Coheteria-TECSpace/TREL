@@ -44,13 +44,13 @@ int trel_run_area_comp_iterations(engine_t **engine)
     for (it = 0; it < max_iterations; it++)
     {
         /* instantaneous grain radius step */
-        inst_radius = (*engine)->grains->init_inter_radius + burn_rate * time;
+        inst_radius = (*(*engine)->grains)->init_inter_radius + burn_rate * time;
 
         /* instantaneous grain longitude step */
-        inst_long = (*engine)->grains->longitude - 2.0f * burn_rate * time;
+        inst_long = (*(*engine)->grains)->longitude - 2.0f * burn_rate * time;
 
         /* add to transversal area sum */
-        transversal_area = TREL_PI * ((*engine)->grains->extern_radius*(*engine)->grains->extern_radius - 
+        transversal_area = TREL_PI * ((*(*engine)->grains)->extern_radius*(*(*engine)->grains)->extern_radius - 
                                       inst_radius * inst_radius);
         sum_transversal_area += transversal_area;
         

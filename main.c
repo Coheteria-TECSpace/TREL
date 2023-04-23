@@ -7,7 +7,7 @@
 void print_debug_example()
 {
 	// Se inicializan los tornillos
-	grains_t* created_grains = trel_grains_init(
+	grains_t *created_grains = trel_grains_init(
 		4,
 		0.01,
 		0.0304,
@@ -43,7 +43,7 @@ void print_debug_example()
         800,
         1710,
 		1.5,
-		created_grains,
+		&created_grains,
 		created_fuel,
         created_tube,
         created_screw
@@ -119,6 +119,10 @@ void print_debug_example()
 
 	//printf("Tubing's material name: %s\n", created_tube->material);
 	//printf("Screws' material name: %s\n", created_screw->material);
+	//trel_grains_free(&created_grains);
+	//printf("%p\n", &testing_engine->grains);
+	//printf("%p\n", created_grains);
+	//trel_engine_free(&testing_engine);
 }
 
 // Para hacer pruebas de la lib se tiene la aplicacion de CLI basica
