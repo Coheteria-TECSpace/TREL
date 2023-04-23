@@ -110,9 +110,9 @@ engine_t* trel_engine_init(
     double temperature,
     double engine_mass,
     grains_t **grains,
-    fuel_t *fuel,
-    tubing_t *tube,
-    screws_t *screws)
+    fuel_t **fuel,
+    tubing_t **tube,
+    screws_t **screws)
 {
     comp_area_t *comp_area_values = (comp_area_t*) malloc(sizeof(comp_area_t));
     engine_t *engine = (engine_t *) malloc(sizeof(engine_t));
@@ -228,15 +228,34 @@ void trel_comp_area_free(comp_area_t** values)
 
 void trel_engine_free(engine_t** engine)
 {
+    if (*engine != NULL)
+    {
+    if ((*engine)->comp_area_values != NULL)
+    {
+        free((*engine)->comp_area_values);
+        (*engine)->comp_area_values = NULL;
+    }
+    if ((*(*engine)->screws) != NULL)
+    {
+        free((*(*engine)->screws));
+        (*(*engine)->screws) = NULL;
+    }
+    if ((*(*engine)->tube) != NULL)
+    {
+        free((*(*engine)->tube));
+        (*(*engine)->tube) = NULL;
+    }
+    if ((*(*engine)->fuel) != NULL)
+    {
+        free((*(*engine)->fuel));
+        (*(*engine)->fuel) = NULL;
+    }
     if ((*(*engine)->grains) != NULL)
     {
         free((*(*engine)->grains));
         (*(*engine)->grains) = NULL;
     }
-    (*engine)->grains = NULL;
-    if (*engine != NULL)
-    {
-        free(*engine);
-        *engine = NULL;
+    free(*engine);
+    *engine = NULL;
     }
 }

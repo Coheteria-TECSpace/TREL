@@ -38,16 +38,15 @@ void print_debug_example()
         205000000,
 		0.85
     );
-	grains_t **p = &created_grains;
 	// Se inicializa el motor usando los tornillos y tuberia creados
 	engine_t* testing_engine = trel_engine_init(
         800,
         1710,
 		1.5,
-		p,
-		created_fuel,
-        created_tube,
-        created_screw
+		&created_grains,
+		&created_fuel,
+        &created_tube,
+        &created_screw
     );
 	// Se inicializa el cohete
 	trel_rocket_t* testing_rocket = trel_rocket_init(
@@ -122,6 +121,9 @@ void print_debug_example()
 	//printf("Screws' material name: %s\n", created_screw->material);
 
 	trel_grains_free(&created_grains);
+	trel_fuel_free(&created_fuel);
+	trel_tubing_free(&created_tube);
+	trel_screws_free(&created_screw);
 	trel_engine_free(&testing_engine);
 }
 

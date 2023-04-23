@@ -25,7 +25,7 @@ double volumen_unitario(engine_t *engine)
 /* E36 Masa unitaria grano */
 double masa_unitaria(engine_t* engine)
 {
-	return(volumen_unitario(engine)*1000.0f*(engine->fuel->density));
+	return(volumen_unitario(engine)*1000.0f*((*engine->fuel)->density));
 }
 
 /* E37 Longitud total con combustible */
@@ -64,7 +64,7 @@ double calc_escape_vel(engine_t* engine)
 /* E140 Area interna */
 double area_interna(engine_t *engine)
 {
-	return(TREL_PI*pow(engine->tube->internal_radius,2));
+	return(TREL_PI*pow((*engine->tube)->internal_radius,2));
 }
 /* E141 Fuerza maxima */
 double fuerza_maxima(engine_t *engine)
@@ -74,24 +74,24 @@ double fuerza_maxima(engine_t *engine)
 /* E142 Fuerza por tornillo */
 double fuerza_tornillo(engine_t *engine)
 {
-	return(fuerza_maxima(engine)/engine->screws->amount);
+	return(fuerza_maxima(engine)/(*engine->screws)->amount);
 }
 /*Esfuerzo circunferencial*/
 /* E144 Tension */
 double tension(engine_t *engine)
 {
-	return(fuerza_maxima(engine)/engine->tube->material_area);
+	return(fuerza_maxima(engine)/(*engine->tube)->material_area);
 }
 /* E145 Margen de seguridad */
 double margen_de_seguridad(engine_t *engine)
 {
-	return(engine->tube->shear_stress_tension/tension(engine));
+	return((*engine->tube)->shear_stress_tension/tension(engine));
 }
 /*Esfuerzo longitudinal*/
 /* E146 Area de cortante */
 double area_de_cortante(engine_t *engine)
 {
-	return(engine->screws->width_cutting_segment*engine->tube->wall_thickness);
+	return((*engine->screws)->width_cutting_segment*(*engine->tube)->wall_thickness);
 }
 /* E147 Cortante promedio */
 double cortante_promedio(engine_t *engine)
@@ -101,29 +101,29 @@ double cortante_promedio(engine_t *engine)
 /* E148 Margen de seguridad cortante */
 double margen_de_seguridad_cortante(engine_t *engine)
 {
-	return(engine->tube->ult_stress_pressure/cortante_promedio(engine));
+	return((*engine->tube)->ult_stress_pressure/cortante_promedio(engine));
 }
 /*Esfuerzo de aplastamiento*/
 /* E149 Aplastamiento */
 double aplastamiento(engine_t *engine)
 {
-	return(fuerza_tornillo(engine)/engine->screws->area_per_screw);
+	return(fuerza_tornillo(engine)/(*engine->screws)->area_per_screw);
 }
 /* E150 Margen de seguridad aplaztamiento */
 double margen_de_seguridad_aplaztamiento(engine_t *engine)
 {
-	return(engine->tube->shear_stress_tension/aplastamiento(engine));
+	return((*engine->tube)->shear_stress_tension/aplastamiento(engine));
 }
 /*Deformacion circunferencial*/
 /* E152 Deformacion unitaria */
 double deformacion_unitaria(engine_t *engine)
 {
-	return(engine->tangencial_stress/engine->tube->young_module);
+	return(engine->tangencial_stress/(*engine->tube)->young_module);
 }
 /* E153 Circunferencia interna total */
 double circunferencia_interna_total(engine_t *engine)
 {
-	return(2*TREL_PI*engine->tube->internal_radius);
+	return(2*TREL_PI*(*engine->tube)->internal_radius);
 }
 /* E154 Deformacion de la circunferencia interna */
 double deformacion_circunferencia_interna(engine_t *engine)
@@ -133,7 +133,7 @@ double deformacion_circunferencia_interna(engine_t *engine)
 /* E155 Circunferencia externa inicial */
 double circunferencia_externa_inicial(engine_t *engine)
 {
-	return(TREL_PI*engine->tube->diameter_ext);
+	return(TREL_PI*(*engine->tube)->diameter_ext);
 }
 /* E156 Deformacion de circunferencia externa */
 double deformacion_circunferencia_externa(engine_t *engine)
@@ -147,17 +147,17 @@ double radio_final(double circ_total,double deform_circ)
 	return(circ_total*(deform_circ/1000.0f)/(2.0f*TREL_PI));
 }
 /* E158 Diferencia de radio interno */
-/*double engine->tube->internal_radius = 1;	 Dependencia E15  */
+/*double (*engine->tube)->internal_radius = 1;	 Dependencia E15  */
 double diferencia_radio_interno(engine_t *engine)
 {
-	return(radio_final(circunferencia_interna_total(engine),deformacion_circunferencia_interna(engine))-engine->tube->internal_radius*1000.0f);
+	return(radio_final(circunferencia_interna_total(engine),deformacion_circunferencia_interna(engine))-(*engine->tube)->internal_radius*1000.0f);
 }
 /* E159 es la misma ecuacion de E157 */
 /* radio_final(circunferencia_interna_inicial(),deformacion_circunferencia_externa()); */
 /* E160 Diferencia radio externo */
 double diferencia_radio_externo(engine_t *engine)
 {
-	return((radio_final(circunferencia_externa_inicial(engine),deformacion_circunferencia_externa(engine))-(engine->tube->diameter_ext/2.0f))*1000.0f);
+	return((radio_final(circunferencia_externa_inicial(engine),deformacion_circunferencia_externa(engine))-((*engine->tube)->diameter_ext/2.0f))*1000.0f);
 }
 /*Escape*/
 /* E88 */

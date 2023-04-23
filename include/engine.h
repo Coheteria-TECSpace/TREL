@@ -44,9 +44,9 @@ engine_t TREL_EXPORT* trel_engine_init(
     double temperature,      /* E26 */
     double engine_mass,
     grains_t **grains,
-    fuel_t* fuel,
-    tubing_t* tube,
-    screws_t* screws
+    fuel_t **fuel,
+    tubing_t **tube,
+    screws_t **screws
 );
 double TREL_EXPORT trel_psi_to_pa(double psi);
 void TREL_EXPORT trel_set_pressure(engine_t *engine, double pressure);

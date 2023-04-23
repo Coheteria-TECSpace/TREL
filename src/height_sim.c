@@ -45,7 +45,7 @@ double calc_inst_radius(double inst_radius, double burn_rate, double step, doubl
 
 double calc_burn_rate(engine_t *engine, double pressure)
 {
-    return(engine->fuel->const_burn_rate * pow(pressure * 0.000145038, engine->fuel->pressure_exponent) * 0.0254);
+    return((*engine->fuel)->const_burn_rate * pow(pressure * 0.000145038, (*engine->fuel)->pressure_exponent) * 0.0254);
 }
 
 double calc_inst_long(double inst_radius, double inst_long, double burn_rate, double step)
@@ -147,13 +147,13 @@ int trel_run_height_sim_iterations(trel_rocket_t** rocket)
     double burn_rate = 0.0;
     double virt_escape_pressure = 0.0;
     double delta_m = 0.0;
-    const double total_volume = TREL_PI * POW2(engine->tube->internal_radius) * 
+    const double total_volume = TREL_PI * POW2((*engine->tube)->internal_radius) * 
                                 ((*engine->grains)->grain_separation * ((*engine->grains)->amount - 1) + (*engine->grains)->longitude * (*engine->grains)->amount);
     
     inst_long = (*engine->grains)->longitude;
     inst_radius = (*engine->grains)->init_inter_radius;
     fuel_volume = (*engine->grains)->amount * TREL_PI * (POW2((*engine->grains)->extern_radius) - POW2(inst_radius)) * inst_long;
-    fuel_mass = fuel_volume * engine->fuel->density;
+    fuel_mass = fuel_volume * (*engine->fuel)->density;
     prev_fuel_mass = fuel_mass;
     free_volume = total_volume - fuel_volume;
     rocket_height = (*rocket)->initial_height;
@@ -164,11 +164,11 @@ int trel_run_height_sim_iterations(trel_rocket_t** rocket)
     burn_rate = calc_burn_rate(engine, pressure);
     atmospheric_temp = TREL_STANDARD_TEMP - (TREL_ADIABATIC_GRADIENT * rocket_height);
     atmospheric_density = atmospheric_pressure * TREL_DRY_AIR_MOLAR_MASS / (TREL_IDEAL_GAS_CONST * atmospheric_temp);
-    res->rocket_mass[0] = (*rocket)->telemetry_mass + (*rocket)->parachute_mass + (*rocket)->fuselage_mass + (*rocket)->payload_mass + (*rocket)->engine->engine_mass + (*rocket)->engine->fuel->density * fuel_volume;
+    res->rocket_mass[0] = (*rocket)->telemetry_mass + (*rocket)->parachute_mass + (*rocket)->fuselage_mass + (*rocket)->payload_mass + (*rocket)->engine->engine_mass + (*(*rocket)->engine->fuel)->density * fuel_volume;
     res->rocket_weight[0] = res->rocket_mass[0] * gravitational_accel;
     virt_escape_pressure = calc_iter_virt_escape_pressure(pressure, engine);
     force_coeff = calc_iter_force_coeff(virt_escape_pressure, pressure, atmospheric_pressure, engine);
-    adjusted_cf = force_coeff * (*rocket)->engine->tube->nozzle_efficiency;
+    adjusted_cf = force_coeff * (*(*rocket)->engine->tube)->nozzle_efficiency;
     res->rocket_force[0] = adjusted_cf * pressure * throat_area((*rocket)->engine) > 0 ? adjusted_cf * pressure * throat_area((*rocket)->engine) : 0;
     res->rocket_force_balance[0] = calc_force_balance(res->rocket_force[0], res->rocket_position[0], res->rocket_speed[0], res->rocket_drag[0], res->rocket_weight[0]);
 
@@ -187,7 +187,7 @@ int trel_run_height_sim_iterations(trel_rocket_t** rocket)
         atmospheric_density = atmospheric_pressure * TREL_DRY_AIR_MOLAR_MASS / (TREL_IDEAL_GAS_CONST * atmospheric_temp);
         fuel_volume = (*(*rocket)->engine->grains)->amount * TREL_PI * (((*(*rocket)->engine->grains)->extern_radius * (*(*rocket)->engine->grains)->extern_radius) - inst_radius * inst_radius) * inst_long;
         escape_massic_flux = calc_iter_escape_massic_flux(pressure, atmospheric_pressure, engine);
-        fuel_mass = fuel_volume * (*rocket)->engine->fuel->density;
+        fuel_mass = fuel_volume * (*(*rocket)->engine->fuel)->density;
         produced_mass = prev_fuel_mass - fuel_mass;
         prev_fuel_mass = fuel_mass;
         delta_m = escape_massic_flux * step;
@@ -195,7 +195,7 @@ int trel_run_height_sim_iterations(trel_rocket_t** rocket)
         free_volume = total_volume - fuel_volume;
         virt_escape_pressure = calc_iter_virt_escape_pressure(pressure, engine);
         force_coeff = calc_iter_force_coeff(virt_escape_pressure, pressure, atmospheric_pressure, engine);
-        adjusted_cf = force_coeff * (*rocket)->engine->tube->nozzle_efficiency;
+        adjusted_cf = force_coeff * (*(*rocket)->engine->tube)->nozzle_efficiency;
         res->rocket_mass[it] = (*rocket)->telemetry_mass + (*rocket)->parachute_mass + (*rocket)->fuselage_mass + (*rocket)->payload_mass + (*rocket)->engine->engine_mass + fuel_mass;
         res->rocket_weight[it] = res->rocket_mass[it] * gravitational_accel;
         res->rocket_drag[it] = 0.5 * atmospheric_density * (*rocket)->drag_coefficient * TRANSVERSAL_AREA((*rocket)->body_diameter) * res->rocket_speed[it - 1] * res->rocket_speed[it - 1];

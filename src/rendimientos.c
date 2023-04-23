@@ -4,8 +4,8 @@
 /*E43 */
 double br_combustion(engine_t *engine)
 {
-    return (engine->fuel->const_burn_rate* pow(trel_get_pressure_pa(engine) * 
-            FACT_CONV_BR, engine->fuel->pressure_exponent) * FACT_CONV_M_TO_I);
+    return ((*engine->fuel)->const_burn_rate* pow(trel_get_pressure_pa(engine) * 
+            FACT_CONV_BR, (*engine->fuel)->pressure_exponent) * FACT_CONV_M_TO_I);
 }
 
 /*Combustible */
@@ -20,7 +20,7 @@ double volumen_combustible(engine_t *engine)
 /*E68 Masa_Combustible */
 double masa_combustible(engine_t *engine)
 {
-    return (volumen_combustible(engine) *engine->fuel->density);
+    return (volumen_combustible(engine) *(*engine->fuel)->density);
 }
 
 /*Combustión*/
@@ -40,7 +40,7 @@ double Ab_combustion(engine_t *engine)
 /*E72 Flujo másico*/
 double mg_combustion(engine_t *engine)
 {
-    return Ab_combustion(engine)*engine->fuel->density*br_combustion(engine);
+    return Ab_combustion(engine)*(*engine->fuel)->density*br_combustion(engine);
 }
 
 /*Fuerzas*/
@@ -76,7 +76,7 @@ double I_sp_teo(engine_t *engine)
 /*E82 Impulso específico esperado*/
 double I_sp_esperado(engine_t* engine)
 {
-    return(engine->fuel->density);
+    return((*engine->fuel)->density);
 }
 
 /*E83 Impulso total teórico*/
