@@ -2,7 +2,7 @@
 
 /* Initializes all the variables in the rocket struct */
 trel_rocket_t *trel_rocket_init(
-    engine_t* engine,
+    engine_t **engine,
     double telemetry_mass,
     double parachute_mass,
     double fuselage_mass,
@@ -63,4 +63,25 @@ trel_rocket_t *trel_rocket_init(
         return(NULL); /* NULL means the engine couldn't be properly generated */
     }
     return(rocket);
+}
+
+void trel_height_sim_free(trel_height_sim_t **values)
+{
+    free(*values);
+    *values = NULL;
+}
+
+void trel_rocket_free(trel_rocket_t **rocket)
+{
+    if (*rocket != NULL)
+    if ((*rocket)->sim_values != NULL)
+    {
+        free((*rocket)->sim_values);
+        (*rocket)->sim_values = NULL;
+    }
+    trel_engine_free((*rocket)->engine);
+    {
+    free(*rocket);
+    *rocket = NULL;
+    }
 }

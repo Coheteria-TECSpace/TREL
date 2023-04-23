@@ -50,7 +50,7 @@ void print_debug_example()
     );
 	// Se inicializa el cohete
 	trel_rocket_t* testing_rocket = trel_rocket_init(
-		testing_engine,  // engine
+		&testing_engine,  // engine
 		0.3,             // telemetry_mass
 		0.05,            // parachute_mass
 		5.0,             // fuselage_mass
@@ -125,6 +125,7 @@ void print_debug_example()
 	trel_tubing_free(&created_tube);
 	trel_screws_free(&created_screw);
 	trel_engine_free(&testing_engine);
+	trel_rocket_free(&testing_rocket);
 }
 
 // Para hacer pruebas de la lib se tiene la aplicacion de CLI basica

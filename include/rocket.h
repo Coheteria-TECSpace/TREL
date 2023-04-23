@@ -12,7 +12,7 @@
 
 /* Function prototypes */
 trel_rocket_t TREL_EXPORT* trel_rocket_init(
-    engine_t* engine,
+    engine_t **engine,
     double telemetry_mass,
     double parachute_mass,
     double fuselage_mass,
@@ -22,5 +22,7 @@ trel_rocket_t TREL_EXPORT* trel_rocket_init(
     double body_diameter,
     double drag_coefficient
 );
+
+void trel_rocket_free(trel_rocket_t **rocket);
 
 #endif/*ROCKET_H */

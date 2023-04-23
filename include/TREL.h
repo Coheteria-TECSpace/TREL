@@ -78,7 +78,7 @@ typedef struct trel_height_sim_values
 /* Struct for the rocket */
 typedef struct trel_rocket
 {
-    engine_t* engine;              /* ptr to initialized struct */
+    engine_t **engine;              /* ptr to initialized struct */
     double telemetry_mass, parachute_mass, fuselage_mass, payload_mass, initial_height;
     double avg_thrust, max_thrust, delta_v, max_pressure; /* Comportamiento en el Tiempo!AD3511 */
     double sim_latitude, body_diameter, drag_coefficient;
@@ -125,7 +125,7 @@ engine_t *trel_engine_init(
     screws_t **screws
 );
 trel_rocket_t *trel_rocket_init(
-    engine_t* engine,
+    engine_t **engine,
     double telemetry_mass,
     double parachute_mass,
     double fuselage_mass,
@@ -151,5 +151,6 @@ void trel_fuel_free(fuel_t** fuel);
 void trel_tubing_free(tubing_t** tubing);
 void trel_screws_free(screws_t** screws);
 void trel_engine_free(engine_t** engine);
+void trel_rocket_free(trel_rocket_t **rocket);
 
 #endif /*TREL_H */

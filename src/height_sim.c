@@ -115,12 +115,12 @@ double calc_iter_escape_massic_flux(double pressure, double atmospheric_pressure
 
 int trel_run_height_sim_iterations(trel_rocket_t** rocket)
 {    
-    engine_t *engine = (*rocket)->engine;
+    engine_t *engine = (*(*rocket)->engine);
     trel_height_sim_t *res = (*rocket)->sim_values;
 
     /* iterate over given iterations and step size */
     const unsigned int max_iterations = TREL_MAX_ITERATIONS;
-    const double burn_time = Tiempo_quemado_combustion((*rocket)->engine);
+    const double burn_time = Tiempo_quemado_combustion((*(*rocket)->engine));
     const double step = burn_time / TREL_MAX_ITERATIONS;
 
     unsigned int it = 0;
@@ -160,16 +160,16 @@ int trel_run_height_sim_iterations(trel_rocket_t** rocket)
     gravitational_accel = TREL_ECUATOR_GRAV_ACCEL * (1.0 + (TREL_GRAV_CRUSH * (sin((*rocket)->sim_latitude * TREL_PI / 180.0)) * (sin((*rocket)->sim_latitude * TREL_PI / 180.0))) - (TREL_GRAV_CRUSH_4 * (sin((2.0 * (*rocket)->sim_latitude) * TREL_PI / 180.0)) * (sin((2.0 * (*rocket)->sim_latitude) * TREL_PI / 180.0)))) - (TREL_GRAV_A * rocket_height);
     atmospheric_pressure = TREL_ATMOSPHERIC_PRESSURE * pow(1.0 - TREL_ADIABATIC_GRADIENT * rocket_height / TREL_STANDARD_TEMP, gravitational_accel * TREL_DRY_AIR_MOLAR_MASS / (TREL_IDEAL_GAS_CONST * TREL_ADIABATIC_GRADIENT));
     pressure = atmospheric_pressure;
-    intern_gas_mass = pressure * free_volume / (TREL_GAS_CONST * (*rocket)->engine->temperature);
+    intern_gas_mass = pressure * free_volume / (TREL_GAS_CONST * (*(*rocket)->engine)->temperature);
     burn_rate = calc_burn_rate(engine, pressure);
     atmospheric_temp = TREL_STANDARD_TEMP - (TREL_ADIABATIC_GRADIENT * rocket_height);
     atmospheric_density = atmospheric_pressure * TREL_DRY_AIR_MOLAR_MASS / (TREL_IDEAL_GAS_CONST * atmospheric_temp);
-    res->rocket_mass[0] = (*rocket)->telemetry_mass + (*rocket)->parachute_mass + (*rocket)->fuselage_mass + (*rocket)->payload_mass + (*rocket)->engine->engine_mass + (*(*rocket)->engine->fuel)->density * fuel_volume;
+    res->rocket_mass[0] = (*rocket)->telemetry_mass + (*rocket)->parachute_mass + (*rocket)->fuselage_mass + (*rocket)->payload_mass + (*(*rocket)->engine)->engine_mass + (*(*(*rocket)->engine)->fuel)->density * fuel_volume;
     res->rocket_weight[0] = res->rocket_mass[0] * gravitational_accel;
     virt_escape_pressure = calc_iter_virt_escape_pressure(pressure, engine);
     force_coeff = calc_iter_force_coeff(virt_escape_pressure, pressure, atmospheric_pressure, engine);
-    adjusted_cf = force_coeff * (*(*rocket)->engine->tube)->nozzle_efficiency;
-    res->rocket_force[0] = adjusted_cf * pressure * throat_area((*rocket)->engine) > 0 ? adjusted_cf * pressure * throat_area((*rocket)->engine) : 0;
+    adjusted_cf = force_coeff * (*(*(*rocket)->engine)->tube)->nozzle_efficiency;
+    res->rocket_force[0] = adjusted_cf * pressure * throat_area((*(*rocket)->engine)) > 0 ? adjusted_cf * pressure * throat_area((*(*rocket)->engine)) : 0;
     res->rocket_force_balance[0] = calc_force_balance(res->rocket_force[0], res->rocket_position[0], res->rocket_speed[0], res->rocket_drag[0], res->rocket_weight[0]);
 
     /* iteration loop */
@@ -180,14 +180,14 @@ int trel_run_height_sim_iterations(trel_rocket_t** rocket)
         gravitational_accel = calc_iter_grav_accel(rocket, rocket_height);
         atmospheric_pressure = TREL_ATMOSPHERIC_PRESSURE * pow(1.0 - TREL_ADIABATIC_GRADIENT * rocket_height / TREL_STANDARD_TEMP, gravitational_accel * TREL_DRY_AIR_MOLAR_MASS / (TREL_IDEAL_GAS_CONST * TREL_ADIABATIC_GRADIENT));  /* ACA SE COLAPSA EL TITANIC */
         pressure = calc_iter_pressure(engine, intern_gas_mass, free_volume, atmospheric_pressure);
-        inst_radius = calc_inst_radius(inst_radius, burn_rate, step, (*(*rocket)->engine->grains)->extern_radius);
+        inst_radius = calc_inst_radius(inst_radius, burn_rate, step, (*(*(*rocket)->engine)->grains)->extern_radius);
         inst_long = calc_inst_long(inst_radius, inst_long, burn_rate, step);
         burn_rate = calc_burn_rate(engine, pressure);
         atmospheric_temp = TREL_STANDARD_TEMP - (TREL_ADIABATIC_GRADIENT * rocket_height);
         atmospheric_density = atmospheric_pressure * TREL_DRY_AIR_MOLAR_MASS / (TREL_IDEAL_GAS_CONST * atmospheric_temp);
-        fuel_volume = (*(*rocket)->engine->grains)->amount * TREL_PI * (((*(*rocket)->engine->grains)->extern_radius * (*(*rocket)->engine->grains)->extern_radius) - inst_radius * inst_radius) * inst_long;
+        fuel_volume = (*(*(*rocket)->engine)->grains)->amount * TREL_PI * (((*(*(*rocket)->engine)->grains)->extern_radius * (*(*(*rocket)->engine)->grains)->extern_radius) - inst_radius * inst_radius) * inst_long;
         escape_massic_flux = calc_iter_escape_massic_flux(pressure, atmospheric_pressure, engine);
-        fuel_mass = fuel_volume * (*(*rocket)->engine->fuel)->density;
+        fuel_mass = fuel_volume * (*(*(*rocket)->engine)->fuel)->density;
         produced_mass = prev_fuel_mass - fuel_mass;
         prev_fuel_mass = fuel_mass;
         delta_m = escape_massic_flux * step;
@@ -195,11 +195,11 @@ int trel_run_height_sim_iterations(trel_rocket_t** rocket)
         free_volume = total_volume - fuel_volume;
         virt_escape_pressure = calc_iter_virt_escape_pressure(pressure, engine);
         force_coeff = calc_iter_force_coeff(virt_escape_pressure, pressure, atmospheric_pressure, engine);
-        adjusted_cf = force_coeff * (*(*rocket)->engine->tube)->nozzle_efficiency;
-        res->rocket_mass[it] = (*rocket)->telemetry_mass + (*rocket)->parachute_mass + (*rocket)->fuselage_mass + (*rocket)->payload_mass + (*rocket)->engine->engine_mass + fuel_mass;
+        adjusted_cf = force_coeff * (*(*(*rocket)->engine)->tube)->nozzle_efficiency;
+        res->rocket_mass[it] = (*rocket)->telemetry_mass + (*rocket)->parachute_mass + (*rocket)->fuselage_mass + (*rocket)->payload_mass + (*(*rocket)->engine)->engine_mass + fuel_mass;
         res->rocket_weight[it] = res->rocket_mass[it] * gravitational_accel;
         res->rocket_drag[it] = 0.5 * atmospheric_density * (*rocket)->drag_coefficient * TRANSVERSAL_AREA((*rocket)->body_diameter) * res->rocket_speed[it - 1] * res->rocket_speed[it - 1];
-        res->rocket_force[it] = adjusted_cf * pressure * throat_area((*rocket)->engine) > 0 ? adjusted_cf * pressure * throat_area((*rocket)->engine) : 0;
+        res->rocket_force[it] = adjusted_cf * pressure * throat_area((*(*rocket)->engine)) > 0 ? adjusted_cf * pressure * throat_area((*(*rocket)->engine)) : 0;
         res->rocket_force_balance[it] = calc_force_balance(res->rocket_force[it], res->rocket_position[it - 1], res->rocket_speed[it - 1], res->rocket_drag[it], res->rocket_weight[it]);
         res->rocket_acceleration[it] = res->rocket_force_balance[it] / res->rocket_mass[it];
         res->rocket_speed[it] = res->rocket_acceleration[it] * step + res->rocket_speed[it - 1];

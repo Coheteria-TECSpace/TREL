@@ -15,7 +15,7 @@ double calc_iter_internal_mass(double produced_mass, double internal_mass, doubl
 /*Comportamiento en el Tiempo!AD3511 */
 int trel_run_time_comp_iterations(trel_rocket_t* rocket)
 {
-    engine_t* engine = rocket->engine;
+    engine_t* engine = (*rocket->engine);
    
     /* iterate over given iterations and step size */
     const double max_iterations = TREL_MAX_ITERATIONS;
