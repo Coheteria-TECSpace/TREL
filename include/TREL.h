@@ -48,10 +48,10 @@ typedef struct engine
     double width_condition, margin_of_safety, max_stress, radial_stress;
     double tangencial_stress, longitudinal_stress, max_pressure;
     double nozzle_efficiency;
-    grains_t *grains;              /* ptr to intialized struct */
-    fuel_t *fuel;
-    tubing_t *tube;                /* ptr to intialized struct */
-	screws_t *screws;              /* ptr to initialized struct */
+    grains_t **grains;              /* ptr to intialized struct */
+    fuel_t **fuel;
+    tubing_t **tube;                /* ptr to intialized struct */
+	screws_t **screws;              /* ptr to initialized struct */
     comp_area_t *comp_area_values; /* ptr to initialized struct */
 } engine_t;
 
@@ -120,9 +120,9 @@ engine_t *trel_engine_init(
     double temperature,      /* E26 */
     double engine_mass,
     grains_t **grains,
-    fuel_t* fuel,
-    tubing_t* tube,
-    screws_t* screws
+    fuel_t **fuel,
+    tubing_t **tube,
+    screws_t **screws
 );
 trel_rocket_t *trel_rocket_init(
     engine_t* engine,

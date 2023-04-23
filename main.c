@@ -38,12 +38,13 @@ void print_debug_example()
         205000000,
 		0.85
     );
+	grains_t **p = &created_grains;
 	// Se inicializa el motor usando los tornillos y tuberia creados
 	engine_t* testing_engine = trel_engine_init(
         800,
         1710,
 		1.5,
-		&created_grains,
+		p,
 		created_fuel,
         created_tube,
         created_screw
@@ -119,10 +120,9 @@ void print_debug_example()
 
 	//printf("Tubing's material name: %s\n", created_tube->material);
 	//printf("Screws' material name: %s\n", created_screw->material);
-	//trel_grains_free(&created_grains);
-	//printf("%p\n", &testing_engine->grains);
-	//printf("%p\n", created_grains);
-	//trel_engine_free(&testing_engine);
+
+	trel_grains_free(&created_grains);
+	trel_engine_free(&testing_engine);
 }
 
 // Para hacer pruebas de la lib se tiene la aplicacion de CLI basica

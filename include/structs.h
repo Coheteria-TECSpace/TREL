@@ -52,9 +52,9 @@ typedef struct engine
     double tangencial_stress, longitudinal_stress, max_pressure;
     double nozzle_efficiency;
     grains_t **grains;              /* ptr to intialized struct */
-    fuel_t *fuel;
-    tubing_t *tube;                /* ptr to intialized struct */
-	screws_t *screws;              /* ptr to initialized struct */
+    fuel_t **fuel;
+    tubing_t **tube;                /* ptr to intialized struct */
+	screws_t **screws;              /* ptr to initialized struct */
     comp_area_t *comp_area_values; /* ptr to initialized struct */
 } TREL_EXPORT engine_t;
 

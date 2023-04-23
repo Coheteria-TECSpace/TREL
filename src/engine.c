@@ -228,16 +228,12 @@ void trel_comp_area_free(comp_area_t** values)
 
 void trel_engine_free(engine_t** engine)
 {
-    if ((*engine)->comp_area_values != NULL)
-        trel_comp_area_free(&(*engine)->comp_area_values);
-    if ((*engine)->screws != NULL)
-        trel_screws_free(&(*engine)->screws);
-    if ((*engine)->tube != NULL)
-        trel_tubing_free(&(*engine)->tube);
-    if ((*engine)->fuel != NULL)
-        trel_fuel_free(&(*engine)->fuel);
-    if ((*engine)->grains != NULL)
-        trel_grains_free((*engine)->grains);
+    if ((*(*engine)->grains) != NULL)
+    {
+        free((*(*engine)->grains));
+        (*(*engine)->grains) = NULL;
+    }
+    (*engine)->grains = NULL;
     if (*engine != NULL)
     {
         free(*engine);
