@@ -13,9 +13,10 @@ double calc_iter_internal_mass(double produced_mass, double internal_mass, doubl
 }
 
 /*Comportamiento en el Tiempo!AD3511 */
-int trel_run_time_comp_iterations(trel_rocket_t* rocket)
+int trel_run_time_comp_iterations(trel_rocket_t  **rocket)
 {
-    engine_t* engine = (*rocket->engine);
+    trel_rocket_t *p_rocket = *rocket;
+    engine_t *engine = (*p_rocket->engine);
    
     /* iterate over given iterations and step size */
     const double max_iterations = TREL_MAX_ITERATIONS;
@@ -27,7 +28,7 @@ int trel_run_time_comp_iterations(trel_rocket_t* rocket)
                                 ((*engine->grains)->grain_separation * ((*engine->grains)->amount - 1) + (*engine->grains)->longitude * (*engine->grains)->amount);
 
     /* variables for iteration */
-    double dead_mass = rocket->fuselage_mass + rocket->parachute_mass + rocket->telemetry_mass + engine->engine_mass + rocket->payload_mass;
+    double dead_mass = p_rocket->fuselage_mass + p_rocket->parachute_mass + p_rocket->telemetry_mass + engine->engine_mass + p_rocket->payload_mass;
     const double delta_t = step;
     double pressure_abs = TREL_ATMOSPHERIC_PRESSURE;
     /*double pressure = pressure_abs / 6894.757f; */
@@ -117,11 +118,11 @@ int trel_run_time_comp_iterations(trel_rocket_t* rocket)
     }
 
     /* storing values */
-    rocket->delta_v = sum_delta_v;
-    rocket->max_thrust = max_thrust;
-    rocket->max_pressure = max_pressure;
+    p_rocket->delta_v = sum_delta_v;
+    p_rocket->max_thrust = max_thrust;
+    p_rocket->max_pressure = max_pressure;
     /* calculate avg thrust */
-    rocket->avg_thrust = sum_avg_thrust / max_iterations;
+    p_rocket->avg_thrust = sum_avg_thrust / max_iterations;
 
     return(0);
 }

@@ -3,6 +3,6 @@
 
 #include "design_func.h"
 
-int TREL_EXPORT trel_run_time_comp_iterations(trel_rocket_t* rocket);
+int TREL_EXPORT trel_run_time_comp_iterations(trel_rocket_t **rocket);
 
 #endif /*COMP_TIEMPO_H */

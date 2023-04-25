@@ -54,7 +54,7 @@ trel_rocket_t *trel_rocket_init(
     rocket->body_diameter = body_diameter;
     rocket->drag_coefficient = drag_coefficient;
     rocket->sim_values = sim_values;
-    if (trel_run_time_comp_iterations(rocket)) /* 1 means there was an error */
+    if (trel_run_time_comp_iterations(&rocket)) /* 1 means there was an error */
     {
         return(NULL); /* NULL means the engine couldn't be properly generated */
     }
@@ -74,14 +74,16 @@ void trel_height_sim_free(trel_height_sim_t **values)
 void trel_rocket_free(trel_rocket_t **rocket)
 {
     if (*rocket != NULL)
-    if ((*rocket)->sim_values != NULL)
     {
-        free((*rocket)->sim_values);
-        (*rocket)->sim_values = NULL;
-    }
-    trel_engine_free((*rocket)->engine);
-    {
-    free(*rocket);
-    *rocket = NULL;
+        if ((*rocket)->sim_values != NULL)
+        {
+            free((*rocket)->sim_values);
+            (*rocket)->sim_values = NULL;
+        }
+        trel_engine_free((*rocket)->engine);
+        {
+            free(*rocket);
+            *rocket = NULL;
+        }
     }
 }
