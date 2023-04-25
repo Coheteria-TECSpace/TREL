@@ -143,8 +143,8 @@ double trel_get_pressure(engine_t* engine);
 double trel_temper_garganta(engine_t *engine);
 double br_combustion(engine_t *engine);
 int trel_run_area_comp_iterations(engine_t **engine);
-int trel_run_time_comp_iterations(trel_rocket_t* rocket);
-int trel_run_height_sim_iterations(trel_rocket_t** rocket);
+int trel_run_time_comp_iterations(trel_rocket_t **rocket);
+int trel_run_height_sim_iterations(trel_rocket_t **rocket);
 
 void trel_grains_free(grains_t** grains);
 void trel_fuel_free(fuel_t** fuel);

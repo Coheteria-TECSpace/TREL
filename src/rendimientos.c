@@ -55,7 +55,7 @@ double emp_teo(engine_t *engine)
 double emp_prom(trel_rocket_t* rocket)
 {
     if (!rocket->avg_thrust)
-        trel_run_time_comp_iterations(rocket);
+        trel_run_time_comp_iterations(&rocket);
     return(rocket->avg_thrust);
 }
 
