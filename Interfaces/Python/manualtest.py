@@ -59,5 +59,34 @@ created_rocket = TREL_ROCKET.from_address(trel_rocket_init(
         9.936111,
         0.13,
         0.4))
+p_created_rocket = ctypes.pointer(created_rocket)
+p_p_created_rocket = ctypes.pointer(p_created_rocket)
+
+#trel_print_rocket(created_rocket)
+
+trel_run_area_comp_iterations(p_p_created_engine)
+trel_run_time_comp_iterations(p_p_created_rocket)
+trel_run_height_sim_iterations(p_p_created_rocket)
+
+#trel_grains_free(p_p_created_grains)
+#trel_fuel_free(p_p_created_fuel)
+#trel_tubing_free(p_p_created_tube)
+#trel_screws_free(p_p_created_screw)
+#trel_engine_free(p_p_created_engine)
+#trel_rocket_free(p_p_created_rocket)
+
+for x in range(0,10000):
+        print(x)
+        trel_rocket_init(
+                p_p_created_engine,
+                0.3,
+                0.05,
+                5.0,
+                1.5,
+                1207.0,
+                9.936111,
+                0.13,
+                0.4
+        )
 
 trel_print_rocket(created_rocket)

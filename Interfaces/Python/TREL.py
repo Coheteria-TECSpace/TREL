@@ -169,6 +169,39 @@ trel_rocket_init.argtypes = [ctypes.POINTER(ctypes.POINTER(TREL_ENGINE)),
                              ctypes.c_double]
 trel_rocket_init.restype = ctypes.c_void_p
 
+trel_run_area_comp_iterations = TREL.trel_run_area_comp_iterations
+trel_run_area_comp_iterations.argtypes = [ctypes.POINTER(ctypes.POINTER(TREL_ENGINE))]
+
+trel_run_time_comp_iterations = TREL.trel_run_time_comp_iterations
+trel_run_time_comp_iterations.argtypes = [ctypes.POINTER(ctypes.POINTER(TREL_ROCKET))]
+
+trel_run_height_sim_iterations = TREL.trel_run_height_sim_iterations
+trel_run_height_sim_iterations.argtypes = [ctypes.POINTER(ctypes.POINTER(TREL_ROCKET))]
+
+trel_grains_free = TREL.trel_grains_free
+trel_grains_free.argtypes = [ctypes.POINTER(ctypes.POINTER(TREL_GRAINS))]
+trel_grains_free.restype = ctypes.c_void_p
+
+trel_fuel_free = TREL.trel_fuel_free
+trel_fuel_free.argtypes = [ctypes.POINTER(ctypes.POINTER(TREL_FUEL))]
+trel_fuel_free.restype = ctypes.c_void_p
+
+trel_tubing_free = TREL.trel_tubing_free
+trel_tubing_free.argtypes = [ctypes.POINTER(ctypes.POINTER(TREL_TUBING))]
+trel_tubing_free.restype = ctypes.c_void_p
+
+trel_screws_free = TREL.trel_screws_free
+trel_screws_free.argtypes = [ctypes.POINTER(ctypes.POINTER(TREL_SCREWS))]
+trel_screws_free.restype = ctypes.c_void_p
+
+trel_engine_free = TREL.trel_engine_free
+trel_engine_free.argtypes = [ctypes.POINTER(ctypes.POINTER(TREL_ENGINE))]
+trel_engine_free.restype = ctypes.c_void_p
+
+trel_rocket_free = TREL.trel_rocket_free
+trel_rocket_free.argtypes = [ctypes.POINTER(ctypes.POINTER(TREL_ROCKET))]
+trel_rocket_free.restype = ctypes.c_void_p
+
 def trel_print_rocket(rocket):
     print("\nGrains data")
     print("amount",                rocket.engine.contents.contents.grains.contents.contents.amount)
