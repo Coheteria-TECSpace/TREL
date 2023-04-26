@@ -18,36 +18,36 @@ class TREL_COMP_AREA(ctypes.Structure):
                 ("burn_sum_diff", ctypes.c_double)]
 
 # Struct and constructor for propellent grains
-class TREL_GRAINS(ctypes.Structure):
+class _TREL_GRAINS_T(ctypes.Structure):
     _fields_ = [("amount", ctypes.c_uint),
                 ("init_inter_radius", ctypes.c_double),
                 ("extern_radius", ctypes.c_double),
                 ("longitude", ctypes.c_double),
                 ("grain_separation", ctypes.c_double)]
 
-trel_grains_init = TREL.trel_grains_init
-trel_grains_init.argtypes = [ctypes.c_int,
+_trel_grains_init = TREL.trel_grains_init
+_trel_grains_init.argtypes = [ctypes.c_int,
                              ctypes.c_double,
                              ctypes.c_double,
                              ctypes.c_double,
                              ctypes.c_double]
-trel_grains_init.restype = ctypes.c_void_p
+_trel_grains_init.restype = ctypes.c_void_p
 
 # Struct and constructor for fuel
-class TREL_FUEL(ctypes.Structure):
+class _TREL_FUEL_T(ctypes.Structure):
     _fields_ = [("const_burn_rate", ctypes.c_double),
                 ("pressure_exponent", ctypes.c_double),
                 ("density", ctypes.c_double),
                 ("burn_rate", ctypes.c_double)]
 
-trel_fuel_init = TREL.trel_fuel_init
-trel_fuel_init.argtypes = [ctypes.c_double,
+_trel_fuel_init = TREL.trel_fuel_init
+_trel_fuel_init.argtypes = [ctypes.c_double,
                            ctypes.c_double,
                            ctypes.c_double]
-trel_fuel_init.restype = ctypes.c_void_p
+_trel_fuel_init.restype = ctypes.c_void_p
 
 # Struct and constructor for screws
-class TREL_SCREWS(ctypes.Structure):
+class _TREL_SCREWS_T(ctypes.Structure):
     _fields_ = [("diameter", ctypes.c_double),
                 ("dist_center_wall", ctypes.c_double),
                 ("amount", ctypes.c_uint),
@@ -56,15 +56,15 @@ class TREL_SCREWS(ctypes.Structure):
                 ("material", TREL_MAX_STR_LEN * ctypes.c_char),
                 ("width_cutting_segment", ctypes.c_double)]
 
-trel_screws_init = TREL.trel_screws_init
-trel_screws_init.argtypes = [ctypes.c_char_p,
+_trel_screws_init = TREL.trel_screws_init
+_trel_screws_init.argtypes = [ctypes.c_char_p,
                              ctypes.c_uint,
                              ctypes.c_double,
                              ctypes.c_double]
-trel_screws_init.restype = ctypes.c_void_p
+_trel_screws_init.restype = ctypes.c_void_p
 
 # Struct and constructor for tubing
-class TREL_TUBING(ctypes.Structure):
+class _TREL_TUBING_T(ctypes.Structure):
     _fields_ = [("material", TREL_MAX_STR_LEN * ctypes.c_char),
                 ("diameter_ext", ctypes.c_double),
                 ("wall_thickness", ctypes.c_double),
@@ -80,8 +80,8 @@ class TREL_TUBING(ctypes.Structure):
                 ("material_area", ctypes.c_double),
                 ("nozzle_efficiency", ctypes.c_double)]
 
-trel_tubing_init = TREL.trel_tubing_init
-trel_tubing_init.argtypes = [ctypes.c_char_p,
+_trel_tubing_init = TREL.trel_tubing_init
+_trel_tubing_init.argtypes = [ctypes.c_char_p,
                              ctypes.c_double,
                              ctypes.c_double,
                              ctypes.c_double,
@@ -90,7 +90,7 @@ trel_tubing_init.argtypes = [ctypes.c_char_p,
                              ctypes.c_double,
                              ctypes.c_double,
                              ctypes.c_double]
-trel_tubing_init.restype = ctypes.c_void_p
+_trel_tubing_init.restype = ctypes.c_void_p
 
 # Struct and constructor for engine
 class TREL_ENGINE(ctypes.Structure):
@@ -106,20 +106,20 @@ class TREL_ENGINE(ctypes.Structure):
                 ("longitudinal_stress", ctypes.c_double),
                 ("max_pressue", ctypes.c_double),
                 ("nozzle_efficiency", ctypes.c_double),
-                ("grains", ctypes.POINTER(ctypes.POINTER(TREL_GRAINS))),
-                ("fuel", ctypes.POINTER(ctypes.POINTER(TREL_FUEL))),
-                ("tube", ctypes.POINTER(ctypes.POINTER(TREL_TUBING))),
-                ("screws", ctypes.POINTER(ctypes.POINTER(TREL_SCREWS))),
+                ("grains", ctypes.POINTER(ctypes.POINTER(_TREL_GRAINS_T))),
+                ("fuel", ctypes.POINTER(ctypes.POINTER(_TREL_FUEL_T))),
+                ("tube", ctypes.POINTER(ctypes.POINTER(_TREL_TUBING_T))),
+                ("screws", ctypes.POINTER(ctypes.POINTER(_TREL_SCREWS_T))),
                 ("comp_area_values", ctypes.POINTER(TREL_COMP_AREA))]
 
 trel_engine_init = TREL.trel_engine_init
 trel_engine_init.argtypes = [ctypes.c_double,
                              ctypes.c_double,
                              ctypes.c_double,
-                             ctypes.POINTER(ctypes.POINTER(TREL_GRAINS)),
-                             ctypes.POINTER(ctypes.POINTER(TREL_FUEL)),
-                             ctypes.POINTER(ctypes.POINTER(TREL_TUBING)),
-                             ctypes.POINTER(ctypes.POINTER(TREL_SCREWS))]
+                             ctypes.POINTER(ctypes.POINTER(_TREL_GRAINS_T)),
+                             ctypes.POINTER(ctypes.POINTER(_TREL_FUEL_T)),
+                             ctypes.POINTER(ctypes.POINTER(_TREL_TUBING_T)),
+                             ctypes.POINTER(ctypes.POINTER(_TREL_SCREWS_T))]
 trel_engine_init.restype = ctypes.c_void_p
 
 # Struct for sim values
@@ -178,21 +178,21 @@ trel_run_time_comp_iterations.argtypes = [ctypes.POINTER(ctypes.POINTER(TREL_ROC
 trel_run_height_sim_iterations = TREL.trel_run_height_sim_iterations
 trel_run_height_sim_iterations.argtypes = [ctypes.POINTER(ctypes.POINTER(TREL_ROCKET))]
 
-trel_grains_free = TREL.trel_grains_free
-trel_grains_free.argtypes = [ctypes.POINTER(ctypes.POINTER(TREL_GRAINS))]
-trel_grains_free.restype = ctypes.c_void_p
+_trel_grains_free = TREL.trel_grains_free
+_trel_grains_free.argtypes = [ctypes.POINTER(ctypes.POINTER(_TREL_GRAINS_T))]
+_trel_grains_free.restype = ctypes.c_void_p
 
-trel_fuel_free = TREL.trel_fuel_free
-trel_fuel_free.argtypes = [ctypes.POINTER(ctypes.POINTER(TREL_FUEL))]
-trel_fuel_free.restype = ctypes.c_void_p
+_trel_fuel_free = TREL.trel_fuel_free
+_trel_fuel_free.argtypes = [ctypes.POINTER(ctypes.POINTER(_TREL_FUEL_T))]
+_trel_fuel_free.restype = ctypes.c_void_p
 
-trel_tubing_free = TREL.trel_tubing_free
-trel_tubing_free.argtypes = [ctypes.POINTER(ctypes.POINTER(TREL_TUBING))]
-trel_tubing_free.restype = ctypes.c_void_p
+_trel_tubing_free = TREL.trel_tubing_free
+_trel_tubing_free.argtypes = [ctypes.POINTER(ctypes.POINTER(_TREL_TUBING_T))]
+_trel_tubing_free.restype = ctypes.c_void_p
 
-trel_screws_free = TREL.trel_screws_free
-trel_screws_free.argtypes = [ctypes.POINTER(ctypes.POINTER(TREL_SCREWS))]
-trel_screws_free.restype = ctypes.c_void_p
+_trel_screws_free = TREL.trel_screws_free
+_trel_screws_free.argtypes = [ctypes.POINTER(ctypes.POINTER(_TREL_SCREWS_T))]
+_trel_screws_free.restype = ctypes.c_void_p
 
 trel_engine_free = TREL.trel_engine_free
 trel_engine_free.argtypes = [ctypes.POINTER(ctypes.POINTER(TREL_ENGINE))]

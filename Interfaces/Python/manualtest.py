@@ -1,6 +1,7 @@
 from TREL import *
+from TREL import _TREL_GRAINS_T
 
-created_grains = TREL_GRAINS.from_address(trel_grains_init(
+created_grains = _TREL_GRAINS_T.from_address(trel_grains_init(
         4,
         0.01,
         0.0304,
@@ -74,19 +75,5 @@ trel_run_height_sim_iterations(p_p_created_rocket)
 #trel_screws_free(p_p_created_screw)
 #trel_engine_free(p_p_created_engine)
 #trel_rocket_free(p_p_created_rocket)
-
-for x in range(0,10000):
-        print(x)
-        trel_rocket_init(
-                p_p_created_engine,
-                0.3,
-                0.05,
-                5.0,
-                1.5,
-                1207.0,
-                9.936111,
-                0.13,
-                0.4
-        )
 
 trel_print_rocket(created_rocket)
