@@ -104,7 +104,7 @@ class _TREL_ENGINE_T(ctypes.Structure):
                 ("radial_stress", ctypes.c_double),
                 ("tangencial_stress", ctypes.c_double),
                 ("longitudinal_stress", ctypes.c_double),
-                ("max_pressue", ctypes.c_double),
+                ("max_pressure", ctypes.c_double),
                 ("nozzle_efficiency", ctypes.c_double),
                 ("grains", ctypes.POINTER(ctypes.POINTER(_TREL_GRAINS_T))),
                 ("fuel", ctypes.POINTER(ctypes.POINTER(_TREL_FUEL_T))),
@@ -284,7 +284,9 @@ class TREL_ENGINE():
         self.allocated = False
     def __repr__(self):
         return('Engine Mass: %f\nPressue: %f\nEscape Velocity: %f\nTemperature %f\nWidth Condition: %f\nMargin of Safety: %f\nMaximum Stress: %f\nRadial Stress: %f\nTangencial Stress: %f\nLongitudinal Stress: %f\nMaximum Pressure: %f\nNozzle Efficiency: %f' % (
-        self.values.engine_mass, self.values.pressure, self.values.escape_vel, self.values.temperature, self.values.width_condition, self.values.margin_of_safety, self.values.max_stress, self.values.radial_stress, self.values.tangencial_stress, self.values.longitudinal_stress, self.values.max_pressue, self.values.nozzle_efficiency))
+        self.values.engine_mass, self.values.pressure, self.values.escape_vel, self.values.temperature, self.values.width_condition, self.values.margin_of_safety, self.values.max_stress, self.values.radial_stress, self.values.tangencial_stress, self.values.longitudinal_stress, self.values.max_pressure, self.values.nozzle_efficiency))
+    def get_area_behavior(self):
+        return(self.values.comp_area_values.contents)
     def __str__(self):
         return(self.__repr__() if self.allocated else 'NULL')
 
