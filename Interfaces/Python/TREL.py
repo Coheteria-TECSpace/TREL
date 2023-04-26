@@ -93,7 +93,7 @@ _trel_tubing_init.argtypes = [ctypes.c_char_p,
 _trel_tubing_init.restype = ctypes.c_void_p
 
 # Struct and constructor for engine
-class TREL_ENGINE(ctypes.Structure):
+class _TREL_ENGINE_T(ctypes.Structure):
     _fields_ = [("engine_mass", ctypes.c_double),
                 ("pressure", ctypes.c_double),
                 ("escape_vel", ctypes.c_double),
@@ -112,15 +112,15 @@ class TREL_ENGINE(ctypes.Structure):
                 ("screws", ctypes.POINTER(ctypes.POINTER(_TREL_SCREWS_T))),
                 ("comp_area_values", ctypes.POINTER(TREL_COMP_AREA))]
 
-trel_engine_init = TREL.trel_engine_init
-trel_engine_init.argtypes = [ctypes.c_double,
+_trel_engine_init = TREL.trel_engine_init
+_trel_engine_init.argtypes = [ctypes.c_double,
                              ctypes.c_double,
                              ctypes.c_double,
                              ctypes.POINTER(ctypes.POINTER(_TREL_GRAINS_T)),
                              ctypes.POINTER(ctypes.POINTER(_TREL_FUEL_T)),
                              ctypes.POINTER(ctypes.POINTER(_TREL_TUBING_T)),
                              ctypes.POINTER(ctypes.POINTER(_TREL_SCREWS_T))]
-trel_engine_init.restype = ctypes.c_void_p
+_trel_engine_init.restype = ctypes.c_void_p
 
 # Struct for sim values
 class TREL_HEIGHT_SIM(ctypes.Structure):
@@ -142,7 +142,7 @@ class TREL_HEIGHT_SIM(ctypes.Structure):
 
 # Struct and constructor for rocket
 class TREL_ROCKET(ctypes.Structure):
-    _fields_ = [("engine", ctypes.POINTER(ctypes.POINTER(TREL_ENGINE))),
+    _fields_ = [("engine", ctypes.POINTER(ctypes.POINTER((_TREL_ENGINE_T)))),
                 ("telemetry_mass", ctypes.c_double),
                 ("parachute_mass", ctypes.c_double),
                 ("fuselage_mass", ctypes.c_double),
@@ -158,7 +158,7 @@ class TREL_ROCKET(ctypes.Structure):
                 ("sim_values", ctypes.POINTER(TREL_HEIGHT_SIM))]
 
 trel_rocket_init = TREL.trel_rocket_init
-trel_rocket_init.argtypes = [ctypes.POINTER(ctypes.POINTER(TREL_ENGINE)),
+trel_rocket_init.argtypes = [ctypes.POINTER(ctypes.POINTER((_TREL_ENGINE_T))),
                              ctypes.c_double,
                              ctypes.c_double,
                              ctypes.c_double,
@@ -170,7 +170,7 @@ trel_rocket_init.argtypes = [ctypes.POINTER(ctypes.POINTER(TREL_ENGINE)),
 trel_rocket_init.restype = ctypes.c_void_p
 
 trel_run_area_comp_iterations = TREL.trel_run_area_comp_iterations
-trel_run_area_comp_iterations.argtypes = [ctypes.POINTER(ctypes.POINTER(TREL_ENGINE))]
+trel_run_area_comp_iterations.argtypes = [ctypes.POINTER(ctypes.POINTER((_TREL_ENGINE_T)))]
 
 trel_run_time_comp_iterations = TREL.trel_run_time_comp_iterations
 trel_run_time_comp_iterations.argtypes = [ctypes.POINTER(ctypes.POINTER(TREL_ROCKET))]
@@ -194,9 +194,9 @@ _trel_screws_free = TREL.trel_screws_free
 _trel_screws_free.argtypes = [ctypes.POINTER(ctypes.POINTER(_TREL_SCREWS_T))]
 _trel_screws_free.restype = ctypes.c_void_p
 
-trel_engine_free = TREL.trel_engine_free
-trel_engine_free.argtypes = [ctypes.POINTER(ctypes.POINTER(TREL_ENGINE))]
-trel_engine_free.restype = ctypes.c_void_p
+_trel_engine_free = TREL.trel_engine_free
+_trel_engine_free.argtypes = [ctypes.POINTER(ctypes.POINTER((_TREL_ENGINE_T)))]
+_trel_engine_free.restype = ctypes.c_void_p
 
 trel_rocket_free = TREL.trel_rocket_free
 trel_rocket_free.argtypes = [ctypes.POINTER(ctypes.POINTER(TREL_ROCKET))]

@@ -18,11 +18,35 @@ engine_screws = TREL_SCREWS(
 	0.007466,
 	0.01
 )
+engine_tubing = TREL_TUBING(
+    'Aluminio 6061-T6',
+    0.073,
+    0.0052,
+    68900000000.0,
+    275000000.0,
+    -1,
+    310000000,
+    205000000,
+    0.85
+)
+engine = TREL_ENGINE(
+    800.0,
+    1710.0,
+    1.5,
+    engine_grains,
+    engine_fuel,
+    engine_tubing,
+    engine_screws
+)
 
 print(f'Grains\n{engine_grains}')
 print(f'Fuel\n{engine_fuel}')
 print(f'Screws\n{engine_screws}')
+print(f'Tubing\n{engine_tubing}')
+print(f'Engine\n{engine}')
 
 engine_grains.free()
 engine_fuel.free()
 engine_screws.free()
+engine_tubing.free()
+engine.free()
