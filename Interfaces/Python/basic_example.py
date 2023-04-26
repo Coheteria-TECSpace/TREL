@@ -51,7 +51,7 @@ rocket = TREL_ROCKET(
     0.4
 )
 
-# Visualize the created objetcs
+# Visualize the created objects
 print(f'Grains\n{engine_grains}\n')
 print(f'Fuel\n{engine_fuel}\n')
 print(f'Screws\n{engine_screws}\n')
@@ -65,7 +65,7 @@ print(f'Average Longitudinal Area: {engine.get_area_behavior().avg_long_area}')
 print(f'Average Transversal Area: {engine.get_area_behavior().avg_trans_area}')
 print(f'Average Burn Area: {engine.get_area_behavior().avg_burn_area}')
 print(f'Burn Standard Deviation: {engine.get_area_behavior().burn_std_deviation}')
-print(f'Brun Sum Differential: {engine.get_area_behavior().burn_sum_diff}')
+print(f'Burn Sum Differential: {engine.get_area_behavior().burn_sum_diff}')
 
 # Access height simulation data
 print('\nHeight simulation data')
