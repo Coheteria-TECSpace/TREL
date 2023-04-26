@@ -11,7 +11,7 @@ PROJECT (structure_test VERSION 0.0.1 DESCRIPTION "Basic structure for compilati
 OPTION (BUILD_SHARED_LIBS "Build Shared Libraries" ON)
 
 # Developer can choose to build the CLI testapp
-OPTION (BUILD_MANUAL_TEST "Build testapp" ON)
+OPTION (BUILD_BASIC_EXAMPLE "Build example" ON)
 
 # Used to generate header with macros for the library
 #INCLUDE (GenerateExportHeader)
@@ -64,13 +64,13 @@ SET_TARGET_PROPERTIES (TREL PROPERTIES COMPILE_FLAGS -DLIB_STATIC_DEFINE)
 SET_PROPERTY(TARGET TREL PROPERTY C_STANDARD 90)
 
 # Additional function calls for building the testapp
-IF (BUILD_MANUAL_TEST)
+IF (BUILD_BASIC_EXAMPLE)
 	# Adding an executable to test the library
-	ADD_EXECUTABLE (manualtest "tests/manual_test.c")
+	ADD_EXECUTABLE (basic_example "tests/basic_example.c")
 	# Declaring a link between the executable and the library
-	TARGET_LINK_LIBRARIES (manualtest TREL)
-	#target_link_libraries(testapp PRIVATE )
-	TARGET_INCLUDE_DIRECTORIES (manualtest PUBLIC "tests")
-	# Additional arguments for the excecutable compilation
-	TARGET_COMPILE_FEATURES (manualtest PUBLIC c_std_90)
-ENDIF (BUILD_MANUAL_TEST)
+	TARGET_LINK_LIBRARIES (basic_example TREL)
+	TARGET_INCLUDE_DIRECTORIES (basic_example PUBLIC "tests")
+	# Additional arguments for the executable compilation
+	TARGET_COMPILE_FEATURES (basic_example PUBLIC c_std_90)
+	SET_PROPERTY(TARGET basic_example PROPERTY C_STANDARD 90)
+ENDIF (BUILD_BASIC_EXAMPLE)

@@ -3,23 +3,23 @@
 
 /* Types */
 /* Comp area calculations */
-typedef struct {
+typedef struct trel_comp_area {
     double avg_long_area, avg_trans_area, avg_burn_area, burn_std_deviation, burn_sum_diff;
-} comp_area_t;
+} trel_comp_area_t;
 
 /* Propellent grains structure */
-typedef struct {
+typedef struct trel_grains {
     unsigned int amount;
     double init_inter_radius, extern_radius, longitude, grain_separation;
-} grains_t;
+} trel_grains_t;
 
 /* Fuel structure */
-typedef struct {
+typedef struct trel_fuel {
     double const_burn_rate, pressure_exponent, density, burn_rate;
-} fuel_t;
+} trel_fuel_t;
 
 /* Estructura para tuberia */
-typedef struct tubing
+typedef struct trel_tubing
 {
     char   material[100];
     double diameter_ext, wall_thickness, internal_radius;
@@ -27,20 +27,20 @@ typedef struct tubing
     double shear_stress_tension, shear_stress_pressure;
     double ult_stress_tension, ult_stress_pressure;
     double transversal_area, material_area;
-} tubing_t;
+} trel_tubing_t;
 
 /* Estructura para tornillos */
-typedef struct screws
+typedef struct trel_screws
 {
     double diameter, dist_center_wall;
     unsigned int amount;
     double area_per_screw, screw_occupied_area;
     char  material[100];
     double width_cutting_segment;
-} screws_t;
+} trel_screws_t;
 
 /* Estructura del engine */
-typedef struct engine
+typedef struct trel_engine
 {
     double engine_mass;
     double pressure;                /* chamber pressure in psi */
@@ -48,12 +48,12 @@ typedef struct engine
     double width_condition, margin_of_safety, max_stress, radial_stress;
     double tangencial_stress, longitudinal_stress, max_pressure;
     double nozzle_efficiency;
-    grains_t **grains;              /* ptr to intialized struct */
-    fuel_t **fuel;
-    tubing_t **tube;                /* ptr to intialized struct */
-	screws_t **screws;              /* ptr to initialized struct */
-    comp_area_t *comp_area_values; /* ptr to initialized struct */
-} engine_t;
+    trel_grains_t **grains;              /* ptr to intialized struct */
+    trel_fuel_t **fuel;
+    trel_tubing_t **tube;                /* ptr to intialized struct */
+    trel_screws_t **screws;              /* ptr to initialized struct */
+    trel_comp_area_t *comp_area_values; /* ptr to initialized struct */
+} trel_engine_t;
 
 /* Struct for height simulation results */
 typedef struct trel_height_sim_values
@@ -78,7 +78,7 @@ typedef struct trel_height_sim_values
 /* Struct for the rocket */
 typedef struct trel_rocket
 {
-    engine_t **engine;              /* ptr to initialized struct */
+    trel_engine_t **engine;              /* ptr to initialized struct */
     double telemetry_mass, parachute_mass, fuselage_mass, payload_mass, initial_height;
     double avg_thrust, max_thrust, delta_v, max_pressure; /* Comportamiento en el Tiempo!AD3511 */
     double sim_latitude, body_diameter, drag_coefficient;
@@ -86,19 +86,19 @@ typedef struct trel_rocket
 } trel_rocket_t;
 
 /* Function prototypes */
-grains_t *trel_grains_init(
+trel_grains_t *trel_grains_init(
     unsigned int amount,    /* E29 */
     double internal_radius,  /* E30 */
     double external_radius,  /* E31 */
     double longitude,        /* E32 */
     double grain_separation  /* E33 */
 );
-fuel_t *trel_fuel_init(
+trel_fuel_t *trel_fuel_init(
     double const_burn_rate,  /* E41 */
     double pressure_exponent,/* E42 */
     double density           /* E44 */
 );
-tubing_t *trel_tubing_init(
+trel_tubing_t *trel_tubing_init(
     char* material,         /* E16 & E17 */
     double diameter,         /* E13 */
     double thickness,        /* E14 */
@@ -109,23 +109,23 @@ tubing_t *trel_tubing_init(
     double ult_pressure,     /* E21 */
     double nozzle_efficiency
 );
-screws_t *trel_screws_init(
+trel_screws_t *trel_screws_init(
     char* material,
     unsigned int amount,
     double diameter,
     double dist_center_wall
 );
-engine_t *trel_engine_init(
+trel_engine_t *trel_engine_init(
     double pressure,         /* E24 */
     double temperature,      /* E26 */
     double engine_mass,
-    grains_t **grains,
-    fuel_t **fuel,
-    tubing_t **tube,
-    screws_t **screws
+    trel_grains_t **grains,
+    trel_fuel_t **fuel,
+    trel_tubing_t **tube,
+    trel_screws_t **screws
 );
 trel_rocket_t *trel_rocket_init(
-    engine_t **engine,
+    trel_engine_t **engine,
     double telemetry_mass,
     double parachute_mass,
     double fuselage_mass,
@@ -136,21 +136,20 @@ trel_rocket_t *trel_rocket_init(
     double drag_coefficient
 );
 double trel_psi_to_pa(double psi);
-void trel_set_pressure(engine_t* engine, double pressure);
-void trel_set_escape_vel(engine_t* engine, double vel);
-double trel_get_escape_vel(engine_t* engine);
-double trel_get_pressure(engine_t* engine);
-double trel_temper_garganta(engine_t *engine);
-double br_combustion(engine_t *engine);
-int trel_run_area_comp_iterations(engine_t **engine);
+void trel_set_pressure(trel_engine_t* engine, double pressure);
+void trel_set_escape_vel(trel_engine_t* engine, double vel);
+double trel_get_escape_vel(trel_engine_t* engine);
+double trel_get_pressure(trel_engine_t* engine);
+double trel_temper_garganta(trel_engine_t *engine);
+int trel_run_area_comp_iterations(trel_engine_t **engine);
 int trel_run_time_comp_iterations(trel_rocket_t **rocket);
 int trel_run_height_sim_iterations(trel_rocket_t **rocket);
 
-void trel_grains_free(grains_t** grains);
-void trel_fuel_free(fuel_t** fuel);
-void trel_tubing_free(tubing_t** tubing);
-void trel_screws_free(screws_t** screws);
-void trel_engine_free(engine_t** engine);
+void trel_grains_free(trel_grains_t** grains);
+void trel_fuel_free(trel_fuel_t** fuel);
+void trel_tubing_free(trel_tubing_t** tubing);
+void trel_screws_free(trel_screws_t** screws);
+void trel_engine_free(trel_engine_t** engine);
 void trel_rocket_free(trel_rocket_t **rocket);
 
 #endif /*TREL_H */
