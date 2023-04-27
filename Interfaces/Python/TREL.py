@@ -5,9 +5,9 @@ TREL_MAX_STR_LEN = 100
 TREL_MAX_ITERATIONS = 1000
 
 if os.name == 'posix':
-    TREL = ctypes.CDLL("../build/libTREL.so")
+    TREL = ctypes.CDLL("./libTREL.so")
 elif os.name == 'nt':
-    TREL = ctypes.CDLL("../../out/build/x64-Release/TREL.dll")
+    TREL = ctypes.CDLL("./TREL.dll")
 
 # Struct for comp area simulation
 class TREL_COMP_AREA(ctypes.Structure):
@@ -249,7 +249,7 @@ class TREL_SCREWS():
         self.allocated = False
     def __repr__(self):
         return('Material: %s\nAmount: %f\nDiameter: %f\nWall Center Distance: %f\nArea Per Screw:%f\nScrew Occupied Area: %f\nWidth Cutting Segment %f' % (
-        self.values.material, self.values.amount, self.values.diameter, self.values.dist_center_wall, self.values.area_per_screw, self.values.screw_occupied_area, self.values.width_cutting_segment))
+        self.values.material.decode('utf8'), self.values.amount, self.values.diameter, self.values.dist_center_wall, self.values.area_per_screw, self.values.screw_occupied_area, self.values.width_cutting_segment))
     def __str__(self):
         return(self.__repr__() if self.allocated else 'NULL')
 
@@ -268,7 +268,7 @@ class TREL_TUBING():
         self.allocated = False
     def __repr__(self):
         return('Material: %s\nExternal Diameter: %f\nWall Thickness: %f\nInternal Radius: %f\nYoung Module: %f\nSector Angle: %f\nMean Tubing Diameter: %f\nShear Stress Tension: %f\nShear Stress Pressure: %f\nUltimate Stress Tension: %f\nUltimate Stress Pressure: %f\nTransversal Area: %f\nMaterial Area %f\nNozzle Efficiency %f' % (
-        self.values.material, self.values.diameter_ext, self.values.wall_thickness, self.values.internal_radius, self.values.young_module, self.values.sector_angle, self.values.mean_tubing_diameter, self.values.shear_stress_tension, self.values.shear_stress_pressure, self.values.ult_stress_tension, self.values.ult_stress_pressure, self.values.transversal_area, self.values.material_area, self.values.nozzle_efficiency))
+        self.values.material.decode('utf8'), self.values.diameter_ext, self.values.wall_thickness, self.values.internal_radius, self.values.young_module, self.values.sector_angle, self.values.mean_tubing_diameter, self.values.shear_stress_tension, self.values.shear_stress_pressure, self.values.ult_stress_tension, self.values.ult_stress_pressure, self.values.transversal_area, self.values.material_area, self.values.nozzle_efficiency))
     def __str__(self):
         return(self.__repr__() if self.allocated else 'NULL')
 
