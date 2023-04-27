@@ -1,9 +1,9 @@
-#ifndef COMP_AREA
-#define COMP_AREA
+#ifndef COMP_AREA_H
+#define COMP_AREA_H
 
-//CONSTRUCTORES//
-float prom_A_Trans();
-float prom_A_Long();
-float prom_A_Quemado();
+#include "design_func.h"
 
-#endif // COMP_AREA
+/* Function prototypes */
+int TREL_EXPORT trel_run_area_comp_iterations(engine_t **engine);
+
+#endif /*COMP_AREA_H */

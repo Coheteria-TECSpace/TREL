@@ -1,9 +1,6 @@
 # @version 0.0.1
 # CMake allows for a wide range of platforms and IDEs/build tools
 # This project structure was designed with Win32 and UNIX like OS in mind
-# Some terminal arguments should allow for specific builds with make
-# cmake -DCMAKE_BUILD_TYPE=Debug path/to/source
-# cmake -DCMAKE_BUILD_TYPE=Release path/to/source
 
 # Probably works on 3.12, hasn't been tested yet
 CMAKE_MINIMUM_REQUIRED (VERSION 3.13.4)
@@ -14,10 +11,10 @@ PROJECT (structure_test VERSION 0.0.1 DESCRIPTION "Basic structure for compilati
 OPTION (BUILD_SHARED_LIBS "Build Shared Libraries" ON)
 
 # Developer can choose to build the CLI testapp
-OPTION (BUILD_CLI_TESTAPP "Build testapp" ON)
+OPTION (BUILD_BASIC_EXAMPLE "Build example" ON)
 
 # Used to generate header with macros for the library
-INCLUDE (GenerateExportHeader)
+#INCLUDE (GenerateExportHeader)
 
 # Decide which LIB_TYPE is to be used for the build
 IF (BUILD_SHARED_LIBS)
@@ -34,7 +31,9 @@ ADD_LIBRARY (TREL ${LIB_TYPE} "src/design_func.c"
 							  "src/comp_tiempo.c"
 							  "src/design_resist.c"
 							  "src/val_termod.c"
-			)
+							  "src/rocket.c"
+			                  "src/height_sim.c"
+)
 
 # Specify the directory to contain header files
 INCLUDE_DIRECTORIES ("include")
@@ -53,24 +52,25 @@ ELSE (MSVC)
 ENDIF (MSVC)
 
 # Specify arguments to be used in the export header
-GENERATE_EXPORT_HEADER (TREL
-	BASE_NAME TREL
-	EXPORT_MACRO_NAME TREL_EXPORT
-	EXPORT_FILE_NAME TREL_Export.h
-	STATIC_DEFINE TREL_BUILT_AS_STATIC
-)
+#GENERATE_EXPORT_HEADER (TREL
+#	BASE_NAME TREL
+#	EXPORT_MACRO_NAME TREL_EXPORT
+#	EXPORT_FILE_NAME TREL_Export.h
+#	STATIC_DEFINE TREL_BUILT_AS_STATIC
+#)
 
 # Compile flags for the library
 SET_TARGET_PROPERTIES (TREL PROPERTIES COMPILE_FLAGS -DLIB_STATIC_DEFINE)
+SET_PROPERTY(TARGET TREL PROPERTY C_STANDARD 90)
 
 # Additional function calls for building the testapp
-IF (BUILD_CLI_TESTAPP)
+IF (BUILD_BASIC_EXAMPLE)
 	# Adding an executable to test the library
-	ADD_EXECUTABLE (testapp "main.c")
+	ADD_EXECUTABLE (basic_example "tests/basic_example.c")
 	# Declaring a link between the executable and the library
-	TARGET_LINK_LIBRARIES (testapp TREL)
-	#target_link_libraries(testapp PRIVATE )
-	target_include_directories(testapp PUBLIC "include")
-	# Additional arguments for the excecutable compilation
-	TARGET_COMPILE_FEATURES (testapp PUBLIC c_std_99)
-ENDIF (BUILD_CLI_TESTAPP)
+	TARGET_LINK_LIBRARIES (basic_example TREL)
+	TARGET_INCLUDE_DIRECTORIES (basic_example PUBLIC "tests")
+	# Additional arguments for the executable compilation
+	TARGET_COMPILE_FEATURES (basic_example PUBLIC c_std_90)
+	SET_PROPERTY(TARGET basic_example PROPERTY C_STANDARD 90)
+ENDIF (BUILD_BASIC_EXAMPLE)

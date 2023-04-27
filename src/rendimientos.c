@@ -2,110 +2,98 @@
 
 /*Otras variables adyacentes */
 /*E43 */
-float br_combustion(engine_t *engine)
+double br_combustion(engine_t *engine)
 {
-    return (engine->fuel->const_burn_rate* powf(trel_get_pressure_pa(engine) * FACT_CONV_BR, engine->fuel->pressure_exponent) * FACT_CONV_M_TO_I);
+    return ((*engine->fuel)->const_burn_rate* pow(trel_get_pressure_pa(engine) * 
+            FACT_CONV_BR, (*engine->fuel)->pressure_exponent) * FACT_CONV_M_TO_I);
 }
 
 /*Combustible */
 
 /*E67 Volumen_Combustible */
-float volumen_combustible(engine_t *engine)
+double volumen_combustible(engine_t *engine)
 {
-    return(float)(TREL_PI*engine->grains->longitude*engine->grains->amount*(powf(engine->grains->extern_radius,2.0f)-powf(engine->grains->init_inter_radius,2.0f)));
+    return(double)(TREL_PI*(*engine->grains)->longitude*(*engine->grains)->amount*(pow(
+                  (*engine->grains)->extern_radius,2.0f)-pow((*engine->grains)->init_inter_radius,2.0f)));
 }
 
-/*E68 Masa_Combustible lross */
-float masa_combustible(engine_t *engine)
+/*E68 Masa_Combustible */
+double masa_combustible(engine_t *engine)
 {
-    return (volumen_combustible(engine) *engine->fuel->density);
-}
-
-// E68 Masa combustible aalvarado */
-float masa_combustible()
-{
-    return (engine->fuel->density*volumen_combustible(engine));
+    return (volumen_combustible(engine) *(*engine->fuel)->density);
 }
 
 /*Combustión*/
 
 /*E70 Tiempo de quemado total_Combustible*/
-float Tiempo_quemado_combustion(engine_t *engine)
+double Tiempo_quemado_combustion(engine_t *engine)
 {
-    return (engine->grains->extern_radius-engine->grains->init_inter_radius)/br_combustion(engine);
+    return ((*engine->grains)->extern_radius-(*engine->grains)->init_inter_radius)/br_combustion(engine);
 }
 
 /*E71 Área de quemado */
-float Ab_combustion(engine_t *engine)
+double Ab_combustion(engine_t *engine)
 {
-    return (prom_A_Quemado()*engine->grains->amount);
+    return (engine->comp_area_values->avg_burn_area*(*engine->grains)->amount);
 }
 
 /*E72 Flujo másico*/
-float mg_combustion(engine_t *engine)
+double mg_combustion(engine_t *engine)
 {
-    return Ab_combustion(engine)*engine->fuel->density*br_combustion(engine);
+    return Ab_combustion(engine)*(*engine->fuel)->density*br_combustion(engine);
 }
 
 /*Fuerzas*/
 
 /*E74 Empuje teórico*/
-float emp_teo(engine_t *engine)
+double emp_teo(engine_t *engine)
 {
-    return mg_combustion(engine)*velocidad_escape(engine);
+    return mg_combustion(engine)*calc_escape_vel(engine);
 }
 
 /*E76 Empuje promedio esperado*/
-float emp_prom(float list[])
+double emp_prom(trel_rocket_t* rocket)
 {
-    return empuje_prom_tiempo(list);
+    if (!rocket->avg_thrust)
+        trel_run_time_comp_iterations(&rocket);
+    return(rocket->avg_thrust);
 }
 
 /*E78 Empuje máximo esperado*/
-float emp_max(float list[])
+double emp_max(trel_rocket_t* rocket)
 {
-    float max = 0;
-    long unsigned int n;
-    for (n = 0; n < sizeof(*list); n++)
-    {
-        if (list[n] > max)
-        {
-            max = list[n];
-        }
-    }
-    return max;
+    return(rocket->max_thrust);
 }
 
 /*Impulsos*/
 
 /*E81 Impulso específico teórico*/
-float I_sp_teo(engine_t *engine)
+double I_sp_teo(engine_t *engine)
 {
-    return velocidad_escape(engine)/GRAVITY;
+    return calc_escape_vel(engine)/TREL_GRAV_CONST;
 }
 
 /*E82 Impulso específico esperado*/
-float I_sp_esperado(float list[], engine_t *engine)
+double I_sp_esperado(engine_t* engine)
 {
-    return (float)(impulso_esp(list, engine)/(masa_combustible(engine)*GRAVITY));
+    return((*engine->fuel)->density);
 }
 
 /*E83 Impulso total teórico*/
-float I_tot_teo(engine_t *engine)
+double I_tot_teo(engine_t *engine)
 {
     return emp_teo(engine)* Tiempo_quemado_combustion(engine);
 }
 
 /*E84 Impulso total esperado*/
-float I_tot_esp(float list[])
+double I_tot_esp(engine_t* engine)
 {
-    return impulso_tot(list);
+    return(br_combustion(engine));
 }
 
 /*E85 Delta V esperado*/
-float Delta_V_Esp(float list[])
+double Delta_V_Esp(trel_rocket_t* rocket)
 {
-    return delta_V(list);
+    return(rocket->delta_v);
 }
 
-// E85 
